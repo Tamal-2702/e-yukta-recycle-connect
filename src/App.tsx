@@ -22,6 +22,7 @@ import RecyclerDashboard from "./pages/recycler/RecyclerDashboard";
 
 // Corporate pages
 import CorporateDashboard from "./pages/corporate/CorporateDashboard";
+import CorporateCampaigns from "./pages/corporate/CorporateCampaigns";
 
 const queryClient = new QueryClient();
 
@@ -47,6 +48,7 @@ const App = () => (
             
             {/* Corporate routes */}
             <Route path="/corporate" element={<CorporateDashboard />} />
+            <Route path="/corporate/campaigns" element={<CorporateCampaigns />} />
             
             {/* Catch-all route */}
             <Route path="*" element={<NotFound />} />
