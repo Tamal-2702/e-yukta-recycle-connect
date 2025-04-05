@@ -23,6 +23,8 @@ import RecyclerDashboard from "./pages/recycler/RecyclerDashboard";
 // Corporate pages
 import CorporateDashboard from "./pages/corporate/CorporateDashboard";
 import CorporateCampaigns from "./pages/corporate/CorporateCampaigns";
+import CorporateCompliance from "./pages/corporate/CorporateCompliance";
+import CorporateBulk from "./pages/corporate/CorporateBulk";
 
 const queryClient = new QueryClient();
 
@@ -49,6 +51,8 @@ const App = () => (
             {/* Corporate routes */}
             <Route path="/corporate" element={<CorporateDashboard />} />
             <Route path="/corporate/campaigns" element={<CorporateCampaigns />} />
+            <Route path="/corporate/compliance" element={<CorporateCompliance />} />
+            <Route path="/corporate/bulk" element={<CorporateBulk />} />
             
             {/* Catch-all route */}
             <Route path="*" element={<NotFound />} />
