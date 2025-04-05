@@ -13,6 +13,10 @@ import NotFound from "./pages/NotFound";
 // User pages
 import UserDashboard from "./pages/user/UserDashboard";
 import ScanWaste from "./pages/user/ScanWaste";
+import SchedulePickup from "./pages/user/SchedulePickup";
+import TrackDisposal from "./pages/user/TrackDisposal";
+import Marketplace from "./pages/user/Marketplace";
+import AwarenessHub from "./pages/user/AwarenessHub";
 
 // Kabadiwala pages
 import KabadiwalasDashboard from "./pages/kabadiwala/KabadiwalasDashboard";
@@ -41,6 +45,10 @@ const App = () => (
             {/* User routes */}
             <Route path="/user" element={<UserDashboard />} />
             <Route path="/user/scan" element={<ScanWaste />} />
+            <Route path="/user/schedule" element={<SchedulePickup />} />
+            <Route path="/user/track" element={<TrackDisposal />} />
+            <Route path="/user/marketplace" element={<Marketplace />} />
+            <Route path="/user/awareness" element={<AwarenessHub />} />
             
             {/* Kabadiwala routes */}
             <Route path="/kabadiwala" element={<KabadiwalasDashboard />} />
