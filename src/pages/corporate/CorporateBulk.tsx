@@ -4,7 +4,7 @@ import DashboardLayout from '@/components/layouts/DashboardLayout';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { useLanguage } from '@/contexts/LanguageContext';
-import { Upload, FileText, FilePlus, FileCheck, AlertTriangle, Info, ArrowRight, RefreshCw, CheckCircle, XCircle } from 'lucide-react';
+import { Upload, FileText, FilePlus, FileCheck, AlertTriangle, Info, ArrowRight, RefreshCw, CheckCircle, XCircle, Download } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Progress } from '@/components/ui/progress';

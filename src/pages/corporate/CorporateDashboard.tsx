@@ -5,7 +5,7 @@ import DashboardLayout from '@/components/layouts/DashboardLayout';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { useLanguage } from '@/contexts/LanguageContext';
-import { BarChart, PieChart, FileCheck, Award, UploadCloud, Bell, Calendar, BookOpen, Search, ArrowRight, ChevronRight } from 'lucide-react';
+import { BarChart, PieChart, FileCheck, Award, UploadCloud, Bell, Calendar, BookOpen, Search, ArrowRight, ChevronRight, Info } from 'lucide-react';
 import { Progress } from '@/components/ui/progress';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import AIWasteAnalyzer from '@/components/corporate/AIWasteAnalyzer';
