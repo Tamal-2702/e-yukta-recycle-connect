@@ -15,6 +15,14 @@ import { useLanguage } from '@/contexts/LanguageContext';
 const PerformanceStats: React.FC = () => {
   const { t } = useLanguage();
 
+  // Sample data for demonstration
+  const stats = [
+    { label: t('kabadiwala.weekly_target'), value: '15/50 kg', progress: 30 },
+    { label: t('kabadiwala.pickup_completion'), value: '85%', progress: 85 },
+    { label: t('kabadiwala.customer_ratings'), value: '4.2/5', progress: 84 },
+    { label: t('kabadiwala.verification_status'), value: 'Pending', progress: 50 },
+  ];
+
   return (
     <Card>
       <CardHeader>
@@ -22,37 +30,15 @@ const PerformanceStats: React.FC = () => {
         <CardDescription>{t('kabadiwala.your_metrics')}</CardDescription>
       </CardHeader>
       <CardContent className="space-y-6">
-        <div>
-          <div className="flex justify-between mb-2">
-            <span className="text-sm">{t('kabadiwala.weekly_target')}</span>
-            <span className="text-sm font-medium">0/50 kg</span>
+        {stats.map((stat, index) => (
+          <div key={index}>
+            <div className="flex justify-between mb-2">
+              <span className="text-sm">{stat.label}</span>
+              <span className="text-sm font-medium">{stat.value}</span>
+            </div>
+            <Progress value={stat.progress} className="h-2" />
           </div>
-          <Progress value={0} className="h-2" />
-        </div>
-        
-        <div>
-          <div className="flex justify-between mb-2">
-            <span className="text-sm">{t('kabadiwala.pickup_completion')}</span>
-            <span className="text-sm font-medium">0%</span>
-          </div>
-          <Progress value={0} className="h-2" />
-        </div>
-
-        <div>
-          <div className="flex justify-between mb-2">
-            <span className="text-sm">{t('kabadiwala.customer_ratings')}</span>
-            <span className="text-sm font-medium">N/A</span>
-          </div>
-          <Progress value={0} className="h-2" />
-        </div>
-        
-        <div>
-          <div className="flex justify-between mb-2">
-            <span className="text-sm">{t('kabadiwala.verification_status')}</span>
-            <span className="text-sm font-medium">Pending</span>
-          </div>
-          <Progress value={30} className="h-2" />
-        </div>
+        ))}
       </CardContent>
       <CardFooter>
         <Button variant="outline" className="w-full">

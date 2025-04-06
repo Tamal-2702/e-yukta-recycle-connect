@@ -19,7 +19,20 @@ const JobHistoryList: React.FC = () => {
   
   // Sample data - would come from an API in a real implementation
   const completedJobs = [
-    // Empty array to show empty state
+    {
+      id: 'JOB-001',
+      address: '123 Green Park, New Delhi',
+      completedDate: 'April 4, 2025',
+      items: 'Old laptop, 2 mobile phones',
+      earnings: '₹150'
+    },
+    {
+      id: 'JOB-002',
+      address: '45 Sunshine Colony, Mumbai',
+      completedDate: 'April 3, 2025',
+      items: 'Television, refrigerator',
+      earnings: '₹420'
+    }
   ];
 
   return (
@@ -44,15 +57,15 @@ const JobHistoryList: React.FC = () => {
                   <div className="space-y-2">
                     <div className="flex items-center gap-2">
                       <MapPin size={16} className="text-muted-foreground" />
-                      <span className="font-medium">Address here</span>
+                      <span className="font-medium">{job.address}</span>
                     </div>
                     <div className="flex items-center gap-2">
                       <Clock size={16} className="text-muted-foreground" />
-                      <span>Completed on: April 4, 2025</span>
+                      <span>Completed on: {job.completedDate}</span>
                     </div>
                     <div className="flex items-center gap-2">
                       <PackageOpen size={16} className="text-muted-foreground" />
-                      <span>Old laptop, 2 mobile phones</span>
+                      <span>{job.items}</span>
                     </div>
                   </div>
                   <div className="mt-4 md:mt-0">
@@ -62,7 +75,7 @@ const JobHistoryList: React.FC = () => {
                     </Badge>
                     <div className="mt-2 text-right">
                       <span className="text-sm text-muted-foreground">{t('kabadiwala.earned')}: </span>
-                      <span className="font-medium">₹150</span>
+                      <span className="font-medium">{job.earnings}</span>
                     </div>
                   </div>
                 </div>
