@@ -58,7 +58,7 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
 
 // Create a new App component
 const App = () => {
-  // Create a client using useMemo to ensure it's only created once
+  // Create a client
   const queryClient = React.useMemo(() => new QueryClient(), []);
 
   return (

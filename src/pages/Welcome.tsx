@@ -21,11 +21,13 @@ const Welcome: React.FC = () => {
             transition={{ duration: 0.8 }}
             className="mb-16 mt-10"
           >
-            <img 
-              src="/lovable-uploads/32c2b3a5-bb3d-4561-b297-f359fb664bf6.png" 
-              alt="ई-Yukta Logo" 
-              className="w-52 h-52 mx-auto"
-            />
+            <div className="w-52 h-52 mx-auto rounded-full overflow-hidden bg-white flex items-center justify-center">
+              <img 
+                src="/lovable-uploads/231eef4b-a949-4db1-849d-b2221390e0dd.png" 
+                alt="ई-Yukta Logo" 
+                className="w-full h-full object-cover"
+              />
+            </div>
           </motion.div>
           
           {/* Tagline */}
@@ -35,7 +37,7 @@ const Welcome: React.FC = () => {
             transition={{ duration: 0.8, delay: 0.3 }}
             className="text-2xl md:text-3xl font-semibold mb-8 text-[#2c3e50]"
           >
-            {t('welcome.heading') || 'Your E-Waste, our responsibility'}
+            Your E-waste, Our Responsibility
           </motion.h1>
           
           {/* Description */}
@@ -45,7 +47,7 @@ const Welcome: React.FC = () => {
             transition={{ duration: 0.8, delay: 0.5 }}
             className="text-base md:text-lg text-[#2c3e50] mb-16 max-w-md px-4"
           >
-            {t('welcome.description') || 'Join us in making the world cleaner, one device at a time. Together we can create a sustainable future for generations to come.'}
+            Join us in making the world cleaner, one device at a time. Together we can create a sustainable future for generations to come.
           </motion.p>
           
           {/* Get Started Button */}
@@ -59,7 +61,7 @@ const Welcome: React.FC = () => {
               className="w-full bg-black hover:bg-gray-800 text-white py-6 text-lg rounded-md"
               onClick={() => navigate('/landing')}
             >
-              {t('welcome.get_started') || 'Get Started'}
+              Get Started
             </Button>
           </motion.div>
         </div>
