@@ -92,7 +92,8 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children, role }) => 
                   <SidebarMenuButton 
                     onClick={handleLogout}
                     tooltip={t('common.logout')}
-                    variant="destructive"
+                    variant="outline"
+                    className="text-red-500 hover:text-red-600 hover:border-red-200"
                   >
                     <LogOut size={18} />
                     <span>{t('common.logout')}</span>
