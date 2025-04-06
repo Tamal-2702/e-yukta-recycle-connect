@@ -73,7 +73,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children, role }) => 
           </SidebarHeader>
 
           <SidebarContent>
-            <SidebarNavigation role={role} translationFn={t} />
+            <SidebarNavigation role={role} />
           </SidebarContent>
 
           <SidebarFooter>

@@ -20,34 +20,34 @@ const SidebarNavigation: React.FC<SidebarNavigationProps> = ({ role }) => {
     switch (role) {
       case 'user':
         return [
-          { label: t('user.dashboard'), path: '/user', icon: 'layout-dashboard' },
-          { label: t('user.scan_waste'), path: '/user/scan', icon: 'camera' },
-          { label: t('user.schedule_pickup'), path: '/user/schedule', icon: 'calendar' },
-          { label: t('user.track_disposal'), path: '/user/track', icon: 'map-pin' },
-          { label: t('user.marketplace'), path: '/user/marketplace', icon: 'shopping-bag' },
-          { label: t('user.awareness_hub'), path: '/user/awareness', icon: 'info' },
-          { label: t('user.progress_tracker'), path: '/user/progress', icon: 'bar-chart' },
+          { label: t('user.dashboard'), to: '/user', icon: 'layout-dashboard' },
+          { label: t('user.scan_waste'), to: '/user/scan', icon: 'camera' },
+          { label: t('user.schedule_pickup'), to: '/user/schedule', icon: 'calendar' },
+          { label: t('user.track_disposal'), to: '/user/track', icon: 'map-pin' },
+          { label: t('user.marketplace'), to: '/user/marketplace', icon: 'shopping-bag' },
+          { label: t('user.awareness_hub'), to: '/user/awareness', icon: 'info' },
+          { label: t('user.progress_tracker'), to: '/user/progress', icon: 'bar-chart' },
         ];
       case 'kabadiwala':
         return [
-          { label: t('kabadiwala.dashboard'), path: '/kabadiwala', icon: 'layout-dashboard' },
-          { label: t('kabadiwala.pickups'), path: '/kabadiwala/pickups', icon: 'truck' },
-          { label: t('kabadiwala.earnings'), path: '/kabadiwala/earnings', icon: 'wallet' },
-          { label: t('kabadiwala.map'), path: '/kabadiwala/map', icon: 'map' },
+          { label: t('kabadiwala.dashboard'), to: '/kabadiwala', icon: 'layout-dashboard' },
+          { label: t('kabadiwala.pickups'), to: '/kabadiwala/pickups', icon: 'truck' },
+          { label: t('kabadiwala.earnings'), to: '/kabadiwala/earnings', icon: 'wallet' },
+          { label: t('kabadiwala.map'), to: '/kabadiwala/map', icon: 'map' },
         ];
       case 'recycler':
         return [
-          { label: t('recycler.dashboard'), path: '/recycler', icon: 'layout-dashboard' },
-          { label: t('recycler.inventory'), path: '/recycler/inventory', icon: 'package' },
-          { label: t('recycler.processing'), path: '/recycler/processing', icon: 'settings' },
-          { label: t('recycler.compliance'), path: '/recycler/compliance', icon: 'shield-check' },
+          { label: t('recycler.dashboard'), to: '/recycler', icon: 'layout-dashboard' },
+          { label: t('recycler.inventory'), to: '/recycler/inventory', icon: 'package' },
+          { label: t('recycler.processing'), to: '/recycler/processing', icon: 'settings' },
+          { label: t('recycler.compliance'), to: '/recycler/compliance', icon: 'shield-check' },
         ];
       case 'corporate':
         return [
-          { label: t('corporate.dashboard'), path: '/corporate', icon: 'layout-dashboard' },
-          { label: t('corporate.campaigns'), path: '/corporate/campaigns', icon: 'megaphone' },
-          { label: t('corporate.compliance'), path: '/corporate/compliance', icon: 'shield-check' },
-          { label: t('corporate.bulk_disposal'), path: '/corporate/bulk', icon: 'truck' },
+          { label: t('corporate.dashboard'), to: '/corporate', icon: 'layout-dashboard' },
+          { label: t('corporate.campaigns'), to: '/corporate/campaigns', icon: 'megaphone' },
+          { label: t('corporate.compliance'), to: '/corporate/compliance', icon: 'shield-check' },
+          { label: t('corporate.bulk_disposal'), to: '/corporate/bulk', icon: 'truck' },
         ];
       default:
         return [];
@@ -80,9 +80,9 @@ const SidebarNavigation: React.FC<SidebarNavigationProps> = ({ role }) => {
           <NavItem
             key={index}
             label={item.label}
-            path={item.path}
+            to={item.to}
             icon={item.icon}
-            isActive={window.location.pathname === item.path}
+            active={window.location.pathname === item.to}
           />
         ))}
       </div>
