@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import DashboardLayout from '@/components/layouts/DashboardLayout';
 import { useLanguage } from '@/contexts/LanguageContext';
@@ -100,7 +99,7 @@ const UserProfile: React.FC = () => {
               <CardContent className="flex flex-col md:flex-row gap-6">
                 <div className="flex flex-col items-center space-y-4">
                   <Avatar className="h-24 w-24">
-                    <AvatarImage src="/lovable-uploads/b319afd6-7a92-46cf-a3a1-08caf101948d.png" />
+                    <AvatarImage src="/lovable-uploads/919a083d-573b-4b27-86cb-284efa585daf.png" />
                     <AvatarFallback>{displayName.charAt(0) || 'U'}</AvatarFallback>
                   </Avatar>
                   {isEditing && (
