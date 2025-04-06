@@ -1,6 +1,5 @@
-
 import { initializeApp, getApps } from "firebase/app";
-import { getAuth, GoogleAuthProvider } from "firebase/auth";
+import { getAuth, GoogleAuthProvider, browserLocalPersistence, setPersistence } from "firebase/auth";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDRbGN5hPlzYMUhy3wgLsney7GjqP_nEvc",
@@ -15,9 +14,15 @@ const firebaseConfig = {
 // Initialize Firebase only if no apps exist
 const app = !getApps().length ? initializeApp(firebaseConfig) : getApps()[0];
 export const auth = getAuth(app);
-export const googleProvider = new GoogleAuthProvider();
+
+// Set persistence to LOCAL to keep the user logged in
+setPersistence(auth, browserLocalPersistence)
+  .catch((error) => {
+    console.error("Error setting auth persistence:", error);
+  });
 
 // Configure Google provider
+export const googleProvider = new GoogleAuthProvider();
 googleProvider.setCustomParameters({
   prompt: 'select_account'
 });
