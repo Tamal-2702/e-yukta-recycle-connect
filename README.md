@@ -1,56 +1,57 @@
-# Welcome to your Lovable project
 
-## Project info
+# E-Yukta - Waste Management Solution
 
 **URL**: https://lovable.dev/projects/ac1dcf2b-3869-4ace-81f0-40f89efaaae4
 
-## How can I edit this code?
+## Firebase Deployment Instructions
 
-There are several ways of editing your application.
-
-**Use Lovable**
-
-Simply visit the [Lovable Project](https://lovable.dev/projects/ac1dcf2b-3869-4ace-81f0-40f89efaaae4) and start prompting.
-
-Changes made via Lovable will be committed automatically to this repo.
-
-**Use your preferred IDE**
-
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
-
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
+Follow these steps to deploy the application to Firebase Hosting:
 
 ```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+# Step 1: Install Firebase CLI if you haven't already
+npm install -g firebase-tools
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+# Step 2: Login to Firebase
+firebase login
 
-# Step 3: Install the necessary dependencies.
-npm i
+# Step 3: Build the project
+npm run build
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
+# Step 4: Deploy to Firebase Hosting
+firebase deploy
 ```
 
-**Edit a file directly in GitHub**
+## GitHub Repository Setup
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+To push this project to GitHub:
 
-**Use GitHub Codespaces**
+```sh
+# Step 1: Create a new repository on GitHub
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+# Step 2: Initialize git repository (if not already done)
+git init
 
-## What technologies are used for this project?
+# Step 3: Add all files to git
+git add .
+
+# Step 4: Commit the files
+git commit -m "Initial commit"
+
+# Step 5: Add your GitHub repository as remote
+git remote add origin <YOUR_GITHUB_REPOSITORY_URL>
+
+# Step 6: Push to GitHub
+git push -u origin main
+```
+
+## Important Firebase Authentication Note
+
+When deploying to Firebase Hosting, make sure to add the Firebase Hosting domain to your Firebase Authentication authorized domains list:
+
+1. Go to Firebase Console > Authentication > Settings
+2. Add your Firebase Hosting domain (e.g., e-yukta.web.app) to the authorized domains list
+
+## Project info
 
 This project is built with:
 
@@ -59,15 +60,14 @@ This project is built with:
 - React
 - shadcn-ui
 - Tailwind CSS
+- Firebase Authentication and Hosting
 
-## How can I deploy this project?
+## Local Development
 
-Simply open [Lovable](https://lovable.dev/projects/ac1dcf2b-3869-4ace-81f0-40f89efaaae4) and click on Share -> Publish.
+```sh
+# Install dependencies
+npm i
 
-## Can I connect a custom domain to my Lovable project?
-
-Yes it is!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+# Start the development server
+npm run dev
+```
