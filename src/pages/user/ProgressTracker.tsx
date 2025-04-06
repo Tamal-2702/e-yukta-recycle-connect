@@ -75,7 +75,7 @@ const ProgressTracker: React.FC = () => {
                     Level {userData.level}: Green Trailblazer
                   </Badge>
                   <Badge variant="outline" className="bg-yellow-50 text-yellow-700">
-                    {userData.streakDays} Day Streak
+                    {userData.stats.streakDays} Day Streak
                   </Badge>
                 </div>
                 <div className="space-y-2">
