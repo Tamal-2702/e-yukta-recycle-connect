@@ -13,15 +13,15 @@ const RoleCard: React.FC<RoleCardProps> = ({ role, selected = false, onClick }) 
   const { t } = useLanguage();
   const [imageError, setImageError] = useState(false);
   
-  // Define role images - using direct paths to ensure they work
+  // Define role images with appropriate paths
   const roleImages = {
-    user: '/placeholder.svg',
-    kabadiwala: '/placeholder.svg',
-    recycler: '/placeholder.svg',
-    corporate: '/placeholder.svg',
+    user: '/lovable-uploads/6c301a42-c407-456b-b013-05fa8c7bb54b.png',
+    kabadiwala: '/lovable-uploads/5cf4d238-8867-41cf-8b31-91d2cabfc66a.png',
+    recycler: '/lovable-uploads/d37ce6c5-60d7-468a-a8ba-32adb3f7de51.png',
+    corporate: '/lovable-uploads/27733395-edc3-4227-9c4f-64c67cc6ae4a.png',
   };
 
-  // Role-specific colors for better visual differentiation
+  // Role-specific colors for better visual differentiation and fallback
   const roleColors = {
     user: 'bg-blue-100',
     kabadiwala: 'bg-green-100',
@@ -48,7 +48,7 @@ const RoleCard: React.FC<RoleCardProps> = ({ role, selected = false, onClick }) 
               alt={t(`roles.${role}`)} 
               className="w-20 h-20 object-contain"
               onError={() => {
-                console.log(`Fallback for ${role} image`);
+                console.log(`Fallback for ${role} image: ${roleImages[role]}`);
                 setImageError(true);
               }}
             />
