@@ -21,7 +21,7 @@ const UserProfileSection: React.FC<UserProfileSectionProps> = ({
     user: '/lovable-uploads/919a083d-573b-4b27-86cb-284efa585daf.png', // Updated user image
     kabadiwala: '/lovable-uploads/80b5a02d-30c5-4cf2-937d-c6da8b8a2f6c.png', // Updated kabadiwala image
     recycler: '/lovable-uploads/58502304-f6e3-40e3-a36a-0fac81447383.png', // Updated recycler image
-    corporate: '/lovable-uploads/6c0b683d-5c5c-4be1-b8cd-0c241bd420f2.png',
+    corporate: '/lovable-uploads/a79b601a-7d84-44be-b90a-bb4a15cff64c.png', // Updated corporate building image
   };
 
   return (
