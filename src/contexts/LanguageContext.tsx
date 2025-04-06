@@ -1,5 +1,5 @@
 
-import React, { createContext, useContext, useState, ReactNode } from 'react';
+import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react';
 
 type Language = 'en' | 'hi';
 
@@ -96,17 +96,37 @@ const translations = {
   }
 };
 
-const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
+// Create a default context with sensible initial values
+const defaultContextValue: LanguageContextType = {
+  language: 'en',
+  setLanguage: () => {},
+  t: (key: string) => key,
+};
+
+const LanguageContext = createContext<LanguageContextType>(defaultContextValue);
 
 export const LanguageProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [language, setLanguage] = useState<Language>('en');
+  const [initialized, setInitialized] = useState(false);
+
+  useEffect(() => {
+    // Mark the provider as initialized after the first render
+    setInitialized(true);
+  }, []);
 
   const t = (key: string): string => {
     return translations[language][key as keyof typeof translations.en] || key;
   };
 
+  // Provide the context value
+  const contextValue = {
+    language,
+    setLanguage,
+    t
+  };
+
   return (
-    <LanguageContext.Provider value={{ language, setLanguage, t }}>
+    <LanguageContext.Provider value={contextValue}>
       {children}
     </LanguageContext.Provider>
   );
