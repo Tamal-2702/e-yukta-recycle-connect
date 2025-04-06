@@ -1,73 +1,110 @@
-
-# E-Yukta - Waste Management Solution
-
+                                                                           #♻️ E-Yukta: AI-Powered E-Waste Management Platform
 **URL**: https://e-yukta-recycle-connect.lovable.app/welcome
 
-## Firebase Deployment Instructions
+E-Yukta is a unified AI-powered digital platform designed to promote responsible e-waste disposal, circular economy practices, and environmental awareness. It connects consumers, kabadiwalas, recyclers, and corporates through a smart and traceable system of waste collection, recycling, and sustainability tracking—aligned with the UN’s SDG 12: Responsible Consumption and Production.
 
-Follow these steps to deploy the application to Firebase Hosting:
+🌟 Key Features
 
-```sh
-# Step 1: Install Firebase CLI if you haven't already
-npm install -g firebase-tools
+🧠 AI-Based Waste Identification (via Google Cloud Vision)
 
-# Step 2: Login to Firebase
-firebase login
+🚛 Real-time Pickup Booking & Kabadiwala Allocation
 
-# Step 3: Build the project
-npm run build
+📦 E-Yukta Kart: Buy/Sell Refurbished Electronics
 
-# Step 4: Deploy to Firebase Hosting
-firebase deploy
-```
+🎓 E-Yukta Awareness Hub: Interactive learning, sessions, and challenges
 
-## GitHub Repository Setup
+🏢 Corporate Dashboard: Track CSR activities, EPR compliance, audit reports & generate certifications
 
-To push this project to GitHub:
+📲 Kabadiwala App: Scrap pickup, training, certification, and earnings
 
-```sh
-# Step 1: Create a new repository on GitHub
+🏭 Recycler Portal: Inventory management, destruction certification, data uploads
 
-# Step 2: Initialize git repository (if not already done)
-git init
+🔒 Role-Based Login System with Firebase Authentication
 
-# Step 3: Add all files to git
-git add .
+🛠️ Technologies Used
 
-# Step 4: Commit the files
-git commit -m "Initial commit"
+Frontend: React.js (Web), Flutter (Mobile App)
 
-# Step 5: Add your GitHub repository as remote
-git remote add origin <YOUR_GITHUB_REPOSITORY_URL>
+Backend: Node.js with Express.js, Firebase Cloud Functions
 
-# Step 6: Push to GitHub
-git push -u origin main
-```
+Database: Firestore (Cloud NoSQL DB)
 
-## Important Firebase Authentication Note
+AI Integration: Google Cloud Vision API
 
-When deploying to Firebase Hosting, make sure to add the Firebase Hosting domain to your Firebase Authentication authorized domains list:
+Realtime Notifications: Firebase Cloud Messaging (HTTP v1)
 
-1. Go to Firebase Console > Authentication > Settings
-2. Add your Firebase Hosting domain (e.g., e-yukta.web.app) to the authorized domains list
+Geolocation: Google Maps API + Distance Matrix API
 
-## Project info
+Payments: Google Pay API
 
-This project is built with:
+Chatbot: Dialogflow
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-- Firebase Authentication and Hosting
+Awareness Content: YouTube Data API
 
-## Local Development
+Video Sessions: Google Meet API + Calendar API
 
-```sh
-# Install dependencies
-npm i
+🚀 Getting Started (Setup Instructions)
 
-# Start the development server
-npm run dev
-```
+Clone this repository:
+
+git clone https://github.com/your-username/e-yukta-app.git
+
+Install dependencies:
+
+For Web: cd frontend npm install
+
+For Backend/Firebase: cd functions npm install
+
+Configure Firebase:
+
+Create a Firebase project
+
+Enable Firestore, Auth, Cloud Functions
+
+Add your firebaseConfig in /frontend/src/firebase.js
+
+Set up Google APIs:
+
+Enable required APIs in Google Cloud Console
+
+Generate your API keys and add to your environment
+
+Run locally:
+
+For Frontend: npm start
+
+For Functions: firebase emulators:start
+
+Deploy: firebase deploy
+
+📦 Folder Structure
+
+e-yukta-app/ │ ├── frontend/ # React or Flutter app for web/mobile │ ├── src/ │ ├── public/ │ ├── functions/ # Firebase Cloud Functions (Node.js) │ ├── index.js │ ├── database/ # Firestore rules and indexes ├── assets/ # Icons, banners, images ├── README.md └── .gitignore
+
+🤝 Contribution Guidelines
+
+We welcome contributions to improve and expand E-Yukta. To contribute:
+
+Fork the repository.
+
+Create a new branch:
+
+git checkout -b feature/your-feature-name
+
+Commit your changes:
+
+git commit -m "Add: Feature explanation"
+
+Push to your forked repo:
+
+git push origin feature/your-feature-name
+
+Create a Pull Request from your GitHub dashboard.
+
+📄 License
+
+This project is licensed under the MIT License – see the LICENSE file for details.
+
+📬 Contact
+
+For queries, feedback, or partnership opportunities, please reach out at: eyukta2025@gmail.com
