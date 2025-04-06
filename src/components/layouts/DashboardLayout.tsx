@@ -20,6 +20,7 @@ import {
 } from '@/components/ui/sidebar';
 import Logo from '@/components/Logo';
 import LanguageToggle from '@/components/LanguageToggle';
+import ThemeToggle from '@/components/ThemeToggle';
 import SidebarNavigation from '@/components/navigation/SidebarNavigation';
 import UserProfileSection from '@/components/navigation/UserProfileSection';
 
@@ -103,6 +104,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children, role }) => 
               </SidebarMenu>
               <div className="flex justify-between items-center pt-2">
                 <LanguageToggle />
+                <ThemeToggle />
               </div>
             </div>
           </SidebarFooter>
