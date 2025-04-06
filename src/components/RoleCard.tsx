@@ -14,7 +14,7 @@ const RoleCard: React.FC<RoleCardProps> = ({ role, selected = false, onClick }) 
   
   const roleImages = {
     user: '/lovable-uploads/2b75dd6d-44f1-46e4-97cd-3c137f40e06e.png',
-    kabadiwala: '/lovable-uploads/8156c907-b039-4162-b33b-9c82b5473d2d.png',
+    kabadiwala: '/lovable-uploads/49b6515a-55e8-4568-83df-895601902f64.png',
     recycler: '/lovable-uploads/ef3a9e69-e5cd-4546-9e32-42ff3c5d93ec.png',
     corporate: '/lovable-uploads/1c68de70-c1e4-481e-8d6b-9afcc0a7f169.png',
   };
