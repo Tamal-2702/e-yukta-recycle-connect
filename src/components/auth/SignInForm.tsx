@@ -8,7 +8,11 @@ import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 import { LogIn, Mail, Lock, AlertCircle } from "lucide-react";
 
-const SignInForm: React.FC = () => {
+interface SignInFormProps {
+  userRole?: string;
+}
+
+const SignInForm: React.FC<SignInFormProps> = ({ userRole = '' }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -34,7 +38,7 @@ const SignInForm: React.FC = () => {
     setIsLoading(true);
     try {
       await login(email, password);
-      navigate("/user");
+      navigate(`/${userRole || 'user'}`);
       toast({
         title: "Success",
         description: "You are now signed in",
@@ -72,7 +76,7 @@ const SignInForm: React.FC = () => {
     setIsLoading(true);
     try {
       await signInWithGoogle();
-      navigate("/user");
+      navigate(`/${userRole || 'user'}`);
       toast({
         title: "Success",
         description: "You are now signed in with Google",
