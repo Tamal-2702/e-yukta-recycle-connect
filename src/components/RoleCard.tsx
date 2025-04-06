@@ -19,6 +19,11 @@ const RoleCard: React.FC<RoleCardProps> = ({ role, selected = false, onClick }) 
     corporate: '/lovable-uploads/1c68de70-c1e4-481e-8d6b-9afcc0a7f169.png',
   };
 
+  // Force browser to reload images by adding a timestamp
+  const getImageWithTimestamp = (path: string) => {
+    return `${path}?t=${new Date().getTime()}`;
+  };
+
   return (
     <Card 
       className={`relative overflow-hidden cursor-pointer card-hover ${
@@ -28,7 +33,11 @@ const RoleCard: React.FC<RoleCardProps> = ({ role, selected = false, onClick }) 
     >
       <CardContent className="p-6 flex flex-col items-center">
         <div className="w-20 h-20 mb-4 rounded-full bg-gray-100 flex items-center justify-center overflow-hidden">
-          <img src={roleImages[role]} alt={t(`roles.${role}`)} className="w-16 h-16 object-contain" />
+          <img 
+            src={getImageWithTimestamp(roleImages[role])} 
+            alt={t(`roles.${role}`)} 
+            className="w-16 h-16 object-contain" 
+          />
         </div>
         <h3 className="text-lg font-medium">{t(`roles.${role}`)}</h3>
         {selected && (
