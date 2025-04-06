@@ -8,8 +8,8 @@ export const useEcoBotApi = () => {
 
   const sendMessage = async (message: string): Promise<string> => {
     try {
-      // Updated API URL to use the correct endpoint
-      const response = await fetch('https://generativelanguage.googleapis.com/v1/models/gemini-pro:generateContent', {
+      // Updated API URL to use the Gemini 2.0 Flash model instead of Gemini Pro
+      const response = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
