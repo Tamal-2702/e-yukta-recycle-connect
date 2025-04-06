@@ -72,6 +72,13 @@ const RecyclerDashboard: React.FC = () => {
                   </div>
                   <Button>Complete Verification</Button>
                 </div>
+                <div className="hidden md:block">
+                  <img 
+                    src="/lovable-uploads/58502304-f6e3-40e3-a36a-0fac81447383.png" 
+                    alt="Recycler" 
+                    className="h-32 w-32 object-contain"
+                  />
+                </div>
               </div>
             </CardContent>
           </Card>
