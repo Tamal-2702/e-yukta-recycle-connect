@@ -1,4 +1,4 @@
-                                                                           #♻️ E-Yukta: AI-Powered E-Waste Management Platform
+#♻️ E-Yukta: AI-Powered E-Waste Management Platform
 **URL**: https://e-yukta-recycle-connect.lovable.app/welcome
 
 E-Yukta is a unified AI-powered digital platform designed to promote responsible e-waste disposal, circular economy practices, and environmental awareness. It connects consumers, kabadiwalas, recyclers, and corporates through a smart and traceable system of waste collection, recycling, and sustainability tracking—aligned with the UN’s SDG 12: Responsible Consumption and Production.
