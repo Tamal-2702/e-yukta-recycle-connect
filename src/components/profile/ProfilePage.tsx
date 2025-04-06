@@ -1,12 +1,8 @@
 
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
 import DashboardLayout from '@/components/layouts/DashboardLayout';
-import { useLanguage } from '@/contexts/LanguageContext';
 import { useAuth } from '@/contexts/AuthContext';
-import { Tabs } from '@/components/ui/tabs';
-import { ProfileHeader } from './components';
-import { ProfileTabsList, ProfileTabsContent } from './components/tabs';
+import ProfileContent from './components/ProfileContent';
 import { useProfileData } from './hooks/useProfileData';
 
 interface ProfilePageProps {
@@ -14,9 +10,7 @@ interface ProfilePageProps {
 }
 
 const ProfilePage: React.FC<ProfilePageProps> = ({ role }) => {
-  const { t } = useLanguage();
   const { currentUser } = useAuth();
-  const navigate = useNavigate();
   
   const {
     displayName,
@@ -41,37 +35,27 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ role }) => {
 
   return (
     <DashboardLayout role={role}>
-      <div className="space-y-6 p-6">
-        <ProfileHeader 
-          title={t(`${role}.profile`)}
-          description="Manage your profile and preferences"
-        />
-
-        <Tabs defaultValue="profile" className="w-full">
-          <ProfileTabsList />
-          
-          <ProfileTabsContent
-            displayName={displayName}
-            setDisplayName={setDisplayName}
-            email={currentUser?.email}
-            isEditing={isEditing}
-            setIsEditing={setIsEditing}
-            isUploading={isUploading}
-            avatarSrc={getAvatarSrc()}
-            avatarFallback={avatarFallback}
-            fileInputRef={fileInputRef}
-            handleFileChange={handleFileChange}
-            handleChangePhotoClick={handleChangePhotoClick}
-            handleSaveProfile={handleSaveProfile}
-            userStats={userStats}
-            recentActivity={recentActivity}
-            userBadges={userBadges}
-            rewardItems={rewardItems}
-            address={userAddress}
-            handleAddressUpdate={handleAddressUpdate}
-          />
-        </Tabs>
-      </div>
+      <ProfileContent
+        role={role}
+        displayName={displayName}
+        setDisplayName={setDisplayName}
+        email={currentUser?.email}
+        isEditing={isEditing}
+        setIsEditing={setIsEditing}
+        isUploading={isUploading}
+        fileInputRef={fileInputRef}
+        userAddress={userAddress}
+        userStats={userStats}
+        recentActivity={recentActivity}
+        userBadges={userBadges}
+        rewardItems={rewardItems}
+        handleSaveProfile={handleSaveProfile}
+        handleChangePhotoClick={handleChangePhotoClick}
+        handleFileChange={handleFileChange}
+        getAvatarSrc={getAvatarSrc}
+        handleAddressUpdate={handleAddressUpdate}
+        avatarFallback={avatarFallback}
+      />
     </DashboardLayout>
   );
 };
