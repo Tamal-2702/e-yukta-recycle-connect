@@ -1,7 +1,7 @@
 
 # E-Yukta - Waste Management Solution
 
-**URL**: https://lovable.dev/projects/ac1dcf2b-3869-4ace-81f0-40f89efaaae4
+**URL**: https://e-yukta-recycle-connect.lovable.app/welcome
 
 ## Firebase Deployment Instructions
 
