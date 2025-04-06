@@ -20,7 +20,7 @@ const SidebarNavigation: React.FC<SidebarNavigationProps> = ({ role }) => {
     switch (role) {
       case 'user':
         return [
-          { label: t('user.dashboard'), to: '/user', icon: 'layout-dashboard' },
+          { label: t('user.dashboard'), to: '/user/dashboard', icon: 'layout-dashboard' },
           { label: t('user.scan_waste'), to: '/user/scan', icon: 'camera' },
           { label: t('user.schedule_pickup'), to: '/user/schedule', icon: 'calendar' },
           { label: t('user.track_disposal'), to: '/user/track', icon: 'map-pin' },
@@ -30,21 +30,21 @@ const SidebarNavigation: React.FC<SidebarNavigationProps> = ({ role }) => {
         ];
       case 'kabadiwala':
         return [
-          { label: t('kabadiwala.dashboard'), to: '/kabadiwala', icon: 'layout-dashboard' },
+          { label: t('kabadiwala.dashboard'), to: '/kabadiwala/dashboard', icon: 'layout-dashboard' },
           { label: t('kabadiwala.pickups'), to: '/kabadiwala/pickups', icon: 'truck' },
           { label: t('kabadiwala.earnings'), to: '/kabadiwala/earnings', icon: 'wallet' },
           { label: t('kabadiwala.map'), to: '/kabadiwala/map', icon: 'map' },
         ];
       case 'recycler':
         return [
-          { label: t('recycler.dashboard'), to: '/recycler', icon: 'layout-dashboard' },
+          { label: t('recycler.dashboard'), to: '/recycler/dashboard', icon: 'layout-dashboard' },
           { label: t('recycler.inventory'), to: '/recycler/inventory', icon: 'package' },
           { label: t('recycler.processing'), to: '/recycler/processing', icon: 'settings' },
           { label: t('recycler.compliance'), to: '/recycler/compliance', icon: 'shield-check' },
         ];
       case 'corporate':
         return [
-          { label: t('corporate.dashboard'), to: '/corporate', icon: 'layout-dashboard' },
+          { label: t('corporate.dashboard'), to: '/corporate/dashboard', icon: 'layout-dashboard' },
           { label: t('corporate.campaigns'), to: '/corporate/campaigns', icon: 'megaphone' },
           { label: t('corporate.compliance'), to: '/corporate/compliance', icon: 'shield-check' },
           { label: t('corporate.bulk_disposal'), to: '/corporate/bulk', icon: 'truck' },

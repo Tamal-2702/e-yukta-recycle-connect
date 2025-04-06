@@ -51,24 +51,28 @@ function App() {
                 <Route path="/auth" element={<Auth />} />
                 
                 {/* User routes */}
+                <Route path="/user" element={<Navigate to="/user/dashboard" replace />} />
                 <Route path="/user/dashboard" element={<UserDashboard />} />
                 <Route path="/user/profile" element={<UserProfile />} />
                 <Route path="/user/progress" element={<ProgressTracker />} />
                 <Route path="/user/scan" element={<ScanWaste />} />
-                <Route path="/user/pickup" element={<SchedulePickup />} />
+                <Route path="/user/schedule" element={<SchedulePickup />} />
                 <Route path="/user/track" element={<TrackDisposal />} />
                 <Route path="/user/marketplace" element={<Marketplace />} />
                 <Route path="/user/awareness" element={<AwarenessHub />} />
                 
                 {/* Kabadiwala routes */}
+                <Route path="/kabadiwala" element={<Navigate to="/kabadiwala/dashboard" replace />} />
                 <Route path="/kabadiwala/dashboard" element={<KabadiwalasDashboard />} />
                 <Route path="/kabadiwala/profile" element={<UserProfile />} />
                 
                 {/* Recycler routes */}
+                <Route path="/recycler" element={<Navigate to="/recycler/dashboard" replace />} />
                 <Route path="/recycler/dashboard" element={<RecyclerDashboard />} />
                 <Route path="/recycler/profile" element={<UserProfile />} />
                 
                 {/* Corporate routes */}
+                <Route path="/corporate" element={<Navigate to="/corporate/dashboard" replace />} />
                 <Route path="/corporate/dashboard" element={<CorporateDashboard />} />
                 <Route path="/corporate/compliance" element={<CorporateCompliance />} />
                 <Route path="/corporate/bulk" element={<CorporateBulk />} />
