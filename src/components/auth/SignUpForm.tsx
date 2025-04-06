@@ -69,11 +69,21 @@ const SignUpForm: React.FC = () => {
       });
     } catch (error: any) {
       console.error("Google sign up error:", error);
-      toast({
-        title: "Error signing up with Google",
-        description: error.message || "Failed to sign up with Google. Please try again.",
-        variant: "destructive",
-      });
+      
+      // Special handling for unauthorized domain error
+      if (error.code === "auth/unauthorized-domain") {
+        toast({
+          title: "Domain Not Authorized",
+          description: "This domain is not authorized for Firebase Authentication. For development, you need to add this domain to your Firebase project.",
+          variant: "destructive",
+        });
+      } else {
+        toast({
+          title: "Error signing up with Google",
+          description: error.message || "Failed to sign up with Google. Please try again.",
+          variant: "destructive",
+        });
+      }
     } finally {
       setIsLoading(false);
     }

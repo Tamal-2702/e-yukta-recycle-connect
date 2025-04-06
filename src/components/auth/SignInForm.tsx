@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
@@ -58,11 +59,21 @@ const SignInForm: React.FC = () => {
       });
     } catch (error: any) {
       console.error("Google sign in error:", error);
-      toast({
-        title: "Error signing in with Google",
-        description: error.message || "Failed to sign in with Google. Please try again.",
-        variant: "destructive",
-      });
+      
+      // Special handling for unauthorized domain error
+      if (error.code === "auth/unauthorized-domain") {
+        toast({
+          title: "Domain Not Authorized",
+          description: "This domain is not authorized for Firebase Authentication. For development, you need to add this domain to your Firebase project.",
+          variant: "destructive",
+        });
+      } else {
+        toast({
+          title: "Error signing in with Google",
+          description: error.message || "Failed to sign in with Google. Please try again.",
+          variant: "destructive",
+        });
+      }
     } finally {
       setIsLoading(false);
     }
