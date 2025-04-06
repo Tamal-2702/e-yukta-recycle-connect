@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
@@ -50,7 +49,6 @@ const SignInForm: React.FC<SignInFormProps> = ({ userRole = '' }) => {
       console.error("Sign in error:", error);
       let errorMessage = "Failed to sign in. Please try again.";
       
-      // Handle specific Firebase auth errors
       if (error.code === "auth/invalid-credential" || error.code === "auth/wrong-password") {
         errorMessage = "Invalid email or password. Please try again.";
       } else if (error.code === "auth/user-not-found") {
@@ -88,7 +86,6 @@ const SignInForm: React.FC<SignInFormProps> = ({ userRole = '' }) => {
       console.error("Google sign in error:", error);
       let errorMessage = "Failed to sign in with Google. Please try again.";
       
-      // Special handling for unauthorized domain error
       if (error.code === "auth/unauthorized-domain") {
         errorMessage = "This domain is not authorized for Firebase Authentication. Please make sure to add this domain to your Firebase project.";
       } else if (error.code === "auth/popup-closed-by-user") {
@@ -118,7 +115,7 @@ const SignInForm: React.FC<SignInFormProps> = ({ userRole = '' }) => {
       </div>
       
       {isPreviewEnvironment && (
-        <Alert variant="warning" className="bg-amber-50 text-amber-800 border-amber-200">
+        <Alert variant="warning" className="text-amber-800 border-amber-200">
           <AlertTriangle className="h-4 w-4" />
           <AlertDescription className="text-sm">
             Google Sign In may not work in preview environments. This is because Firebase requires each domain to be explicitly authorized.
