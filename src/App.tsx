@@ -38,7 +38,7 @@ import CorporateCampaigns from "./pages/corporate/CorporateCampaigns";
 import CorporateCompliance from "./pages/corporate/CorporateCompliance";
 import CorporateBulk from "./pages/corporate/CorporateBulk";
 
-// Import useAuth inside the App component to avoid circular dependency
+// Import useAuth hook for ProtectedRoute component
 import { useAuth } from "@/contexts/AuthContext";
 
 // Protected route component
@@ -56,10 +56,10 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   return <>{children}</>;
 };
 
-// Create the QueryClient instance inside the component
+// Create a new App component
 const App = () => {
-  // Create a client
-  const queryClient = React.useMemo(() => new QueryClient(), []);
+  // Create a client - moved inside the component function
+  const queryClient = new QueryClient();
 
   return (
     <QueryClientProvider client={queryClient}>
