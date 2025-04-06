@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
@@ -6,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
-import { LogIn, Mail, Lock, User } from "lucide-react";
+import { LogIn, Mail, Lock } from "lucide-react";
 
 const SignInForm: React.FC = () => {
   const [email, setEmail] = useState("");
@@ -37,9 +36,10 @@ const SignInForm: React.FC = () => {
         description: "You are now signed in",
       });
     } catch (error: any) {
+      console.error("Sign in error:", error);
       toast({
         title: "Error signing in",
-        description: error.message,
+        description: error.message || "Failed to sign in. Please try again.",
         variant: "destructive",
       });
     } finally {
@@ -57,9 +57,10 @@ const SignInForm: React.FC = () => {
         description: "You are now signed in with Google",
       });
     } catch (error: any) {
+      console.error("Google sign in error:", error);
       toast({
         title: "Error signing in with Google",
-        description: error.message,
+        description: error.message || "Failed to sign in with Google. Please try again.",
         variant: "destructive",
       });
     } finally {

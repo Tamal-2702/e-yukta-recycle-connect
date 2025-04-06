@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
-import { UserPlus, Mail, Lock, User } from "lucide-react";
+import { UserPlus, Mail, Lock } from "lucide-react";
 
 const SignUpForm: React.FC = () => {
   const [email, setEmail] = useState("");
@@ -47,9 +47,10 @@ const SignUpForm: React.FC = () => {
         description: "Account created successfully",
       });
     } catch (error: any) {
+      console.error("Sign up error:", error);
       toast({
         title: "Error creating account",
-        description: error.message,
+        description: error.message || "Failed to create account. Please try again.",
         variant: "destructive",
       });
     } finally {
@@ -67,9 +68,10 @@ const SignUpForm: React.FC = () => {
         description: "Account created with Google",
       });
     } catch (error: any) {
+      console.error("Google sign up error:", error);
       toast({
         title: "Error signing up with Google",
-        description: error.message,
+        description: error.message || "Failed to sign up with Google. Please try again.",
         variant: "destructive",
       });
     } finally {
