@@ -58,8 +58,8 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
 
 // Create a new App component
 const App = () => {
-  // Create a client - moved inside the component function
-  const queryClient = new QueryClient();
+  // Create a client using useMemo to ensure it's only created once
+  const queryClient = React.useMemo(() => new QueryClient(), []);
 
   return (
     <QueryClientProvider client={queryClient}>
