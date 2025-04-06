@@ -14,7 +14,6 @@ type UserRole = 'user' | 'kabadiwala' | 'recycler' | 'corporate';
 
 const Landing: React.FC = () => {
   const [selectedRole, setSelectedRole] = useState<UserRole | null>(null);
-  const [showEcoBot, setShowEcoBot] = useState(false);
   const navigate = useNavigate();
   const { t } = useLanguage();
   const { currentUser } = useAuth();
@@ -22,7 +21,6 @@ const Landing: React.FC = () => {
   const handleRoleSelect = (role: UserRole) => {
     console.log(`Selected role: ${role}`);
     setSelectedRole(role);
-    setShowEcoBot(true);
   };
 
   const handleGetStarted = () => {
@@ -132,17 +130,15 @@ const Landing: React.FC = () => {
             {t('landing.get_started') || 'Get Started'}
           </Button>
           
-          {showEcoBot && (
-            <Button
-              variant="outline"
-              size="sm"
-              className="flex items-center gap-2"
-              onClick={() => document.getElementById('ecobot-trigger')?.click()}
-            >
-              <MessageCircle className="h-4 w-4" />
-              Chat with EcoBot
-            </Button>
-          )}
+          <Button
+            variant="outline"
+            size="sm"
+            className="flex items-center gap-2"
+            onClick={() => document.getElementById('ecobot-trigger')?.click()}
+          >
+            <MessageCircle className="h-4 w-4" />
+            Chat with EcoBot
+          </Button>
         </div>
       </main>
 
@@ -150,7 +146,7 @@ const Landing: React.FC = () => {
         <p>{t('app.subtitle') || 'E-Yukta - Responsible E-Waste Management'}</p>
       </footer>
       
-      {showEcoBot && <EcoBotWrapper initialState={true} />}
+      <EcoBotWrapper initialState={false} />
     </div>
   );
 };
