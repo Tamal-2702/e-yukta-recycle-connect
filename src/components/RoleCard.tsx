@@ -15,10 +15,10 @@ const RoleCard: React.FC<RoleCardProps> = ({ role, selected = false, onClick }) 
   
   // Define role images with the newly uploaded images
   const roleImages = {
-    user: '/lovable-uploads/ae4e5686-c7ad-48ff-97f1-8084e1d7ce69.png', // Recycling logo with electronics
-    kabadiwala: '/lovable-uploads/1299ce0f-3357-4452-9f94-1bb5aef23a99.png', // E-waste collector with cart
-    recycler: '/lovable-uploads/c60af980-2b0f-4449-b1a1-f514e18c355b.png', // Person collecting e-waste
-    corporate: '/lovable-uploads/81871075-be49-4b14-a55e-9a60c4a50482.png', // Corporate building
+    user: '/lovable-uploads/e116f50e-eda8-4314-b28f-b7bda5a7ad6e.png', // Illustration of e-waste collection from user
+    kabadiwala: '/lovable-uploads/ad37866a-bb12-4f90-8389-235693887537.png', // Illustration of kabadiwala with cart
+    recycler: '/lovable-uploads/162243fe-9ce2-492a-83ea-4b066e448d30.png', // Recycling symbol with electronics
+    corporate: '/lovable-uploads/6c0b683d-5c5c-4be1-b8cd-0c241bd420f2.png', // Corporate building illustration
   };
 
   // Role-specific colors for better visual differentiation and fallback
