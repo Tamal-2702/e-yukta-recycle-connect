@@ -74,7 +74,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children, role }) => 
   const [sidebarOpen, setSidebarOpen] = React.useState(false);
   const location = useLocation();
   const { t } = useLanguage();
-  const { logout, user } = useAuth();
+  const { logout, currentUser } = useAuth();
   const navigate = useNavigate();
   const { toast } = useToast();
 
@@ -155,12 +155,12 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children, role }) => 
             <Avatar className="h-16 w-16">
               <AvatarImage src="/placeholder.svg" alt="Profile" />
               <AvatarFallback>
-                {user?.displayName?.charAt(0) || role.charAt(0).toUpperCase()}
+                {currentUser?.displayName?.charAt(0) || role.charAt(0).toUpperCase()}
               </AvatarFallback>
             </Avatar>
             <div className="text-center">
-              <h3 className="font-medium">{user?.displayName || t(`${role}.profile_title`)}</h3>
-              <p className="text-sm text-muted-foreground">{user?.email || t(`${role}.profile_subtitle`)}</p>
+              <h3 className="font-medium">{currentUser?.displayName || t(`${role}.profile_title`)}</h3>
+              <p className="text-sm text-muted-foreground">{currentUser?.email || t(`${role}.profile_subtitle`)}</p>
             </div>
             <Button variant="outline" className="w-full" onClick={() => navigate(`/${role}/profile`)}>
               <User size={16} className="mr-2" />
