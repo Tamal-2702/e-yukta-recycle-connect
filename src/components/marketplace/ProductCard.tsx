@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card';
+import { Card, CardContent, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { ShoppingCart, Star } from 'lucide-react';
@@ -23,10 +23,18 @@ interface ProductCardProps {
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
-  // Debug product image path
-  React.useEffect(() => {
-    console.log(`Product ${product.id} - Image path: ${product.image}`);
-  }, [product]);
+  // Map product categories to fallback images
+  const getFallbackImage = (category: string) => {
+    const fallbacks: Record<string, string> = {
+      phones: 'https://placehold.co/300x300?text=Phone',
+      laptops: 'https://placehold.co/300x300?text=Laptop',
+      tablets: 'https://placehold.co/300x300?text=Tablet',
+      audio: 'https://placehold.co/300x300?text=Audio',
+      wearables: 'https://placehold.co/300x300?text=Wearable',
+      monitors: 'https://placehold.co/300x300?text=Monitor',
+    };
+    return fallbacks[category] || 'https://placehold.co/300x300?text=Product+Image';
+  };
 
   return (
     <Card className="overflow-hidden hover:shadow-md transition-shadow card-hover">
@@ -37,8 +45,8 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           className="object-contain h-full max-h-40 w-auto"
           onError={(e) => {
             const target = e.target as HTMLImageElement;
-            console.error(`Failed to load image: ${target.src}`);
-            target.src = 'https://placehold.co/300x300?text=Product+Image';
+            console.log(`Loading fallback for ${product.name}`);
+            target.src = getFallbackImage(product.category);
             target.onerror = null; // Prevent infinite fallback loop
           }}
         />
