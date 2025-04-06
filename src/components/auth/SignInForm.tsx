@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
@@ -5,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
-import { LogIn, Mail, Lock, AlertCircle, AlertTriangle } from "lucide-react";
+import { LogIn, Mail, Lock, AlertCircle } from "lucide-react";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 
 interface SignInFormProps {
@@ -20,8 +21,6 @@ const SignInForm: React.FC<SignInFormProps> = ({ userRole = '' }) => {
   const { login, signInWithGoogle } = useAuth();
   const navigate = useNavigate();
   const { toast } = useToast();
-  const isPreviewEnvironment = window.location.hostname.includes('lovable.app') || 
-                              window.location.hostname.includes('preview');
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -86,9 +85,7 @@ const SignInForm: React.FC<SignInFormProps> = ({ userRole = '' }) => {
       console.error("Google sign in error:", error);
       let errorMessage = "Failed to sign in with Google. Please try again.";
       
-      if (error.code === "auth/unauthorized-domain") {
-        errorMessage = "This domain is not authorized for Firebase Authentication. Please make sure to add this domain to your Firebase project.";
-      } else if (error.code === "auth/popup-closed-by-user") {
+      if (error.code === "auth/popup-closed-by-user") {
         errorMessage = "Sign-in popup was closed before completion.";
       } else if (error.code === "auth/cancelled-popup-request") {
         errorMessage = "Multiple popup requests were triggered. Only one popup can be open at a time.";
@@ -113,15 +110,6 @@ const SignInForm: React.FC<SignInFormProps> = ({ userRole = '' }) => {
         <h1 className="text-3xl font-bold">Sign In</h1>
         <p className="text-muted-foreground">Enter your credentials to sign in to your account</p>
       </div>
-      
-      {isPreviewEnvironment && (
-        <Alert variant="warning" className="text-amber-800 border-amber-200">
-          <AlertTriangle className="h-4 w-4" />
-          <AlertDescription className="text-sm">
-            Google Sign In may not work in preview environments. This is because Firebase requires each domain to be explicitly authorized.
-          </AlertDescription>
-        </Alert>
-      )}
       
       {error && (
         <div className="bg-destructive/15 p-3 rounded-md flex items-start gap-2">
@@ -188,7 +176,7 @@ const SignInForm: React.FC<SignInFormProps> = ({ userRole = '' }) => {
         variant="outline"
         onClick={handleGoogleSignIn}
         className="w-full"
-        disabled={isLoading || isPreviewEnvironment}
+        disabled={isLoading}
       >
         {isLoading ? (
           <span className="flex items-center gap-2">
@@ -220,16 +208,9 @@ const SignInForm: React.FC<SignInFormProps> = ({ userRole = '' }) => {
               <path d="M1 1h22v22H1z" fill="none" />
             </svg>
             Sign in with Google
-            {isPreviewEnvironment && <span className="ml-1 text-xs">(Disabled in preview)</span>}
           </>
         )}
       </Button>
-      
-      {isPreviewEnvironment && (
-        <p className="text-xs text-center text-muted-foreground">
-          Google Sign In will work when deployed to your authorized domains.
-        </p>
-      )}
     </div>
   );
 };
