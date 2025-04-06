@@ -19,30 +19,57 @@ const KabadiwalaMap: React.FC = () => {
   const [selectedPickup, setSelectedPickup] = useState<PickupLocation | null>(null);
   const [locationError, setLocationError] = useState<string | null>(null);
   const [isLoadingLocation, setIsLoadingLocation] = useState(false);
+  const [mapsLoaded, setMapsLoaded] = useState(false);
+  const [allMarkers, setAllMarkers] = useState<Array<any>>([]);
   
   const { pickupLocations, isLoading, error } = useNearbyPickups(currentLocation);
   
-  // Determine map markers from pickup locations
-  const mapMarkers = pickupLocations.map(pickup => ({
-    position: pickup.coordinates,
-    title: pickup.address,
-  }));
+  // Setup markers when pickupLocations change or Google Maps is loaded
+  useEffect(() => {
+    if (!mapsLoaded || typeof google === 'undefined') {
+      return;
+    }
+    
+    // Determine map markers from pickup locations
+    const mapMarkers = pickupLocations.map(pickup => ({
+      position: pickup.coordinates,
+      title: pickup.address,
+    }));
 
-  // Create a proper icon object for the current location marker
-  const currentLocationIcon = {
-    url: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNMTIgMjJDMTcuNTIyOCAyMiAyMiAxNy41MjI4IDIyIDEyQzIyIDYuNDc3MTUgMTcuNTIyOCAyIDEyIDJDNi40NzcxNSAyIDIgNi40NzcxNSAyIDEyQzIgMTcuNTIyOCA2LjQ3NzE1IDIyIDEyIDIyWiIgZmlsbD0iIzRlODFmZCIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLXdpZHRoPSIyIi8+PC9zdmc+',
-    scaledSize: new google.maps.Size(24, 24)
-  };
+    // Create a proper icon object for the current location marker
+    const currentLocationIcon = {
+      url: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNMTIgMjJDMTcuNTIyOCAyMiAyMiAxNy41MjI4IDIyIDEyQzIyIDYuNDc3MTUgMTcuNTIyOCAyIDEyIDJDNi40NzcxNSAyIDIgNi40NzcxNSAyIDEyQzIgMTcuNTIyOCA2LjQ3NzE1IDIyIDEyIDIyWiIgZmlsbD0iIzRlODFmZCIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLXdpZHRoPSIyIi8+PC9zdmc+',
+      scaledSize: new google.maps.Size(24, 24)
+    };
 
-  // Add current location marker
-  const allMarkers = [
-    {
-      position: currentLocation,
-      title: 'Your location',
-      icon: currentLocationIcon,
-    },
-    ...mapMarkers
-  ];
+    // Add current location marker
+    setAllMarkers([
+      {
+        position: currentLocation,
+        title: 'Your location',
+        icon: currentLocationIcon,
+      },
+      ...mapMarkers
+    ]);
+  }, [pickupLocations, currentLocation, mapsLoaded]);
+
+  // Detect when Google Maps API is loaded
+  useEffect(() => {
+    const checkGoogleMapsLoaded = () => {
+      if (typeof google !== 'undefined' && google.maps) {
+        setMapsLoaded(true);
+      } else {
+        // Check again after a short delay
+        setTimeout(checkGoogleMapsLoaded, 100);
+      }
+    };
+    
+    checkGoogleMapsLoaded();
+    
+    return () => {
+      // Cleanup if component unmounts during loading
+    };
+  }, []);
 
   // Get user's current location
   const getCurrentLocation = () => {
