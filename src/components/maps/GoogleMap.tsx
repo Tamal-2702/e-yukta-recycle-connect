@@ -8,7 +8,7 @@ import { mapsConfig } from '@/lib/googleApiConfig';
 interface MarkerPosition {
   position: { lat: number; lng: number };
   title?: string;
-  icon?: string | google.maps.Icon | google.maps.Symbol;
+  icon?: string | google.maps.Icon | google.maps.Symbol | any; // Made more flexible to avoid type issues
 }
 
 interface GoogleMapProps {
