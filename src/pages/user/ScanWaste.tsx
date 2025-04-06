@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { 
   Camera, Upload, AlertCircle, CheckCircle2, XCircle, RefreshCw, 
-  Recycle, Heart, Tool, CalendarClock, ChevronRight, MapPin
+  Recycle, Heart, Wrench, CalendarClock, ChevronRight, MapPin
 } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useToast } from '@/hooks/use-toast';
@@ -249,7 +249,7 @@ const ScanWaste: React.FC = () => {
     switch (iconName) {
       case 'Recycle': return <Recycle className="h-5 w-5" />;
       case 'Heart': return <Heart className="h-5 w-5" />;
-      case 'Tool': return <Tool className="h-5 w-5" />;
+      case 'Tool': return <Wrench className="h-5 w-5" />; // Changed Tool to Wrench which is available in lucide-react
       default: return <Recycle className="h-5 w-5" />;
     }
   };

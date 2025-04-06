@@ -317,7 +317,12 @@ export const useVisionApi = () => {
       action: "Recycle",
       description: "Environmentally responsible disposal with material recovery.",
       icon: "Recycle",
-      priority: condition === "Poor" ? "high" : "medium"
+      priority: condition === "Poor" ? "high" : "medium",
+      centers: [
+        { id: 'rec1', name: 'GreenTech Recycling Center', distance: '2.3 km' },
+        { id: 'rec2', name: 'EcoWaste Solutions', distance: '4.6 km' },
+        { id: 'rec3', name: 'City E-Waste Facility', distance: '6.1 km' },
+      ]
     });
     
     // Add refurbish option for devices in fair or better condition
@@ -326,7 +331,11 @@ export const useVisionApi = () => {
         action: "Refurbish",
         description: "Repair and upgrade for continued use or resale.",
         icon: "Tool",
-        priority: condition === "Good" || condition === "Excellent" ? "high" : "medium"
+        priority: condition === "Good" || condition === "Excellent" ? "high" : "medium",
+        centers: [
+          { id: 'ref1', name: 'TechRenew Workshop', distance: '3.5 km' },
+          { id: 'ref2', name: 'ElectroFix Center', distance: '5.2 km' },
+        ]
       });
     }
     
@@ -336,7 +345,12 @@ export const useVisionApi = () => {
         action: "Donate",
         description: "Give to those in need - your device can help others.",
         icon: "Heart",
-        priority: "medium"
+        priority: "medium",
+        centers: [
+          { id: 'don1', name: 'Digital Bridge Foundation', distance: '4.0 km' },
+          { id: 'don2', name: 'Community Tech Center', distance: '2.8 km' },
+          { id: 'don3', name: 'Schools Technology Program', distance: '7.2 km' },
+        ]
       });
     }
     

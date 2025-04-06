@@ -18,6 +18,7 @@ import SchedulePickup from "./pages/user/SchedulePickup";
 import TrackDisposal from "./pages/user/TrackDisposal";
 import Marketplace from "./pages/user/Marketplace";
 import AwarenessHub from "./pages/user/AwarenessHub";
+import ProgressTracker from "./pages/user/ProgressTracker";
 
 // Kabadiwala pages
 import KabadiwalasDashboard from "./pages/kabadiwala/KabadiwalasDashboard";
@@ -50,6 +51,7 @@ const App = () => (
             <Route path="/user/track" element={<TrackDisposal />} />
             <Route path="/user/marketplace" element={<Marketplace />} />
             <Route path="/user/awareness" element={<AwarenessHub />} />
+            <Route path="/user/progress" element={<ProgressTracker />} />
             
             {/* Kabadiwala routes */}
             <Route path="/kabadiwala" element={<KabadiwalasDashboard />} />
