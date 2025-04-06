@@ -20,6 +20,9 @@ const RoleCard: React.FC<RoleCardProps> = ({ role, selected = false, onClick }) 
     corporate: '/lovable-uploads/18943706-8b73-49f7-8d77-78d63ab6cd22.png', // Corporate building
   };
 
+  // Add console log to debug image loading
+  console.log(`Loading image for role ${role}: ${roleImages[role]}`);
+
   return (
     <Card 
       className={`relative overflow-hidden cursor-pointer card-hover ${
@@ -33,7 +36,10 @@ const RoleCard: React.FC<RoleCardProps> = ({ role, selected = false, onClick }) 
             src={roleImages[role]} 
             alt={t(`roles.${role}`)} 
             className="w-20 h-20 object-contain"
-            key={`role-image-${role}-${new Date().getTime()}`} // Add a unique key to force re-render
+            onError={(e) => {
+              console.error(`Error loading image for ${role}`, e);
+              e.currentTarget.src = '/placeholder.svg'; // Fallback to placeholder
+            }}
           />
         </div>
         <h3 className="text-lg font-medium">{t(`roles.${role}`)}</h3>

@@ -18,6 +18,7 @@ const Landing: React.FC = () => {
   const { currentUser } = useAuth();
 
   const handleRoleSelect = (role: UserRole) => {
+    console.log(`Selected role: ${role}`);
     setSelectedRole(role);
   };
 
@@ -31,11 +32,12 @@ const Landing: React.FC = () => {
     }
   };
 
+  // Ensure we have role descriptions even if translations are missing
   const roleDescriptions = {
-    user: t('landing.user_description'),
-    kabadiwala: t('landing.kabadiwala_description'),
-    recycler: t('landing.recycler_description'),
-    corporate: t('landing.corporate_description')
+    user: t('landing.user_description') || 'Dispose your e-waste responsibly and track the entire lifecycle.',
+    kabadiwala: t('landing.kabadiwala_description') || 'Collect e-waste from users and earn through the E-Yukta platform.',
+    recycler: t('landing.recycler_description') || 'Process e-waste in compliance with regulations and improve efficiency.',
+    corporate: t('landing.corporate_description') || 'Manage corporate e-waste compliance and reporting in one place.'
   };
 
   return (
@@ -80,12 +82,12 @@ const Landing: React.FC = () => {
 
       <main className="flex-1 flex flex-col items-center justify-center p-4 md:p-8">
         <div className="max-w-3xl w-full text-center mb-8 animate-fade-in">
-          <h1 className="text-3xl md:text-4xl font-bold mb-2">{t('landing.heading')}</h1>
-          <p className="text-muted-foreground">{t('landing.subheading')}</p>
+          <h1 className="text-3xl md:text-4xl font-bold mb-2">{t('landing.heading') || 'E-Waste Management Platform'}</h1>
+          <p className="text-muted-foreground">{t('landing.subheading') || 'Select your role to get started'}</p>
         </div>
 
         <div className="w-full max-w-3xl animate-slide-up" style={{ animationDelay: '0.2s' }}>
-          <h2 className="text-xl font-medium mb-4 text-center">{t('landing.select_role')}</h2>
+          <h2 className="text-xl font-medium mb-4 text-center">{t('landing.select_role') || 'Select Your Role'}</h2>
           
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
             <RoleCard 
@@ -130,7 +132,7 @@ const Landing: React.FC = () => {
       </main>
 
       <footer className="p-4 text-center text-sm text-muted-foreground">
-        <p>{t('app.subtitle')}</p>
+        <p>{t('app.subtitle') || 'E-Yukta - Responsible E-Waste Management'}</p>
       </footer>
     </div>
   );
