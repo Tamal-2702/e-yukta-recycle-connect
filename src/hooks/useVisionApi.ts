@@ -13,8 +13,17 @@ export const useVisionApi = () => {
     setError(null);
     
     try {
+      // Check if we should use real API or mock
+      const useMockData = true; // Set to false to use the real API when billing is enabled
+      
+      if (useMockData) {
+        // Return mock data after a short delay to simulate API call
+        return await mockVisionApiCall(imageData);
+      }
+      
+      // Below is the real API call code
       // Remove the data:image prefix for the API request
-      const base64Image = imageData.replace(/^data:image\/(png|jpg|jpeg);base64,/, '');
+      const base64Image = imageData.replace(/^data:image\/(png|jpg|jpeg|webp);base64,/, '');
       
       const response = await fetch(`https://vision.googleapis.com/v1/images:annotate?key=${apiKey}`, {
         method: 'POST',
@@ -61,6 +70,40 @@ export const useVisionApi = () => {
     } finally {
       setIsLoading(false);
     }
+  };
+  
+  // Simulate a Vision API call with mock data
+  const mockVisionApiCall = async (imageData: string): Promise<any> => {
+    // Simulate API delay
+    await new Promise(resolve => setTimeout(resolve, 1500));
+    
+    // Create a random ID based on the image data to get consistent results for the same image
+    const imageHash = imageData.length.toString().substring(0, 5);
+    const isEwasteRandomized = Number(imageHash) % 10 > 3; // 70% chance of e-waste for demo purposes
+    
+    // Generate mock vision API response
+    const mockResponse = {
+      responses: [{
+        labelAnnotations: [
+          { description: "Electronic device", score: isEwasteRandomized ? 0.92 : 0.3 },
+          { description: "Computer hardware", score: isEwasteRandomized ? 0.87 : 0.2 },
+          { description: "Technology", score: isEwasteRandomized ? 0.85 : 0.45 },
+          { description: "Plastic", score: 0.82 },
+          { description: "Metal", score: 0.78 },
+          { description: "Circuit", score: isEwasteRandomized ? 0.75 : 0.15 },
+          { description: "Wire", score: isEwasteRandomized ? 0.72 : 0.2 }
+        ],
+        localizedObjectAnnotations: [
+          { name: isEwasteRandomized ? "Electronic device" : "Object", score: 0.93 },
+          { name: isEwasteRandomized ? "Circuit board" : "Item", score: 0.85 }
+        ],
+        textAnnotations: [
+          { description: isEwasteRandomized ? "Model A123\nRecycle E-waste" : "Made in China" }
+        ]
+      }]
+    };
+    
+    return processVisionResponse(mockResponse);
   };
   
   const processVisionResponse = (response: any) => {
