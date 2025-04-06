@@ -20,8 +20,7 @@ export const useNearbyPickups = (currentLocation?: { lat: number; lng: number })
   const [isLoading, setIsLoading] = useState(true);
   const [pickupLocations, setPickupLocations] = useState<PickupLocation[]>([]);
   const [error, setError] = useState<string | null>(null);
-  const { geocodeAddress } = useMapsApi();
-
+  
   useEffect(() => {
     const fetchNearbyPickups = async () => {
       setIsLoading(true);
@@ -37,6 +36,11 @@ export const useNearbyPickups = (currentLocation?: { lat: number; lng: number })
             items: 'Old laptop, CRT monitor',
             scheduledTime: 'Today, 2-5 PM',
             estimatedEarning: '₹200-250',
+            // Pre-defined coordinates instead of geocoding
+            coordinates: {
+              lat: 28.5983 + (Math.random() * 0.01 - 0.005),
+              lng: 77.3180 + (Math.random() * 0.01 - 0.005)
+            }
           },
           {
             id: 'pickup-002',
@@ -45,6 +49,11 @@ export const useNearbyPickups = (currentLocation?: { lat: number; lng: number })
             items: 'Refrigerator, microwave',
             scheduledTime: 'Tomorrow, 10 AM-1 PM',
             estimatedEarning: '₹350-400',
+            // Pre-defined coordinates instead of geocoding
+            coordinates: {
+              lat: 28.5480 + (Math.random() * 0.01 - 0.005),
+              lng: 77.2350 + (Math.random() * 0.01 - 0.005)
+            }
           },
           {
             id: 'pickup-003',
@@ -53,36 +62,15 @@ export const useNearbyPickups = (currentLocation?: { lat: number; lng: number })
             items: '3 smartphones, tablet',
             scheduledTime: 'Today, 4-7 PM',
             estimatedEarning: '₹150-200',
+            // Pre-defined coordinates instead of geocoding
+            coordinates: {
+              lat: 28.5270 + (Math.random() * 0.01 - 0.005),
+              lng: 77.1560 + (Math.random() * 0.01 - 0.005)
+            }
           }
         ];
         
-        // Convert addresses to coordinates - in a real app, coordinates would come from the backend
-        const pickupsWithCoordinates = await Promise.all(
-          mockPickups.map(async (pickup) => {
-            try {
-              const geocodedResult = await geocodeAddress(pickup.address);
-              return {
-                ...pickup,
-                coordinates: {
-                  lat: geocodedResult.lat,
-                  lng: geocodedResult.lng,
-                },
-              };
-            } catch (error) {
-              console.error(`Error geocoding address ${pickup.address}:`, error);
-              // Default coordinates (New Delhi) if geocoding fails
-              return {
-                ...pickup,
-                coordinates: {
-                  lat: 28.6139 + (Math.random() * 0.05 - 0.025),
-                  lng: 77.2090 + (Math.random() * 0.05 - 0.025)
-                },
-              };
-            }
-          })
-        );
-        
-        setPickupLocations(pickupsWithCoordinates);
+        setPickupLocations(mockPickups);
       } catch (error) {
         console.error('Error fetching nearby pickups:', error);
         setError('Failed to load nearby pickups. Please try again later.');
@@ -92,7 +80,7 @@ export const useNearbyPickups = (currentLocation?: { lat: number; lng: number })
     };
 
     fetchNearbyPickups();
-  }, [currentLocation, geocodeAddress]);
+  }, [currentLocation]);
 
   return {
     pickupLocations,

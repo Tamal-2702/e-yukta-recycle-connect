@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -6,9 +7,7 @@ import GoogleMap from '@/components/maps/GoogleMap';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useNearbyPickups, PickupLocation } from '@/hooks/useNearbyPickups';
 import { Badge } from '@/components/ui/badge';
-
-// Add type definition file reference
-/// <reference types="google.maps" />
+import { toast } from '@/components/ui/use-toast';
 
 const DEFAULT_LOCATION = { lat: 28.6139, lng: 77.2090 }; // New Delhi
 
@@ -18,61 +17,36 @@ const KabadiwalaMap: React.FC = () => {
   const [selectedPickup, setSelectedPickup] = useState<PickupLocation | null>(null);
   const [locationError, setLocationError] = useState<string | null>(null);
   const [isLoadingLocation, setIsLoadingLocation] = useState(false);
-  const [mapsLoaded, setMapsLoaded] = useState(false);
-  const [allMarkers, setAllMarkers] = useState<Array<any>>([]);
+  const [mapMarkers, setMapMarkers] = useState<Array<any>>([]);
   
   const { pickupLocations, isLoading, error } = useNearbyPickups(currentLocation);
   
-  // Detect when Google Maps API is loaded
+  // Update markers when pickupLocations or currentLocation changes
   useEffect(() => {
-    const checkGoogleMapsLoaded = () => {
-      if (typeof google !== 'undefined' && google.maps) {
-        setMapsLoaded(true);
-      } else {
-        // Check again after a short delay
-        setTimeout(checkGoogleMapsLoaded, 100);
-      }
-    };
-    
-    checkGoogleMapsLoaded();
-    
-    return () => {
-      // Cleanup if component unmounts during loading
-    };
-  }, []);
-  
-  // Setup markers when pickupLocations change or Google Maps is loaded
-  useEffect(() => {
-    if (!mapsLoaded || typeof google === 'undefined' || !google.maps) {
-      return;
-    }
+    if (pickupLocations.length === 0 && !currentLocation) return;
     
     try {
-      // Determine map markers from pickup locations
-      const mapMarkers = pickupLocations.map(pickup => ({
+      // Pickup location markers
+      const locationMarkers = pickupLocations.map(pickup => ({
         position: pickup.coordinates,
         title: pickup.address,
       }));
 
-      // Create a proper icon object for the current location marker with a simpler structure
-      // to avoid using google.maps.Size constructor which might not be ready
-      const currentLocationIcon = {
-        url: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNMTIgMjJDMTcuNTIyOCAyMiAyMiAxNy41MjI4IDIyIDEyQzIyIDYuNDc3MTUgMTcuNTIyOCAyIDEyIDJDNi40NzcxNSAyIDIgNi40NzcxNSAyIDEyQzIgMTcuNTIyOCA2LjQ3NzE1IDIyIDEyIDIyWiIgZmlsbD0iIzRlODFmZCIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLXdpZHRoPSIyIi8+PC9zdmc+',
+      // Current location marker with SVG icon
+      const currentLocationMarker = {
+        position: currentLocation,
+        title: 'Your location',
+        icon: {
+          url: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNMTIgMjJDMTcuNTIyOCAyMiAyMiAxNy41MjI4IDIyIDEyQzIyIDYuNDc3MTUgMTcuNTIyOCAyIDEyIDJDNi40NzcxNSAyIDIgNi40NzcxNSAyIDEyQzIgMTcuNTIyOCA2LjQ3NzE1IDIyIDEyIDIyWiIgZmlsbD0iIzRlODFmZCIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLXdpZHRoPSIyIi8+PC9zdmc+',
+        }
       };
 
-      // Add current location marker
-      setAllMarkers([
-        {
-          position: currentLocation,
-          title: 'Your location',
-          icon: currentLocationIcon,
-        },
-        ...mapMarkers
-      ]);
+      // Combine all markers
+      setMapMarkers([currentLocationMarker, ...locationMarkers]);
     } catch (err) {
       console.error('Error setting up map markers:', err);
     }
-  }, [pickupLocations, currentLocation, mapsLoaded]);
+  }, [pickupLocations, currentLocation]);
 
   // Get user's current location
   const getCurrentLocation = () => {
@@ -88,6 +62,10 @@ const KabadiwalaMap: React.FC = () => {
           };
           setCurrentLocation(userLocation);
           setIsLoadingLocation(false);
+          toast({
+            title: t('kabadiwala.location_updated'),
+            description: t('kabadiwala.showing_nearby_pickups') || 'Your location has been updated.',
+          });
         },
         (error) => {
           console.error('Error getting current location:', error);
@@ -108,23 +86,23 @@ const KabadiwalaMap: React.FC = () => {
   }, []);
 
   const handleMapClick = (e: google.maps.MapMouseEvent) => {
-    // Check if the click is on a marker by comparing coordinates
-    if (e.latLng) {
-      const clickedLat = e.latLng.lat();
-      const clickedLng = e.latLng.lng();
-      
-      const clickedPickup = pickupLocations.find(pickup => {
-        const lat = pickup.coordinates.lat;
-        const lng = pickup.coordinates.lng;
-        // Use a small threshold for comparison due to floating point precision
-        return Math.abs(lat - clickedLat) < 0.0001 && Math.abs(lng - clickedLng) < 0.0001;
-      });
-      
-      if (clickedPickup) {
-        setSelectedPickup(clickedPickup);
-      } else {
-        setSelectedPickup(null);
-      }
+    if (!e.latLng) return;
+    
+    const clickedLat = e.latLng.lat();
+    const clickedLng = e.latLng.lng();
+    
+    // Check if a pickup location was clicked
+    const clickedPickup = pickupLocations.find(pickup => {
+      const lat = pickup.coordinates.lat;
+      const lng = pickup.coordinates.lng;
+      // Use a small threshold for comparison due to floating point precision
+      return Math.abs(lat - clickedLat) < 0.0001 && Math.abs(lng - clickedLng) < 0.0001;
+    });
+    
+    if (clickedPickup) {
+      setSelectedPickup(clickedPickup);
+    } else {
+      setSelectedPickup(null);
     }
   };
 
@@ -160,7 +138,7 @@ const KabadiwalaMap: React.FC = () => {
           ) : (
             <GoogleMap 
               center={currentLocation}
-              markerPositions={allMarkers}
+              markerPositions={mapMarkers}
               height="300px"
               zoom={13}
               onMapClick={handleMapClick}

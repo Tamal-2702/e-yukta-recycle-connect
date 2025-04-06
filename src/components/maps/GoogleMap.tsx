@@ -4,11 +4,11 @@ import { Loader } from '@googlemaps/js-api-loader';
 import { Button } from '@/components/ui/button';
 import { mapsConfig } from '@/lib/googleApiConfig';
 
-// Ensure we define the proper interface for marker positions with complex icon objects
+// Ensure we define the proper interface for marker positions
 interface MarkerPosition {
   position: { lat: number; lng: number };
   title?: string;
-  icon?: string | google.maps.Icon | google.maps.Symbol | any; // Made more flexible to avoid type issues
+  icon?: string | { url: string } | any; // Simplified icon type
 }
 
 interface GoogleMapProps {
@@ -34,6 +34,7 @@ const GoogleMap: React.FC<GoogleMapProps> = ({
   const mapInstanceRef = useRef<google.maps.Map | null>(null);
   const [mapLoaded, setMapLoaded] = useState(false);
   const [mapLoadError, setMapLoadError] = useState<string | null>(null);
+  const markersRef = useRef<google.maps.Marker[]>([]);
 
   useEffect(() => {
     // Initialize Google Maps
@@ -43,15 +44,12 @@ const GoogleMap: React.FC<GoogleMapProps> = ({
       libraries: ['places'],
     });
 
-    let mapInstance: google.maps.Map;
-    let markersArray: google.maps.Marker[] = [];
-
     loader
       .load()
       .then(() => {
         if (mapRef.current) {
           // Create the map instance
-          mapInstance = new google.maps.Map(mapRef.current, {
+          const mapInstance = new google.maps.Map(mapRef.current, {
             center,
             zoom,
             mapTypeControl: true,
@@ -68,21 +66,6 @@ const GoogleMap: React.FC<GoogleMapProps> = ({
           });
 
           mapInstanceRef.current = mapInstance;
-
-          // Add markers if provided
-          if (markerPositions && markerPositions.length > 0) {
-            markerPositions.forEach((markerInfo) => {
-              const marker = new google.maps.Marker({
-                position: markerInfo.position,
-                map: mapInstance,
-                title: markerInfo.title || '',
-                icon: markerInfo.icon,
-                animation: google.maps.Animation.DROP,
-              });
-
-              markersArray.push(marker);
-            });
-          }
 
           // Add click event listener if provided
           if (onMapClick) {
@@ -103,28 +86,39 @@ const GoogleMap: React.FC<GoogleMapProps> = ({
         // @ts-ignore - google.maps.MapsEventListener
         google.maps.event.clearListeners(mapInstanceRef.current, 'click');
       }
-    };
-  }, [center, zoom, markerPositions, onMapClick]);
-
-  useEffect(() => {
-    // Update markers when markerPositions change
-    if (mapInstanceRef.current && markerPositions) {
-      // Clear existing markers
-      const mapInstance = mapInstanceRef.current;
-      mapInstance.setCenter(center);
       
-      // Add new markers
-      markerPositions.forEach((markerInfo) => {
-        new google.maps.Marker({
+      // Clear markers
+      markersRef.current.forEach(marker => marker.setMap(null));
+      markersRef.current = [];
+    };
+  }, [center, zoom, onMapClick]);
+
+  // Add markers when map is loaded and marker positions change
+  useEffect(() => {
+    if (!mapLoaded || !mapInstanceRef.current) return;
+    
+    // Clear existing markers
+    markersRef.current.forEach(marker => marker.setMap(null));
+    markersRef.current = [];
+    
+    // Center the map
+    mapInstanceRef.current.setCenter(center);
+    
+    // Add new markers
+    if (markerPositions && markerPositions.length > 0) {
+      const newMarkers = markerPositions.map(markerInfo => {
+        return new google.maps.Marker({
           position: markerInfo.position,
-          map: mapInstance,
+          map: mapInstanceRef.current,
           title: markerInfo.title || '',
           icon: markerInfo.icon,
           animation: google.maps.Animation.DROP,
         });
       });
+      
+      markersRef.current = newMarkers;
     }
-  }, [markerPositions, center]);
+  }, [mapLoaded, markerPositions, center]);
 
   return (
     <div className={`relative ${className}`} style={{ height, width }}>
