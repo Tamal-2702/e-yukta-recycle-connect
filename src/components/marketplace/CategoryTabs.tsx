@@ -27,6 +27,16 @@ const CategoryTabs: React.FC<CategoryTabsProps> = ({ products, filteredProducts,
     { name: 'Wearables', icon: Watch, value: 'wearables' },
   ];
 
+  // Debug product information
+  React.useEffect(() => {
+    console.log('Category Tabs - Products count:', products.length);
+    if (products.length > 0) {
+      products.forEach((product, index) => {
+        console.log(`Product ${index} image path:`, product.image);
+      });
+    }
+  }, [products]);
+
   return (
     <Tabs defaultValue="all">
       <TabsList className="mb-4 flex w-full overflow-x-auto">

@@ -12,6 +12,10 @@ const Marketplace: React.FC = () => {
   const [priceRange, setPriceRange] = useState([0, 100000]);
   const [showFilters, setShowFilters] = useState(false);
   
+  // Ensure we have products to display
+  console.log('Products available:', products.length);
+  console.log('First product image:', products.length > 0 ? products[0].image : 'No products');
+  
   const filteredProducts = products.filter(product => 
     product.name.toLowerCase().includes(searchQuery.toLowerCase()) &&
     product.price >= priceRange[0] && product.price <= priceRange[1]

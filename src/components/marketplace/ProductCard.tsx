@@ -29,7 +29,13 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         <img 
           src={product.image} 
           alt={product.name} 
-          className="object-contain max-h-40"
+          className="object-contain h-full max-h-40 w-auto"
+          onError={(e) => {
+            const target = e.target as HTMLImageElement;
+            console.error(`Failed to load image: ${target.src}`);
+            target.src = 'https://placehold.co/300x300?text=Product+Image';
+            target.onerror = null; // Prevent infinite fallback loop
+          }}
         />
         {product.discount > 0 && (
           <Badge className="absolute top-2 right-2 bg-red-500">
