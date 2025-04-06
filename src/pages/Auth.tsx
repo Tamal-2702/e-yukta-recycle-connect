@@ -18,7 +18,7 @@ const Auth: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col bg-gradient-to-b from-[#eef7e9] to-white">
       <header className="p-4 flex justify-between items-center">
         <Logo size="md" />
         <LanguageToggle />
@@ -42,7 +42,7 @@ const Auth: React.FC = () => {
       </main>
 
       <footer className="p-4 text-center text-sm text-muted-foreground">
-        <p>ई-Yukta - Your E-Waste Management Solution</p>
+        <p>ई-Yukta - Your E-Waste, our responsibility</p>
       </footer>
     </div>
   );

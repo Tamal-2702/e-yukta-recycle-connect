@@ -86,7 +86,7 @@ const UserDashboard: React.FC = () => {
         </div>
         
         {/* Hero card with illustration */}
-        <Card className="bg-gradient-to-r from-primary/80 to-primary text-white overflow-hidden">
+        <Card className="bg-[#76b947] text-white overflow-hidden">
           <div className="flex flex-col md:flex-row">
             <CardContent className="p-6 md:p-8 md:w-2/3">
               <h2 className="text-2xl font-bold mb-2">Ready to recycle your e-waste?</h2>
@@ -98,7 +98,7 @@ const UserDashboard: React.FC = () => {
               </Link>
             </CardContent>
             <div className="md:w-1/3 p-4 flex items-center justify-center">
-              <img src="/lovable-uploads/06f3edc4-4f11-48ce-bc8c-00ca6214de52.png" alt="E-waste illustration" className="max-h-48" />
+              <img src="/lovable-uploads/5cf4d238-8867-41cf-8b31-91d2cabfc66a.png" alt="E-waste illustration" className="max-h-48" />
             </div>
           </div>
         </Card>
@@ -107,9 +107,9 @@ const UserDashboard: React.FC = () => {
         <h2 className="text-xl font-semibold mt-6 mb-4">Quick Actions</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {actions.map((action, index) => (
-            <Card key={index} className={`card-hover ${action.primary ? 'border-primary/50' : ''}`}>
+            <Card key={index} className={`card-hover ${action.primary ? 'border-[#76b947]/50' : ''}`}>
               <CardHeader className="flex flex-row items-center gap-4">
-                <div className={`${action.primary ? 'bg-primary text-white' : 'bg-primary/10 text-primary'} p-2 rounded-full`}>
+                <div className={`${action.primary ? 'bg-[#76b947] text-white' : 'bg-[#76b947]/10 text-[#76b947]'} p-2 rounded-full`}>
                   {action.icon}
                 </div>
                 <div>

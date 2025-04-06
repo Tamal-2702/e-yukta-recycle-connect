@@ -20,7 +20,7 @@ const Logo: React.FC<LogoProps> = ({ size = 'md', variant = 'full', className = 
         <div className="flex items-center">
           <div className={`text-primary font-bold ${sizeClasses[size]}`}>
             <img 
-              src="/lovable-uploads/d37ce6c5-60d7-468a-a8ba-32adb3f7de51.png" 
+              src="/lovable-uploads/27733395-edc3-4227-9c4f-64c67cc6ae4a.png" 
               alt="ई-Yukta Logo" 
               className={sizeClasses[size]}
             />
@@ -29,7 +29,7 @@ const Logo: React.FC<LogoProps> = ({ size = 'md', variant = 'full', className = 
       ) : (
         <div className={`text-primary ${sizeClasses[size]}`}>
           <img 
-            src="/lovable-uploads/6c301a42-c407-456b-b013-05fa8c7bb54b.png" 
+            src="/lovable-uploads/5cf4d238-8867-41cf-8b31-91d2cabfc66a.png" 
             alt="ई-Yukta Icon" 
             className={sizeClasses[size]}
           />

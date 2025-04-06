@@ -32,7 +32,7 @@ const Landing: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col bg-gradient-to-b from-[#eef7e9] to-white">
       <header className="p-4 flex justify-between items-center">
         <Logo size="md" />
         <div className="flex items-center gap-2">
@@ -58,6 +58,7 @@ const Landing: React.FC = () => {
               <Button
                 variant="default"
                 size="sm"
+                className="bg-[#76b947] hover:bg-[#65a736]"
                 onClick={() => {
                   navigate('/auth');
                   // We'll set the tab to signup in the Auth component
@@ -109,7 +110,7 @@ const Landing: React.FC = () => {
             onClick={handleGetStarted} 
             disabled={!selectedRole}
             size="lg"
-            className="btn-primary"
+            className="bg-[#76b947] hover:bg-[#65a736]"
           >
             {t('landing.get_started')}
           </Button>
