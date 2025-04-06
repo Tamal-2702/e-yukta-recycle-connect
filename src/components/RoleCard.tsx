@@ -12,12 +12,12 @@ interface RoleCardProps {
 const RoleCard: React.FC<RoleCardProps> = ({ role, selected = false, onClick }) => {
   const { t } = useLanguage();
   
-  // Update image paths to use direct static paths
+  // Update image paths to use the new uploaded images
   const roleImages = {
-    user: '/lovable-uploads/98a173d5-0708-4bb5-8393-db32627a5eb3.png', // Updated general user image
-    kabadiwala: '/lovable-uploads/49b6515a-55e8-4568-83df-895601902f64.png',
-    recycler: '/lovable-uploads/ef3a9e69-e5cd-4546-9e32-42ff3c5d93ec.png',
-    corporate: '/lovable-uploads/1c68de70-c1e4-481e-8d6b-9afcc0a7f169.png',
+    user: '/lovable-uploads/6034ca27-31fe-46df-8e3c-0d44228f95d7.png', // E-Yukta user with computer equipment
+    kabadiwala: '/lovable-uploads/a677cbfe-2066-489a-b1d7-97c0ba1a843c.png', // Person with cart of electronic waste
+    recycler: '/lovable-uploads/2b3dcc80-ba3a-4379-8445-15fe6ec57bb0.png', // Recycling symbol with electronics
+    corporate: '/lovable-uploads/18943706-8b73-49f7-8d77-78d63ab6cd22.png', // Corporate building
   };
 
   return (
@@ -28,11 +28,11 @@ const RoleCard: React.FC<RoleCardProps> = ({ role, selected = false, onClick }) 
       onClick={onClick}
     >
       <CardContent className="p-6 flex flex-col items-center">
-        <div className="w-20 h-20 mb-4 rounded-full bg-gray-100 flex items-center justify-center overflow-hidden">
+        <div className="w-24 h-24 mb-4 rounded-full bg-gray-100 flex items-center justify-center overflow-hidden">
           <img 
             src={roleImages[role]} 
             alt={t(`roles.${role}`)} 
-            className="w-16 h-16 object-contain"
+            className="w-20 h-20 object-contain"
             key={`role-image-${role}-${new Date().getTime()}`} // Add a unique key to force re-render
           />
         </div>

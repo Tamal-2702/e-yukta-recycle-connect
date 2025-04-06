@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
@@ -28,6 +29,13 @@ const Landing: React.FC = () => {
         navigate(`/auth?role=${selectedRole}`);
       }
     }
+  };
+
+  const roleDescriptions = {
+    user: t('landing.user_description'),
+    kabadiwala: t('landing.kabadiwala_description'),
+    recycler: t('landing.recycler_description'),
+    corporate: t('landing.corporate_description')
   };
 
   return (
@@ -101,6 +109,12 @@ const Landing: React.FC = () => {
               onClick={() => handleRoleSelect('corporate')} 
             />
           </div>
+          
+          {selectedRole && (
+            <div className="mt-4 p-4 bg-gray-50 rounded-lg border border-gray-100 text-center">
+              <p>{roleDescriptions[selectedRole]}</p>
+            </div>
+          )}
         </div>
 
         <div className="mt-8 animate-slide-up" style={{ animationDelay: '0.4s' }}>
