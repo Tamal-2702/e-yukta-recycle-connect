@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { Card, CardContent, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { ShoppingCart, Star } from 'lucide-react';
+import { ShoppingCart, Star, Recycle } from 'lucide-react';
 
 export interface Product {
   id: number;
@@ -39,9 +39,13 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
       audio: 'https://placehold.co/300x300?text=Audio',
       wearables: 'https://placehold.co/300x300?text=Wearable',
       monitors: 'https://placehold.co/300x300?text=Monitor',
+      services: 'https://placehold.co/300x300?text=Service',
     };
     return fallbacks[category] || 'https://placehold.co/300x300?text=Product+Image';
   };
+
+  // Check if product is a service
+  const isService = product.category === 'services';
 
   return (
     <Card className="overflow-hidden hover:shadow-md transition-shadow card-hover">
@@ -90,8 +94,17 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
       </CardContent>
       <CardFooter className="p-4 pt-0">
         <Button className="w-full" size="sm">
-          <ShoppingCart className="mr-2 h-4 w-4" />
-          Add to Cart
+          {isService ? (
+            <>
+              <Recycle className="mr-2 h-4 w-4" />
+              Book Service
+            </>
+          ) : (
+            <>
+              <ShoppingCart className="mr-2 h-4 w-4" />
+              Add to Cart
+            </>
+          )}
         </Button>
       </CardFooter>
     </Card>

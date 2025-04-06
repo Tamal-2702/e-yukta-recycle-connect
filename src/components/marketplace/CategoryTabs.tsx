@@ -28,15 +28,17 @@ const CategoryTabs: React.FC<CategoryTabsProps> = ({ products, filteredProducts,
     { name: 'Services', icon: Recycle, value: 'services' },
   ];
 
-  // Debug product information
+  // Log the categories and product counts for debugging
   React.useEffect(() => {
-    console.log('Category Tabs - Products count:', products.length);
-    if (products.length > 0) {
-      products.forEach((product, index) => {
-        console.log(`Product ${index} image path:`, product.image);
-      });
-    }
-  }, [products]);
+    console.log('Categories:', categories.map(c => c.value));
+    console.log('Total products:', products.length);
+    console.log('Filtered products:', filteredProducts.length);
+    console.log('Service products:', filteredProducts.filter(p => p.category === 'services').length);
+    
+    // Check all product categories
+    const uniqueCategories = [...new Set(products.map(p => p.category))];
+    console.log('Unique product categories:', uniqueCategories);
+  }, [products, filteredProducts]);
 
   return (
     <Tabs defaultValue="all">

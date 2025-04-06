@@ -15,11 +15,27 @@ const Marketplace: React.FC = () => {
   // Debug products on component mount
   useEffect(() => {
     console.log('Marketplace mounted - Available products:', products.length);
-    console.log('Product images:');
+    console.log('Product categories:');
+    
+    // Log all unique categories
+    const categories = [...new Set(products.map(p => p.category))];
+    console.log('Available categories:', categories);
+    
+    // Log products by category
+    categories.forEach(category => {
+      const categoryProducts = products.filter(p => p.category === category);
+      console.log(`${category}: ${categoryProducts.length} products`);
+    });
+    
+    // Check for service products specifically
+    const serviceProducts = products.filter(p => p.category === 'services');
+    console.log('Services products:', serviceProducts.length);
+    serviceProducts.forEach(p => console.log(`- ${p.name}`));
+    
+    // Pre-load images to check for errors
     products.forEach(product => {
       console.log(`- ${product.name}: ${product.image}`);
       
-      // Pre-load images to check for errors
       const img = new Image();
       img.onload = () => console.log(`✅ Image loaded successfully: ${product.image}`);
       img.onerror = () => console.log(`❌ Failed to load image: ${product.image}`);
