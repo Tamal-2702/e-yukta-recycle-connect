@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Smartphone, Laptop, TabletSmartphone, Headphones, Monitor, Watch, LucideIcon } from 'lucide-react';
+import { Smartphone, Laptop, TabletSmartphone, Headphones, Monitor, Watch, LucideIcon, Recycle } from 'lucide-react';
 import ProductCard, { Product } from './ProductCard';
 
 interface Category {
@@ -25,6 +25,7 @@ const CategoryTabs: React.FC<CategoryTabsProps> = ({ products, filteredProducts,
     { name: 'Audio', icon: Headphones, value: 'audio' },
     { name: 'Monitors', icon: Monitor, value: 'monitors' },
     { name: 'Wearables', icon: Watch, value: 'wearables' },
+    { name: 'Services', icon: Recycle, value: 'services' },
   ];
 
   // Debug product information
