@@ -30,10 +30,16 @@ const NavItem: React.FC<NavItemProps> = ({
     currentPath === to || 
     (to !== '/' && currentPath.startsWith(to));
   
-  // Dynamically get the icon from lucide-react
-  const IconComponent = icon in LucideIcons 
-    ? LucideIcons[icon as keyof typeof LucideIcons] 
-    : LucideIcons.Circle;
+  // Safely render the icon or fallback to a Circle
+  const renderIcon = () => {
+    // Check if the icon exists in Lucide icons
+    if (icon && icon in LucideIcons) {
+      const Icon = LucideIcons[icon as keyof typeof LucideIcons];
+      return <Icon size={18} />;
+    }
+    // Fallback to Circle icon
+    return <LucideIcons.Circle size={18} />;
+  };
 
   return (
     <SidebarMenuItem>
@@ -48,7 +54,7 @@ const NavItem: React.FC<NavItemProps> = ({
             "flex w-full items-center gap-2"
           )}
         >
-          <IconComponent size={18} />
+          {renderIcon()}
           <span>{label}</span>
         </Link>
       </SidebarMenuButton>
