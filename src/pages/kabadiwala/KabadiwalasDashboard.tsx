@@ -46,7 +46,7 @@ const KabadiwalasDashboard: React.FC = () => {
               </div>
               <div className="hidden md:block">
                 <img 
-                  src="/lovable-uploads/8ddd718f-818c-4433-bb43-fd8a216fd7ee.png" 
+                  src="/lovable-uploads/80b5a02d-30c5-4cf2-937d-c6da8b8a2f6c.png" 
                   alt="Kabadiwala" 
                   className="h-32 w-32 object-contain"
                 />

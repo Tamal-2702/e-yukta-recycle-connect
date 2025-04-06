@@ -19,7 +19,7 @@ const UserProfileSection: React.FC<UserProfileSectionProps> = ({
   // Define role-specific avatar images for better visual representation
   const roleImages = {
     user: '/lovable-uploads/919a083d-573b-4b27-86cb-284efa585daf.png', // Updated user image
-    kabadiwala: '/lovable-uploads/ad37866a-bb12-4f90-8389-235693887537.png',
+    kabadiwala: '/lovable-uploads/80b5a02d-30c5-4cf2-937d-c6da8b8a2f6c.png', // Updated kabadiwala image
     recycler: '/lovable-uploads/162243fe-9ce2-492a-83ea-4b066e448d30.png',
     corporate: '/lovable-uploads/6c0b683d-5c5c-4be1-b8cd-0c241bd420f2.png',
   };
