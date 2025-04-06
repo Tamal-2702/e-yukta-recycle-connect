@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 
 export const useVisionApi = () => {
@@ -81,7 +80,7 @@ export const useVisionApi = () => {
     const imageHash = imageData.length.toString().substring(0, 5);
     const isEwasteRandomized = Number(imageHash) % 10 > 3; // 70% chance of e-waste for demo purposes
     
-    // Generate mock vision API response
+    // Generate mock vision API response with enhanced device details
     const mockResponse = {
       responses: [{
         labelAnnotations: [
@@ -91,14 +90,16 @@ export const useVisionApi = () => {
           { description: "Plastic", score: 0.82 },
           { description: "Metal", score: 0.78 },
           { description: "Circuit", score: isEwasteRandomized ? 0.75 : 0.15 },
-          { description: "Wire", score: isEwasteRandomized ? 0.72 : 0.2 }
+          { description: "Wire", score: isEwasteRandomized ? 0.72 : 0.2 },
+          { description: "Smartphone", score: isEwasteRandomized ? 0.68 : 0.1 },
+          { description: "Laptop", score: isEwasteRandomized ? 0.64 : 0.05 }
         ],
         localizedObjectAnnotations: [
           { name: isEwasteRandomized ? "Electronic device" : "Object", score: 0.93 },
           { name: isEwasteRandomized ? "Circuit board" : "Item", score: 0.85 }
         ],
         textAnnotations: [
-          { description: isEwasteRandomized ? "Model A123\nRecycle E-waste" : "Made in China" }
+          { description: isEwasteRandomized ? "Model A123\nRecycle E-waste\nSamsung\n2019" : "Made in China" }
         ]
       }]
     };
@@ -128,12 +129,20 @@ export const useVisionApi = () => {
     // Determine if electronic waste
     const isEWaste = determineIfEWaste(labels, objects, text);
     
+    // Detect device information from the analysis results
+    const deviceInfo = detectDeviceInfo(labels, objects, text);
+    
+    // Generate suggestions based on the device condition
+    const suggestions = generateSuggestions(deviceInfo, labels);
+    
     return {
       isEWaste,
       eWasteConfidence: isEWaste ? calculateEWasteConfidence(labels, objects) : 0,
       labels,
       objects,
       text,
+      deviceInfo,
+      suggestions,
       rawResponse: response,
     };
   };
@@ -189,6 +198,153 @@ export const useVisionApi = () => {
     );
     
     return Math.min(totalConfidence / relevantLabels.length, 95);
+  };
+  
+  // Detect device information from the analysis results
+  const detectDeviceInfo = (labels: any[], objects: any[], text: string) => {
+    // Default values
+    let deviceType = "Unknown Device";
+    let brand = "Unknown";
+    let model = "Unknown";
+    let age = "Unknown";
+    let condition = "Unknown";
+    
+    // Detect device type
+    const deviceTypeKeywords = {
+      "smartphone": ["phone", "smartphone", "mobile", "iphone", "android"],
+      "laptop": ["laptop", "notebook", "macbook", "chromebook"],
+      "desktop": ["desktop", "pc", "computer", "tower"],
+      "tablet": ["tablet", "ipad"],
+      "monitor": ["monitor", "display", "screen"],
+      "printer": ["printer", "scanner"],
+      "camera": ["camera", "dslr", "digital camera"],
+      "television": ["tv", "television", "smart tv"],
+      "audio": ["speaker", "headphone", "earphone", "headset", "earbud"],
+      "appliance": ["refrigerator", "microwave", "washing machine", "dryer"]
+    };
+    
+    // Find best matching device type from labels
+    for (const label of labels) {
+      const description = label.description.toLowerCase();
+      for (const [type, keywords] of Object.entries(deviceTypeKeywords)) {
+        if (keywords.some(keyword => description.includes(keyword))) {
+          deviceType = type.charAt(0).toUpperCase() + type.slice(1);
+          break;
+        }
+      }
+    }
+    
+    // Extract brand from text
+    const commonBrands = ["Apple", "Samsung", "Dell", "HP", "Lenovo", "Asus", "Acer", 
+                          "LG", "Sony", "Microsoft", "Google", "Huawei", "Xiaomi"];
+    
+    for (const potentialBrand of commonBrands) {
+      if (text.includes(potentialBrand)) {
+        brand = potentialBrand;
+        break;
+      }
+    }
+    
+    // Extract model from text
+    const modelRegex = /[A-Z][A-Z0-9]+-?[A-Z0-9]+|[A-Z][a-z]* ?[0-9]{1,4}|Model [A-Z0-9]+/g;
+    const modelMatches = text.match(modelRegex);
+    if (modelMatches && modelMatches.length > 0) {
+      model = modelMatches[0];
+    }
+    
+    // Extract potential age (year)
+    const yearRegex = /(19|20)\d{2}/g;
+    const yearMatches = text.match(yearRegex);
+    if (yearMatches && yearMatches.length > 0) {
+      const year = parseInt(yearMatches[0]);
+      const currentYear = new Date().getFullYear();
+      const deviceAge = currentYear - year;
+      
+      if (deviceAge >= 0 && deviceAge <= 20) {
+        age = `${deviceAge} years (${yearMatches[0]})`;
+      }
+    }
+    
+    // Determine condition based on age and other factors
+    if (age !== "Unknown" && age.includes("years")) {
+      const yearsMatch = age.match(/\d+/);
+      if (yearsMatch) {
+        const years = parseInt(yearsMatch[0]);
+        if (years <= 2) condition = "Excellent";
+        else if (years <= 4) condition = "Good";
+        else if (years <= 6) condition = "Fair";
+        else condition = "Poor";
+      }
+    } else {
+      // Fallback: determine based on labels
+      const conditionKeywords = {
+        "broken": ["broken", "damaged", "cracked"],
+        "scratched": ["scratched", "worn", "used"],
+        "mint": ["new", "mint", "perfect"]
+      };
+      
+      for (const label of labels) {
+        const description = label.description.toLowerCase();
+        if (conditionKeywords.broken.some(keyword => description.includes(keyword))) {
+          condition = "Poor";
+          break;
+        } else if (conditionKeywords.scratched.some(keyword => description.includes(keyword))) {
+          condition = "Fair";
+          break;
+        } else if (conditionKeywords.mint.some(keyword => description.includes(keyword))) {
+          condition = "Excellent";
+          break;
+        }
+      }
+    }
+    
+    return {
+      type: deviceType,
+      brand: brand,
+      model: model,
+      age: age,
+      condition: condition
+    };
+  };
+  
+  // Generate suggestions based on device info
+  const generateSuggestions = (deviceInfo: any, labels: any[]) => {
+    const suggestions = [];
+    const { condition, age } = deviceInfo;
+    
+    // Always add recycle option
+    suggestions.push({
+      action: "Recycle",
+      description: "Environmentally responsible disposal with material recovery.",
+      icon: "Recycle",
+      priority: condition === "Poor" ? "high" : "medium"
+    });
+    
+    // Add refurbish option for devices in fair or better condition
+    if (condition === "Excellent" || condition === "Good" || condition === "Fair") {
+      suggestions.push({
+        action: "Refurbish",
+        description: "Repair and upgrade for continued use or resale.",
+        icon: "Tool",
+        priority: condition === "Good" || condition === "Excellent" ? "high" : "medium"
+      });
+    }
+    
+    // Add donate option for devices in good or excellent condition
+    if (condition === "Excellent" || condition === "Good") {
+      suggestions.push({
+        action: "Donate",
+        description: "Give to those in need - your device can help others.",
+        icon: "Heart",
+        priority: "medium"
+      });
+    }
+    
+    // Sort suggestions by priority
+    return suggestions.sort((a, b) => {
+      const priorityValue = { high: 3, medium: 2, low: 1 };
+      return priorityValue[b.priority] - priorityValue[a.priority];
+    });
   };
   
   return {

@@ -1,5 +1,6 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import DashboardLayout from '@/components/layouts/DashboardLayout';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
@@ -11,7 +12,8 @@ import { useLanguage } from '@/contexts/LanguageContext';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
-import { CalendarIcon, MapPin, Check, Calendar as CalendarIcon2 } from 'lucide-react';
+import { Badge } from '@/components/ui/badge';
+import { CalendarIcon, MapPin, Check, Calendar as CalendarIcon2, Info } from 'lucide-react';
 import { format } from 'date-fns';
 import { useForm } from 'react-hook-form';
 import { useToast } from '@/hooks/use-toast';
@@ -24,13 +26,19 @@ interface PickupFormValues {
   timeSlot: string;
   pickupType: 'home' | 'dropoff';
   notes: string;
+  deviceDetails?: string;
+  center?: string;
 }
 
 const SchedulePickup: React.FC = () => {
   const { t } = useLanguage();
   const { toast } = useToast();
   const [date, setDate] = useState<Date>();
+  const location = useLocation();
+  const [fromScan, setFromScan] = useState(false);
+  const [scanData, setScanData] = useState<any>(null);
   
+  // Initialize form with default values
   const form = useForm<PickupFormValues>({
     defaultValues: {
       wasteType: '',
@@ -39,8 +47,55 @@ const SchedulePickup: React.FC = () => {
       pickupType: 'home',
       notes: '',
       timeSlot: '',
+      deviceDetails: '',
+      center: '',
     },
   });
+
+  // Check if we're coming from the scan flow and pre-fill form values
+  useEffect(() => {
+    if (location.state) {
+      const state = location.state as any;
+      if (state.fromScan && state.deviceInfo) {
+        setFromScan(true);
+        setScanData({
+          deviceInfo: state.deviceInfo,
+          disposalOption: state.disposalOption,
+          center: state.center
+        });
+        
+        // Set form values based on scan data
+        form.setValue('wasteType', mapDeviceTypeToWasteType(state.deviceInfo.type));
+        form.setValue('deviceDetails', `${state.deviceInfo.brand} ${state.deviceInfo.model} - ${state.deviceInfo.condition} condition`);
+        
+        if (state.center) {
+          form.setValue('center', state.center);
+        }
+        
+        // Add disposal option and device details to notes
+        const noteText = `Disposal option: ${state.disposalOption}\nDevice details: ${state.deviceInfo.brand} ${state.deviceInfo.type} ${state.deviceInfo.model} (${state.deviceInfo.condition} condition)`;
+        form.setValue('notes', noteText);
+      }
+    }
+  }, [location.state, form]);
+
+  // Map device type to waste type select options
+  const mapDeviceTypeToWasteType = (deviceType: string): string => {
+    const typeMap: { [key: string]: string } = {
+      'Smartphone': 'electronics',
+      'Laptop': 'electronics',
+      'Desktop': 'electronics',
+      'Tablet': 'electronics',
+      'Monitor': 'electronics',
+      'Television': 'electronics',
+      'Printer': 'electronics',
+      'Camera': 'electronics',
+      'Audio': 'electronics',
+      'Appliance': 'appliances',
+    };
+    
+    return typeMap[deviceType] || 'other';
+  };
 
   const onSubmit = (data: PickupFormValues) => {
     console.log('Form submitted:', data);
@@ -73,6 +128,24 @@ const SchedulePickup: React.FC = () => {
           <h1 className="text-3xl font-bold">{t('user.schedule')}</h1>
           <p className="text-muted-foreground mt-1">Schedule a pickup or drop-off for your e-waste</p>
         </div>
+
+        {/* Display info banner when coming from scan */}
+        {fromScan && scanData && (
+          <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 flex items-start gap-3">
+            <Info className="h-5 w-5 text-blue-500 mt-0.5" />
+            <div>
+              <h3 className="font-medium text-blue-800">Continuing from Scan</h3>
+              <p className="text-sm text-blue-700 mt-1">
+                We've prefilled some details based on your scan results. You can review and complete the scheduling below.
+              </p>
+              {scanData.disposalOption && (
+                <Badge className="mt-2 bg-blue-100 text-blue-800 hover:bg-blue-200">
+                  {scanData.disposalOption} request
+                </Badge>
+              )}
+            </div>
+          </div>
+        )}
 
         <Card>
           <CardHeader>
@@ -108,6 +181,43 @@ const SchedulePickup: React.FC = () => {
                     </FormItem>
                   )}
                 />
+
+                {/* Device details field shows only when coming from scan */}
+                {fromScan && (
+                  <FormField
+                    control={form.control}
+                    name="deviceDetails"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Device Details</FormLabel>
+                        <FormControl>
+                          <Input readOnly {...field} />
+                        </FormControl>
+                        <FormDescription>
+                          Details from your device scan
+                        </FormDescription>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                )}
+
+                {/* Center field shows only when coming from scan with center selection */}
+                {fromScan && scanData?.center && (
+                  <FormField
+                    control={form.control}
+                    name="center"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Selected Center</FormLabel>
+                        <FormControl>
+                          <Input readOnly {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                )}
 
                 <FormField
                   control={form.control}
