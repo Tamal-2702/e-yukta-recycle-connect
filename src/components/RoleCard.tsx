@@ -29,6 +29,22 @@ const RoleCard: React.FC<RoleCardProps> = ({ role, selected = false, onClick }) 
     corporate: 'bg-purple-100',
   };
 
+  // Get proper description text
+  const getDescription = () => {
+    switch(role) {
+      case 'user':
+        return t('roles.user_desc') || 'Individual with e-waste';
+      case 'kabadiwala':
+        return t('roles.kabadiwala_desc') || 'E-waste collector';
+      case 'recycler':
+        return t('roles.recycler_desc') || 'Recycling facility';
+      case 'corporate':
+        return t('roles.corporate_desc') || 'Business entity';
+      default:
+        return '';
+    }
+  };
+
   return (
     <Card 
       className={`relative overflow-hidden cursor-pointer transition-all hover:shadow-md ${
@@ -56,7 +72,7 @@ const RoleCard: React.FC<RoleCardProps> = ({ role, selected = false, onClick }) 
         </div>
         <h3 className="text-lg font-medium">{t(`roles.${role}`)}</h3>
         <p className="text-sm text-gray-500 mt-1 text-center">
-          {getRoleDescription(role, t)}
+          {getDescription()}
         </p>
         {selected && (
           <div className="absolute top-2 right-2 w-4 h-4 bg-primary rounded-full"></div>
@@ -65,21 +81,5 @@ const RoleCard: React.FC<RoleCardProps> = ({ role, selected = false, onClick }) 
     </Card>
   );
 };
-
-// Helper function to get role descriptions
-function getRoleDescription(role: string, t: any) {
-  switch(role) {
-    case 'user':
-      return t('roles.user_desc') || 'Individual with e-waste';
-    case 'kabadiwala':
-      return t('roles.kabadiwala_desc') || 'E-waste collector';
-    case 'recycler':
-      return t('roles.recycler_desc') || 'Recycling facility';
-    case 'corporate':
-      return t('roles.corporate_desc') || 'Business entity';
-    default:
-      return '';
-  }
-}
 
 export default RoleCard;
