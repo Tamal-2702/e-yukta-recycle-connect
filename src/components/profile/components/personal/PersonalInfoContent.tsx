@@ -1,14 +1,14 @@
 
 import React from 'react';
-import { Card } from '@/components/ui/card';
-import { PersonalInfoHeader, PersonalInfoContent } from './personal';
+import { CardContent } from '@/components/ui/card';
+import ProfileImageUploader from '../ProfileImageUploader';
+import ProfileInfoForm from '../ProfileInfoForm';
 
-interface ProfilePersonalCardProps {
+interface PersonalInfoContentProps {
   displayName: string;
   setDisplayName: (name: string) => void;
   email: string | null;
   isEditing: boolean;
-  setIsEditing: (editing: boolean) => void;
   isUploading: boolean;
   avatarSrc: string;
   avatarFallback: string;
@@ -18,12 +18,11 @@ interface ProfilePersonalCardProps {
   handleSaveProfile: () => Promise<void>;
 }
 
-const ProfilePersonalCard: React.FC<ProfilePersonalCardProps> = ({
+const PersonalInfoContent: React.FC<PersonalInfoContentProps> = ({
   displayName,
   setDisplayName,
   email,
   isEditing,
-  setIsEditing,
   isUploading,
   avatarSrc,
   avatarFallback,
@@ -33,26 +32,24 @@ const ProfilePersonalCard: React.FC<ProfilePersonalCardProps> = ({
   handleSaveProfile
 }) => {
   return (
-    <Card>
-      <PersonalInfoHeader 
-        isEditing={isEditing} 
-        setIsEditing={setIsEditing} 
+    <CardContent className="flex flex-col md:flex-row gap-6">
+      <ProfileImageUploader
+        src={avatarSrc}
+        fallback={avatarFallback}
+        isUploading={isUploading}
+        onChangePhotoClick={handleChangePhotoClick}
+        fileInputRef={fileInputRef}
+        handleFileChange={handleFileChange}
       />
-      <PersonalInfoContent
+      <ProfileInfoForm
         displayName={displayName}
         setDisplayName={setDisplayName}
         email={email}
         isEditing={isEditing}
-        isUploading={isUploading}
-        avatarSrc={avatarSrc}
-        avatarFallback={avatarFallback}
-        fileInputRef={fileInputRef}
-        handleFileChange={handleFileChange}
-        handleChangePhotoClick={handleChangePhotoClick}
-        handleSaveProfile={handleSaveProfile}
+        onSave={handleSaveProfile}
       />
-    </Card>
+    </CardContent>
   );
 };
 
-export default ProfilePersonalCard;
+export default PersonalInfoContent;

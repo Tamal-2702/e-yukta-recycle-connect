@@ -13,3 +13,6 @@ export { default as ProfileContent } from './ProfileContent';
 
 // Export the new tabs components
 export { ProfileTabsList, ProfileTabsContent } from './tabs';
+
+// Export personal components
+export { PersonalInfoHeader, PersonalInfoContent } from './personal';
