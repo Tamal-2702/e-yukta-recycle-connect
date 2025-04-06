@@ -3,7 +3,6 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
 import { Drawer, DrawerClose, DrawerContent, DrawerFooter, DrawerHeader, DrawerTitle, DrawerTrigger } from '@/components/ui/drawer';
 import { MessageCircle, Send, Info } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
@@ -30,7 +29,7 @@ export const EcoBot: React.FC = () => {
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
-  const { sendMessage } = useEcoBotApi();
+  const { sendMessage, hasApiKey } = useEcoBotApi();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

@@ -3,21 +3,10 @@ import { useState } from 'react';
 
 // Hook for handling Gemini API requests
 export const useEcoBotApi = () => {
-  const [apiKey, setApiKey] = useState<string | null>(
-    localStorage.getItem('gemini-api-key')
-  );
-
-  const saveApiKey = (key: string) => {
-    localStorage.setItem('gemini-api-key', key);
-    setApiKey(key);
-    return true;
-  };
+  // Use the provided API key directly
+  const apiKey = 'AIzaSyBPa34EMGN_4qHYleg_CDYjaVjYCjJh-nM';
 
   const sendMessage = async (message: string): Promise<string> => {
-    if (!apiKey) {
-      throw new Error('API key not configured');
-    }
-
     try {
       const response = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent', {
         method: 'POST',
@@ -62,11 +51,12 @@ export const useEcoBotApi = () => {
     }
   };
 
-  const hasApiKey = !!apiKey;
+  // Always return true since we have a hardcoded API key
+  const hasApiKey = true;
 
   return {
     sendMessage,
-    saveApiKey,
     hasApiKey,
+    // We don't need the saveApiKey function anymore since we're using a hardcoded key
   };
 };
