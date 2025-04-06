@@ -25,6 +25,7 @@ import TrackDisposal from "./pages/user/TrackDisposal";
 import Marketplace from "./pages/user/Marketplace";
 import AwarenessHub from "./pages/user/AwarenessHub";
 import ProgressTracker from "./pages/user/ProgressTracker";
+import UserProfile from "./pages/user/UserProfile";
 
 // Kabadiwala pages
 import KabadiwalasDashboard from "./pages/kabadiwala/KabadiwalasDashboard";
@@ -82,6 +83,7 @@ const App = () => {
                 <Route path="/user/marketplace" element={<ProtectedRoute><Marketplace /></ProtectedRoute>} />
                 <Route path="/user/awareness" element={<ProtectedRoute><AwarenessHub /></ProtectedRoute>} />
                 <Route path="/user/progress" element={<ProtectedRoute><ProgressTracker /></ProtectedRoute>} />
+                <Route path="/user/profile" element={<ProtectedRoute><UserProfile /></ProtectedRoute>} />
                 
                 {/* Kabadiwala routes */}
                 <Route path="/kabadiwala" element={<ProtectedRoute><KabadiwalasDashboard /></ProtectedRoute>} />
@@ -98,7 +100,6 @@ const App = () => {
                 {/* Catch-all route */}
                 <Route path="*" element={<NotFound />} />
               </Routes>
-              <EcoBotWrapper />
             </BrowserRouter>
           </TooltipProvider>
         </AuthProvider>

@@ -68,6 +68,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children, role }) => 
               currentUser={currentUser} 
               role={role}
               translationFn={t}
+              onProfileClick={handleNavigateToProfile}
             />
           </SidebarHeader>
 

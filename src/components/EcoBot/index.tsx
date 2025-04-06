@@ -3,11 +3,15 @@ import React from 'react';
 import { EcoBot } from './EcoBot';
 import { EcoBotSettings } from './EcoBotSettings';
 
-const EcoBotWrapper: React.FC = () => {
+interface EcoBotWrapperProps {
+  initialState?: boolean;
+}
+
+const EcoBotWrapper: React.FC<EcoBotWrapperProps> = ({ initialState = false }) => {
   return (
     <div className="relative">
       <EcoBotSettings />
-      <EcoBot />
+      <EcoBot initialOpen={initialState} />
     </div>
   );
 };

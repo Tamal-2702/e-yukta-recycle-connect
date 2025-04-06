@@ -7,9 +7,15 @@ interface UserProfileSectionProps {
   currentUser: User | null;
   role: 'user' | 'kabadiwala' | 'recycler' | 'corporate';
   translationFn: (key: string) => string;
+  onProfileClick?: () => void;
 }
 
-const UserProfileSection: React.FC<UserProfileSectionProps> = ({ currentUser, role, translationFn }) => {
+const UserProfileSection: React.FC<UserProfileSectionProps> = ({ 
+  currentUser, 
+  role, 
+  translationFn,
+  onProfileClick 
+}) => {
   // Define role-specific avatar images for better visual representation
   const roleImages = {
     user: '/lovable-uploads/b319afd6-7a92-46cf-a3a1-08caf101948d.png',
@@ -19,7 +25,10 @@ const UserProfileSection: React.FC<UserProfileSectionProps> = ({ currentUser, ro
   };
 
   return (
-    <div className="mb-2 flex flex-col items-center space-y-3 p-4 bg-muted rounded-lg">
+    <div 
+      className="mb-2 flex flex-col items-center space-y-3 p-4 bg-muted rounded-lg cursor-pointer hover:bg-muted/80 transition-colors"
+      onClick={onProfileClick}
+    >
       <Avatar className="h-16 w-16">
         <AvatarImage src={roleImages[role]} alt="Profile" />
         <AvatarFallback>

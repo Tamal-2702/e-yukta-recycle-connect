@@ -16,8 +16,12 @@ interface Message {
   timestamp: Date;
 }
 
-export const EcoBot: React.FC = () => {
-  const [isOpen, setIsOpen] = useState(false);
+interface EcoBotProps {
+  initialOpen?: boolean;
+}
+
+export const EcoBot: React.FC<EcoBotProps> = ({ initialOpen = false }) => {
+  const [isOpen, setIsOpen] = useState(initialOpen);
   const [messages, setMessages] = useState<Message[]>([
     {
       id: '1',
@@ -86,7 +90,7 @@ export const EcoBot: React.FC = () => {
       <div className="fixed bottom-4 right-4 z-50">
         <Drawer open={isOpen} onOpenChange={setIsOpen}>
           <DrawerTrigger asChild>
-            <Button size="icon" className="h-12 w-12 rounded-full shadow-lg">
+            <Button id="ecobot-trigger" size="icon" className="h-12 w-12 rounded-full shadow-lg">
               <MessageCircle className="h-6 w-6" />
             </Button>
           </DrawerTrigger>
