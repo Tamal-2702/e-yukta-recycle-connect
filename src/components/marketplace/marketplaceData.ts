@@ -16,7 +16,7 @@ export interface Product {
 export const products: Product[] = [
   {
     id: 1,
-    name: 'Refurbished iPhone 12 Pro - 128GB',
+    name: 'Refurbished iPhone 13 Pro - 128GB',
     price: 45999,
     originalPrice: 59999,
     discount: 23,
@@ -24,11 +24,11 @@ export const products: Product[] = [
     condition: 'Excellent',
     warranty: '6 months',
     category: 'phones',
-    image: '/lovable-uploads/06f3edc4-4f11-48ce-bc8c-00ca6214de52.png',
+    image: '/lovable-uploads/c28a1f1b-47ba-420d-a7b5-cfc66179f6ba.png',
   },
   {
     id: 2,
-    name: 'Renewed Dell XPS 13 Laptop - 16GB RAM',
+    name: 'Renewed Dell Inspiron Laptop - 16GB RAM',
     price: 68999,
     originalPrice: 89999,
     discount: 23,
@@ -36,7 +36,7 @@ export const products: Product[] = [
     condition: 'Like New',
     warranty: '1 year',
     category: 'laptops',
-    image: '/lovable-uploads/06f3edc4-4f11-48ce-bc8c-00ca6214de52.png',
+    image: '/lovable-uploads/3a4c0805-0e97-4baa-b9c3-54187fd6330d.png',
   },
   {
     id: 3,
@@ -48,7 +48,7 @@ export const products: Product[] = [
     condition: 'Good',
     warranty: '6 months',
     category: 'tablets',
-    image: '/lovable-uploads/06f3edc4-4f11-48ce-bc8c-00ca6214de52.png',
+    image: '/lovable-uploads/7c65c97b-0cbb-44d5-8262-0f8d63549c53.png',
   },
   {
     id: 4,
@@ -60,11 +60,11 @@ export const products: Product[] = [
     condition: 'Excellent',
     warranty: '1 year',
     category: 'audio',
-    image: '/lovable-uploads/06f3edc4-4f11-48ce-bc8c-00ca6214de52.png',
+    image: '/lovable-uploads/0cf6e2d1-534a-41e1-b9e2-03a53aee01f1.png',
   },
   {
     id: 5,
-    name: 'Refurbished Apple Watch Series 6',
+    name: 'Refurbished Smart Watch Series 6',
     price: 22999,
     originalPrice: 32999,
     discount: 30,
@@ -72,11 +72,11 @@ export const products: Product[] = [
     condition: 'Like New',
     warranty: '6 months',
     category: 'wearables',
-    image: '/lovable-uploads/06f3edc4-4f11-48ce-bc8c-00ca6214de52.png',
+    image: '/lovable-uploads/42cf3d3d-6da7-4e18-91b9-b5cd5b62476c.png',
   },
   {
     id: 6,
-    name: 'Renewed LG 27" 4K Monitor',
+    name: 'Renewed Intex 32" 4K Smart TV',
     price: 16999,
     originalPrice: 24999,
     discount: 32,
@@ -84,6 +84,6 @@ export const products: Product[] = [
     condition: 'Good',
     warranty: '1 year',
     category: 'monitors',
-    image: '/lovable-uploads/06f3edc4-4f11-48ce-bc8c-00ca6214de52.png',
+    image: '/lovable-uploads/b95131a7-8654-4dca-8475-e1a2f0805d17.png',
   },
 ];
