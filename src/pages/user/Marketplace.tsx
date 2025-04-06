@@ -181,7 +181,7 @@ const Marketplace: React.FC = () => {
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     className="mr-2"
-                    icon={<Search className="h-4 w-4" />}
+                    leftElement={<Search className="h-4 w-4" />}
                   />
                   <Button 
                     variant="outline" 
