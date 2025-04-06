@@ -59,10 +59,24 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   }
 
   function signInWithGoogle(): Promise<User> {
+    console.log("Starting Google sign in process...");
     return signInWithPopup(auth, googleProvider)
       .then((result: UserCredential) => {
-        console.log("User signed in with Google:", result.user.uid);
+        // This gives you a Google Access Token. You can use it to access the Google API.
+        const credential = GoogleAuthProvider.credentialFromResult(result);
+        const token = credential?.accessToken;
+        
+        console.log("User signed in with Google successfully:", result.user.uid);
         return result.user;
+      })
+      .catch((error) => {
+        console.error("Google sign in error:", {
+          code: error.code,
+          message: error.message,
+          email: error.customData?.email,
+          credential: GoogleAuthProvider.credentialFromError(error)
+        });
+        throw error; // Re-throw to be handled by components
       });
   }
 

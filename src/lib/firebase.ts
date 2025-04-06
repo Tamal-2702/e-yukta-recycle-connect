@@ -1,3 +1,4 @@
+
 import { initializeApp, getApps } from "firebase/app";
 import { getAuth, GoogleAuthProvider, browserLocalPersistence, setPersistence } from "firebase/auth";
 
@@ -21,8 +22,14 @@ setPersistence(auth, browserLocalPersistence)
     console.error("Error setting auth persistence:", error);
   });
 
-// Configure Google provider
+// Configure Google provider with improved configuration
 export const googleProvider = new GoogleAuthProvider();
+
+// Add scopes for Google authentication
+googleProvider.addScope('profile');
+googleProvider.addScope('email');
+
+// Set custom parameters - force prompt every time
 googleProvider.setCustomParameters({
   prompt: 'select_account'
 });
