@@ -17,26 +17,13 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({
   description, 
   action 
 }) => {
-  const { theme } = useTheme();
-  const [highContrast, setHighContrast] = React.useState(false);
-  const [largeText, setLargeText] = React.useState(false);
-
-  // Apply accessibility settings
-  React.useEffect(() => {
-    const root = window.document.documentElement;
-    
-    if (highContrast) {
-      root.classList.add('high-contrast');
-    } else {
-      root.classList.remove('high-contrast');
-    }
-    
-    if (largeText) {
-      root.classList.add('large-text');
-    } else {
-      root.classList.remove('large-text');
-    }
-  }, [highContrast, largeText]);
+  const { 
+    theme, 
+    highContrast, 
+    toggleHighContrast, 
+    largeText, 
+    toggleLargeText 
+  } = useTheme();
 
   return (
     <div className="flex flex-col md:flex-row md:items-center justify-between mb-6">
@@ -55,7 +42,7 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({
           <Switch
             id="high-contrast"
             checked={highContrast}
-            onCheckedChange={setHighContrast}
+            onCheckedChange={toggleHighContrast}
           />
           <Label htmlFor="high-contrast" className="text-sm cursor-pointer">
             {highContrast ? <Eye className="h-4 w-4 inline mr-1" /> : <EyeOff className="h-4 w-4 inline mr-1" />}
@@ -67,7 +54,7 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({
           <Switch
             id="large-text"
             checked={largeText}
-            onCheckedChange={setLargeText}
+            onCheckedChange={toggleLargeText}
           />
           <Label htmlFor="large-text" className="text-sm cursor-pointer">
             Larger Text
