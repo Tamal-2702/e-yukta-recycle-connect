@@ -26,7 +26,8 @@ const Landing: React.FC = () => {
   const handleGetStarted = () => {
     if (selectedRole) {
       if (currentUser) {
-        navigate(`/${selectedRole}`);
+        // Direct to the dashboard page instead of just the role
+        navigate(`/${selectedRole}/dashboard`);
       } else {
         navigate(`/auth?role=${selectedRole}`);
       }
