@@ -12,6 +12,7 @@ import { Separator } from '@/components/ui/separator';
 import PickupRequestList from '@/components/kabadiwala/PickupRequestList';
 import PerformanceStats from '@/components/kabadiwala/PerformanceStats';
 import JobHistoryList from '@/components/kabadiwala/JobHistoryList';
+import KabadiwalaMap from '@/components/kabadiwala/KabadiwalaMap';
 
 const KabadiwalasDashboard: React.FC = () => {
   const { t } = useLanguage();
@@ -90,30 +91,8 @@ const KabadiwalasDashboard: React.FC = () => {
           </TabsList>
           
           <TabsContent value="home" className="space-y-6 mt-6">
-            {/* Nearest pickup requests */}
-            <Card>
-              <CardHeader>
-                <CardTitle>{t('kabadiwala.nearby_pickups')}</CardTitle>
-                <CardDescription>{t('kabadiwala.nearby_description')}</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  <div className="rounded-lg bg-muted h-[200px] flex items-center justify-center">
-                    <MapPin className="h-8 w-8 text-muted-foreground opacity-50" />
-                    <span className="ml-2 text-muted-foreground">{t('kabadiwala.map_placeholder')}</span>
-                  </div>
-                  
-                  <div className="text-center text-sm text-muted-foreground">
-                    {t('kabadiwala.no_nearby_pickups')}
-                  </div>
-                </div>
-              </CardContent>
-              <CardFooter>
-                <Button variant="outline" className="w-full">
-                  {t('kabadiwala.refresh_map')}
-                </Button>
-              </CardFooter>
-            </Card>
+            {/* Google Maps integration replacing the placeholder */}
+            <KabadiwalaMap />
             
             {/* Performance card */}
             <PerformanceStats />
