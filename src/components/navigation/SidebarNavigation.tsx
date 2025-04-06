@@ -1,84 +1,92 @@
-import React from 'react';
-import { useLocation } from 'react-router-dom';
-import { 
-  Home, 
-  Scan, 
-  Calendar, 
-  Map, 
-  ShoppingBag, 
-  BookOpen, 
-} from 'lucide-react';
-import { 
-  SidebarMenu,
-  SidebarMenuItem
-} from '@/components/ui/sidebar';
-import NavItem from './NavItem';
 
-interface NavItem {
-  icon: React.ReactNode;
-  label: string;
-  to: string;
-}
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useLanguage } from '@/contexts/LanguageContext';
+import { useAuth } from '@/contexts/AuthContext';
+import NavItem from './NavItem';
+import UserProfileSection from './UserProfileSection';
 
 interface SidebarNavigationProps {
   role: 'user' | 'kabadiwala' | 'recycler' | 'corporate';
-  translationFn: (key: string) => string;
 }
 
-const SidebarNavigation: React.FC<SidebarNavigationProps> = ({ role, translationFn }) => {
-  const location = useLocation();
+const SidebarNavigation: React.FC<SidebarNavigationProps> = ({ role }) => {
+  const { t } = useLanguage();
+  const { currentUser, updateProfilePicture } = useAuth();
+  const navigate = useNavigate();
 
-  const userNav = [
-    { icon: <Home size={18} />, label: translationFn('user.dashboard'), to: '/user' },
-    { icon: <Scan size={18} />, label: translationFn('user.scan'), to: '/user/scan' },
-    { icon: <Calendar size={18} />, label: translationFn('user.schedule'), to: '/user/schedule' },
-    { icon: <Map size={18} />, label: translationFn('user.track'), to: '/user/track' },
-    { icon: <ShoppingBag size={18} />, label: translationFn('user.marketplace'), to: '/user/marketplace' },
-    { icon: <BookOpen size={18} />, label: translationFn('user.awareness'), to: '/user/awareness' },
-  ];
+  // Define the navigation items based on the user role
+  const getNavItems = () => {
+    switch (role) {
+      case 'user':
+        return [
+          { label: t('user.dashboard'), path: '/user', icon: 'layout-dashboard' },
+          { label: t('user.scan_waste'), path: '/user/scan', icon: 'camera' },
+          { label: t('user.schedule_pickup'), path: '/user/schedule', icon: 'calendar' },
+          { label: t('user.track_disposal'), path: '/user/track', icon: 'map-pin' },
+          { label: t('user.marketplace'), path: '/user/marketplace', icon: 'shopping-bag' },
+          { label: t('user.awareness_hub'), path: '/user/awareness', icon: 'info' },
+          { label: t('user.progress_tracker'), path: '/user/progress', icon: 'bar-chart' },
+        ];
+      case 'kabadiwala':
+        return [
+          { label: t('kabadiwala.dashboard'), path: '/kabadiwala', icon: 'layout-dashboard' },
+          { label: t('kabadiwala.pickups'), path: '/kabadiwala/pickups', icon: 'truck' },
+          { label: t('kabadiwala.earnings'), path: '/kabadiwala/earnings', icon: 'wallet' },
+          { label: t('kabadiwala.map'), path: '/kabadiwala/map', icon: 'map' },
+        ];
+      case 'recycler':
+        return [
+          { label: t('recycler.dashboard'), path: '/recycler', icon: 'layout-dashboard' },
+          { label: t('recycler.inventory'), path: '/recycler/inventory', icon: 'package' },
+          { label: t('recycler.processing'), path: '/recycler/processing', icon: 'settings' },
+          { label: t('recycler.compliance'), path: '/recycler/compliance', icon: 'shield-check' },
+        ];
+      case 'corporate':
+        return [
+          { label: t('corporate.dashboard'), path: '/corporate', icon: 'layout-dashboard' },
+          { label: t('corporate.campaigns'), path: '/corporate/campaigns', icon: 'megaphone' },
+          { label: t('corporate.compliance'), path: '/corporate/compliance', icon: 'shield-check' },
+          { label: t('corporate.bulk_disposal'), path: '/corporate/bulk', icon: 'truck' },
+        ];
+      default:
+        return [];
+    }
+  };
 
-  const kabadiwalaNavi = [
-    { icon: <Home size={18} />, label: translationFn('kabadiwala.dashboard'), to: '/kabadiwala' },
-    { icon: <Calendar size={18} />, label: translationFn('kabadiwala.pickups'), to: '/kabadiwala/pickups' },
-    { icon: <ShoppingBag size={18} />, label: translationFn('kabadiwala.inventory'), to: '/kabadiwala/inventory' },
-    { icon: <Scan size={18} />, label: translationFn('kabadiwala.verification'), to: '/kabadiwala/verification' },
-    { icon: <Map size={18} />, label: translationFn('kabadiwala.performance'), to: '/kabadiwala/performance' },
-  ];
+  const handleProfileClick = () => {
+    navigate(`/${role}/profile`);
+  };
 
-  const recyclerNav = [
-    { icon: <Home size={18} />, label: translationFn('recycler.dashboard'), to: '/recycler' },
-    { icon: <ShoppingBag size={18} />, label: translationFn('recycler.inventory'), to: '/recycler/inventory' },
-    { icon: <BookOpen size={18} />, label: translationFn('recycler.certification'), to: '/recycler/certification' },
-    { icon: <Calendar size={18} />, label: translationFn('recycler.bulk'), to: '/recycler/bulk' },
-  ];
-
-  const corporateNav = [
-    { icon: <Home size={18} />, label: translationFn('corporate.dashboard'), to: '/corporate' },
-    { icon: <BookOpen size={18} />, label: translationFn('corporate.compliance'), to: '/corporate/compliance' },
-    { icon: <ShoppingBag size={18} />, label: translationFn('corporate.bulk_upload'), to: '/corporate/bulk' },
-    { icon: <Calendar size={18} />, label: translationFn('corporate.campaigns'), to: '/corporate/campaigns' },
-  ];
-
-  const navItems: Record<'user' | 'kabadiwala' | 'recycler' | 'corporate', NavItem[]> = {
-    user: userNav,
-    kabadiwala: kabadiwalaNavi, 
-    recycler: recyclerNav,
-    corporate: corporateNav
+  const handleProfileImageChange = async (file: File) => {
+    try {
+      await updateProfilePicture(file);
+    } catch (error) {
+      console.error("Error updating profile image:", error);
+    }
   };
 
   return (
-    <SidebarMenu>
-      {navItems[role].map((item) => (
-        <SidebarMenuItem key={item.to}>
+    <div className="flex flex-col h-full overflow-y-auto">
+      <UserProfileSection 
+        currentUser={currentUser} 
+        role={role} 
+        translationFn={t} 
+        onProfileClick={handleProfileClick}
+        onProfileImageChange={handleProfileImageChange}
+      />
+      <div className="space-y-1 p-2">
+        {getNavItems().map((item, index) => (
           <NavItem
-            icon={item.icon}
+            key={index}
             label={item.label}
-            to={item.to}
-            active={location.pathname === item.to}
+            path={item.path}
+            icon={item.icon}
+            isActive={window.location.pathname === item.path}
           />
-        </SidebarMenuItem>
-      ))}
-    </SidebarMenu>
+        ))}
+      </div>
+    </div>
   );
 };
 

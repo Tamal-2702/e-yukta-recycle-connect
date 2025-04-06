@@ -39,6 +39,9 @@ import CorporateCampaigns from "./pages/corporate/CorporateCampaigns";
 import CorporateCompliance from "./pages/corporate/CorporateCompliance";
 import CorporateBulk from "./pages/corporate/CorporateBulk";
 
+// Profile page component
+import ProfilePage from "@/components/profile/ProfilePage";
+
 // Import useAuth hook for ProtectedRoute component
 import { useAuth } from "@/contexts/AuthContext";
 
@@ -83,19 +86,22 @@ const App = () => {
                 <Route path="/user/marketplace" element={<ProtectedRoute><Marketplace /></ProtectedRoute>} />
                 <Route path="/user/awareness" element={<ProtectedRoute><AwarenessHub /></ProtectedRoute>} />
                 <Route path="/user/progress" element={<ProtectedRoute><ProgressTracker /></ProtectedRoute>} />
-                <Route path="/user/profile" element={<ProtectedRoute><UserProfile /></ProtectedRoute>} />
+                <Route path="/user/profile" element={<ProtectedRoute><ProfilePage role="user" /></ProtectedRoute>} />
                 
                 {/* Kabadiwala routes */}
                 <Route path="/kabadiwala" element={<ProtectedRoute><KabadiwalasDashboard /></ProtectedRoute>} />
+                <Route path="/kabadiwala/profile" element={<ProtectedRoute><ProfilePage role="kabadiwala" /></ProtectedRoute>} />
                 
                 {/* Recycler routes */}
                 <Route path="/recycler" element={<ProtectedRoute><RecyclerDashboard /></ProtectedRoute>} />
+                <Route path="/recycler/profile" element={<ProtectedRoute><ProfilePage role="recycler" /></ProtectedRoute>} />
                 
                 {/* Corporate routes */}
                 <Route path="/corporate" element={<ProtectedRoute><CorporateDashboard /></ProtectedRoute>} />
                 <Route path="/corporate/campaigns" element={<ProtectedRoute><CorporateCampaigns /></ProtectedRoute>} />
                 <Route path="/corporate/compliance" element={<ProtectedRoute><CorporateCompliance /></ProtectedRoute>} />
                 <Route path="/corporate/bulk" element={<ProtectedRoute><CorporateBulk /></ProtectedRoute>} />
+                <Route path="/corporate/profile" element={<ProtectedRoute><ProfilePage role="corporate" /></ProtectedRoute>} />
                 
                 {/* Catch-all route */}
                 <Route path="*" element={<NotFound />} />

@@ -8,9 +8,12 @@ import {
   onAuthStateChanged,
   GoogleAuthProvider,
   signInWithPopup,
-  UserCredential
+  UserCredential,
+  updateProfile as firebaseUpdateProfile,
+  updateEmail as firebaseUpdateEmail
 } from "firebase/auth";
-import { auth, googleProvider } from "@/lib/firebase";
+import { auth, googleProvider, storage } from "@/lib/firebase";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 interface AuthContextType {
   currentUser: User | null;
@@ -19,6 +22,9 @@ interface AuthContextType {
   login: (email: string, password: string) => Promise<User>;
   logout: () => Promise<void>;
   signInWithGoogle: () => Promise<User>;
+  updateUserProfile: (data: { displayName?: string; photoURL?: string }) => Promise<void>;
+  updateUserEmail: (email: string) => Promise<void>;
+  updateProfilePicture: (file: File) => Promise<string>;
 }
 
 const AuthContext = createContext<AuthContextType | null>(null);
@@ -80,6 +86,56 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       });
   }
 
+  async function updateUserProfile(data: { displayName?: string; photoURL?: string }): Promise<void> {
+    if (!currentUser) throw new Error("No authenticated user found");
+    
+    try {
+      await firebaseUpdateProfile(currentUser, data);
+      console.log("User profile updated successfully");
+    } catch (error) {
+      console.error("Error updating user profile:", error);
+      throw error;
+    }
+  }
+
+  async function updateUserEmail(email: string): Promise<void> {
+    if (!currentUser) throw new Error("No authenticated user found");
+    
+    try {
+      await firebaseUpdateEmail(currentUser, email);
+      console.log("User email updated successfully");
+    } catch (error) {
+      console.error("Error updating user email:", error);
+      throw error;
+    }
+  }
+
+  async function updateProfilePicture(file: File): Promise<string> {
+    if (!currentUser) throw new Error("No authenticated user found");
+    
+    try {
+      // Create a storage reference
+      const storageRef = ref(storage, `profile_images/${currentUser.uid}/profile.jpg`);
+      
+      // Upload the file
+      const snapshot = await uploadBytes(storageRef, file);
+      
+      // Get the download URL
+      const downloadURL = await getDownloadURL(snapshot.ref);
+      
+      // Update the user profile with the new photo URL
+      await firebaseUpdateProfile(currentUser, {
+        photoURL: downloadURL
+      });
+      
+      console.log("Profile picture updated successfully");
+      return downloadURL;
+    } catch (error) {
+      console.error("Error updating profile picture:", error);
+      throw error;
+    }
+  }
+
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       console.log("Auth state changed:", user ? "User logged in" : "User logged out");
@@ -96,7 +152,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     signup,
     login,
     logout,
-    signInWithGoogle
+    signInWithGoogle,
+    updateUserProfile,
+    updateUserEmail,
+    updateProfilePicture
   };
 
   return (
