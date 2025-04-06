@@ -1,25 +1,27 @@
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import DashboardLayout from '@/components/layouts/DashboardLayout';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useLanguage } from '@/contexts/LanguageContext';
-import { Calendar, MapPin, Package, TrendingUp, Clock, Check } from 'lucide-react';
+import { Package, TrendingUp, MapPin, Clock, Check, Star, Truck, User, List, Home } from 'lucide-react';
 import { Progress } from '@/components/ui/progress';
+import { Badge } from '@/components/ui/badge';
+import { Separator } from '@/components/ui/separator';
+import PickupRequestList from '@/components/kabadiwala/PickupRequestList';
+import PerformanceStats from '@/components/kabadiwala/PerformanceStats';
+import JobHistoryList from '@/components/kabadiwala/JobHistoryList';
 
 const KabadiwalasDashboard: React.FC = () => {
   const { t } = useLanguage();
+  const [selectedTab, setSelectedTab] = useState("home");
 
   const stats = [
-    { icon: <Package />, label: 'Total collections', value: '0 kg' },
-    { icon: <Calendar />, label: 'Pickups completed', value: '0' },
-    { icon: <TrendingUp />, label: 'Monthly earnings', value: '₹0' },
-    { icon: <Check />, label: 'Verification rate', value: '0%' },
-  ];
-
-  const upcomingPickups = [
-    { id: 1, address: '123 Example St, City', time: 'Today, 3:00 PM', items: 2, status: 'Pending' },
-    { id: 2, address: '456 Sample Ave, Town', time: 'Tomorrow, 10:00 AM', items: 5, status: 'Confirmed' },
+    { icon: <Package className="h-5 w-5" />, label: t('kabadiwala.total_collections'), value: '0 kg' },
+    { icon: <Truck className="h-5 w-5" />, label: t('kabadiwala.pickups_completed'), value: '0' },
+    { icon: <TrendingUp className="h-5 w-5" />, label: t('kabadiwala.monthly_earnings'), value: '₹0' },
+    { icon: <Star className="h-5 w-5" />, label: t('kabadiwala.rating'), value: '0/5' },
   ];
 
   return (
@@ -27,11 +29,33 @@ const KabadiwalasDashboard: React.FC = () => {
       <div className="space-y-6">
         <div>
           <h1 className="text-3xl font-bold">{t('kabadiwala.dashboard')}</h1>
-          <p className="text-muted-foreground mt-1">Manage your e-waste collection operations</p>
+          <p className="text-muted-foreground mt-1">{t('kabadiwala.manage_operations')}</p>
         </div>
 
+        {/* Welcome card for new users */}
+        <Card className="bg-gradient-to-r from-[#eef7e9] to-white">
+          <CardContent className="pt-6 pb-6">
+            <div className="flex items-center justify-between">
+              <div>
+                <h3 className="text-xl font-medium mb-2">{t('kabadiwala.welcome')}</h3>
+                <p className="text-muted-foreground">{t('kabadiwala.complete_profile')}</p>
+                <Button className="mt-4 bg-[#76b947] hover:bg-[#65a736]">
+                  {t('kabadiwala.complete_verification')}
+                </Button>
+              </div>
+              <div className="hidden md:block">
+                <img 
+                  src="/lovable-uploads/8ddd718f-818c-4433-bb43-fd8a216fd7ee.png" 
+                  alt="Kabadiwala" 
+                  className="h-32 w-32 object-contain"
+                />
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
         {/* Stats cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {stats.map((stat, index) => (
             <Card key={index}>
               <CardContent className="pt-6">
@@ -49,99 +73,99 @@ const KabadiwalasDashboard: React.FC = () => {
           ))}
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* Upcoming pickups */}
-          <Card className="lg:col-span-2">
-            <CardHeader>
-              <CardTitle>Upcoming Pickups</CardTitle>
-              <CardDescription>Your scheduled e-waste collections</CardDescription>
-            </CardHeader>
-            <CardContent>
-              {upcomingPickups.length > 0 ? (
+        <Tabs defaultValue="home" value={selectedTab} onValueChange={setSelectedTab}>
+          <TabsList className="grid grid-cols-3 w-full">
+            <TabsTrigger value="home">
+              <Home className="h-4 w-4 mr-2" />
+              {t('kabadiwala.home')}
+            </TabsTrigger>
+            <TabsTrigger value="pickup_requests">
+              <List className="h-4 w-4 mr-2" />
+              {t('kabadiwala.pickup_requests')}
+            </TabsTrigger>
+            <TabsTrigger value="history">
+              <Clock className="h-4 w-4 mr-2" />
+              {t('kabadiwala.job_history')}
+            </TabsTrigger>
+          </TabsList>
+          
+          <TabsContent value="home" className="space-y-6 mt-6">
+            {/* Nearest pickup requests */}
+            <Card>
+              <CardHeader>
+                <CardTitle>{t('kabadiwala.nearby_pickups')}</CardTitle>
+                <CardDescription>{t('kabadiwala.nearby_description')}</CardDescription>
+              </CardHeader>
+              <CardContent>
                 <div className="space-y-4">
-                  {upcomingPickups.map((pickup) => (
-                    <Card key={pickup.id}>
-                      <CardContent className="p-4">
-                        <div className="flex justify-between items-start">
-                          <div>
-                            <div className="flex items-center gap-2">
-                              <MapPin size={16} className="text-muted-foreground" />
-                              <span className="font-medium">{pickup.address}</span>
-                            </div>
-                            <div className="flex items-center gap-2 mt-2">
-                              <Clock size={16} className="text-muted-foreground" />
-                              <span>{pickup.time}</span>
-                            </div>
-                            <div className="mt-2 text-sm">
-                              {pickup.items} items to be collected
-                            </div>
-                          </div>
-                          <div>
-                            <span className={`px-2 py-1 rounded-full text-xs ${
-                              pickup.status === 'Confirmed' 
-                                ? 'bg-green-100 text-green-800' 
-                                : 'bg-yellow-100 text-yellow-800'
-                            }`}>
-                              {pickup.status}
-                            </span>
-                          </div>
-                        </div>
-                      </CardContent>
-                      <CardFooter className="p-4 pt-0 flex justify-end gap-2">
-                        <Button variant="outline" size="sm">View Details</Button>
-                        <Button variant="default" size="sm" className="bg-primary">Start Navigation</Button>
-                      </CardFooter>
-                    </Card>
-                  ))}
+                  <div className="rounded-lg bg-muted h-[200px] flex items-center justify-center">
+                    <MapPin className="h-8 w-8 text-muted-foreground opacity-50" />
+                    <span className="ml-2 text-muted-foreground">{t('kabadiwala.map_placeholder')}</span>
+                  </div>
+                  
+                  <div className="text-center text-sm text-muted-foreground">
+                    {t('kabadiwala.no_nearby_pickups')}
+                  </div>
                 </div>
-              ) : (
-                <div className="text-center py-8 text-muted-foreground">
-                  <Calendar className="mx-auto mb-2" />
-                  <p>No upcoming pickups</p>
-                </div>
-              )}
-            </CardContent>
-            <CardFooter>
-              <Button variant="outline" className="w-full">View All Pickups</Button>
-            </CardFooter>
-          </Card>
-
-          {/* Performance card */}
-          <Card>
-            <CardHeader>
-              <CardTitle>Performance</CardTitle>
-              <CardDescription>Your collection metrics</CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-6">
-              <div>
-                <div className="flex justify-between mb-2">
-                  <span className="text-sm">Weekly Target</span>
-                  <span className="text-sm font-medium">0/50 kg</span>
-                </div>
-                <Progress value={0} className="h-2" />
-              </div>
+              </CardContent>
+              <CardFooter>
+                <Button variant="outline" className="w-full">
+                  {t('kabadiwala.refresh_map')}
+                </Button>
+              </CardFooter>
+            </Card>
+            
+            {/* Performance card */}
+            <PerformanceStats />
+            
+            {/* Incentives and Leaderboard */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <Card>
+                <CardHeader>
+                  <CardTitle>{t('kabadiwala.incentives')}</CardTitle>
+                  <CardDescription>{t('kabadiwala.incentives_description')}</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-4">
+                    <div className="flex items-center justify-between">
+                      <span>{t('kabadiwala.weekly_target')}</span>
+                      <Badge variant="outline">0/5 {t('kabadiwala.pickups')}</Badge>
+                    </div>
+                    <Progress value={0} className="h-2" />
+                    <p className="text-sm text-muted-foreground">
+                      {t('kabadiwala.complete_pickups_for_bonus')}
+                    </p>
+                  </div>
+                </CardContent>
+              </Card>
               
-              <div>
-                <div className="flex justify-between mb-2">
-                  <span className="text-sm">Pickup Completion</span>
-                  <span className="text-sm font-medium">0%</span>
-                </div>
-                <Progress value={0} className="h-2" />
-              </div>
-
-              <div>
-                <div className="flex justify-between mb-2">
-                  <span className="text-sm">Customer Ratings</span>
-                  <span className="text-sm font-medium">N/A</span>
-                </div>
-                <Progress value={0} className="h-2" />
-              </div>
-            </CardContent>
-            <CardFooter>
-              <Button variant="outline" className="w-full">View Full Analytics</Button>
-            </CardFooter>
-          </Card>
-        </div>
+              <Card>
+                <CardHeader>
+                  <CardTitle>{t('kabadiwala.leaderboard')}</CardTitle>
+                  <CardDescription>{t('kabadiwala.leaderboard_description')}</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-4">
+                    <div className="text-center py-6">
+                      <User className="mx-auto h-8 w-8 text-muted-foreground opacity-50 mb-2" />
+                      <p className="text-muted-foreground">
+                        {t('kabadiwala.complete_profile_for_leaderboard')}
+                      </p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          </TabsContent>
+          
+          <TabsContent value="pickup_requests" className="mt-6">
+            <PickupRequestList />
+          </TabsContent>
+          
+          <TabsContent value="history" className="mt-6">
+            <JobHistoryList />
+          </TabsContent>
+        </Tabs>
       </div>
     </DashboardLayout>
   );
