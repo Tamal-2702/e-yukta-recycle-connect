@@ -18,7 +18,7 @@ const RoleCard: React.FC<RoleCardProps> = ({ role, selected = false, onClick }) 
     user: '/lovable-uploads/919a083d-573b-4b27-86cb-284efa585daf.png', // Updated user image
     kabadiwala: '/lovable-uploads/80b5a02d-30c5-4cf2-937d-c6da8b8a2f6c.png', // Updated kabadiwala image
     recycler: '/lovable-uploads/58502304-f6e3-40e3-a36a-0fac81447383.png', // Updated recycler image
-    corporate: '/lovable-uploads/a79b601a-7d84-44be-b90a-bb4a15cff64c.png', // Updated corporate building illustration
+    corporate: '/lovable-uploads/8c2db26f-3113-47c7-b0f0-9c683f334100.png', // Updated corporate building illustration
   };
 
   // Role-specific colors for better visual differentiation and fallback
