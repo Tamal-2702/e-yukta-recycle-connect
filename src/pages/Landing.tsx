@@ -1,11 +1,13 @@
 
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
 import Logo from '@/components/Logo';
 import RoleCard from '@/components/RoleCard';
 import LanguageToggle from '@/components/LanguageToggle';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { useAuth } from '@/contexts/AuthContext';
+import { LogIn, UserPlus } from 'lucide-react';
 
 type UserRole = 'user' | 'kabadiwala' | 'recycler' | 'corporate';
 
@@ -13,6 +15,7 @@ const Landing: React.FC = () => {
   const [selectedRole, setSelectedRole] = useState<UserRole | null>(null);
   const navigate = useNavigate();
   const { t } = useLanguage();
+  const { currentUser } = useAuth();
 
   const handleRoleSelect = (role: UserRole) => {
     setSelectedRole(role);
@@ -20,7 +23,11 @@ const Landing: React.FC = () => {
 
   const handleGetStarted = () => {
     if (selectedRole) {
-      navigate(`/${selectedRole}`);
+      if (currentUser) {
+        navigate(`/${selectedRole}`);
+      } else {
+        navigate('/auth');
+      }
     }
   };
 
@@ -28,7 +35,40 @@ const Landing: React.FC = () => {
     <div className="min-h-screen flex flex-col">
       <header className="p-4 flex justify-between items-center">
         <Logo size="md" />
-        <LanguageToggle />
+        <div className="flex items-center gap-2">
+          <LanguageToggle />
+          {currentUser ? (
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => navigate('/user')}
+            >
+              Dashboard
+            </Button>
+          ) : (
+            <div className="flex gap-2">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => navigate('/auth')}
+              >
+                <LogIn className="h-4 w-4 mr-1" />
+                Sign In
+              </Button>
+              <Button
+                variant="default"
+                size="sm"
+                onClick={() => {
+                  navigate('/auth');
+                  // We'll set the tab to signup in the Auth component
+                }}
+              >
+                <UserPlus className="h-4 w-4 mr-1" />
+                Sign Up
+              </Button>
+            </div>
+          )}
+        </div>
       </header>
 
       <main className="flex-1 flex flex-col items-center justify-center p-4 md:p-8">

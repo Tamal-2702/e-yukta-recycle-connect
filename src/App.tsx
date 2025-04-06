@@ -3,9 +3,13 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { LanguageProvider } from "@/contexts/LanguageContext";
+import { AuthProvider } from "@/contexts/AuthContext";
 import EcoBotWrapper from "@/components/EcoBot";
+
+// Auth page
+import Auth from "./pages/Auth";
 
 // Pages
 import Landing from "./pages/Landing";
@@ -34,43 +38,64 @@ import CorporateBulk from "./pages/corporate/CorporateBulk";
 
 const queryClient = new QueryClient();
 
+// Protected route component
+const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
+  const auth = useAuth();
+  
+  if (auth.loading) {
+    return <div className="flex items-center justify-center h-screen">Loading...</div>;
+  }
+  
+  if (!auth.currentUser) {
+    return <Navigate to="/auth" />;
+  }
+  
+  return <>{children}</>;
+};
+
+// Import useAuth inside the App component to avoid circular dependency
+import { useAuth } from "@/contexts/AuthContext";
+
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <LanguageProvider>
-      <TooltipProvider>
-        <Toaster />
-        <Sonner />
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<Landing />} />
-            
-            {/* User routes */}
-            <Route path="/user" element={<UserDashboard />} />
-            <Route path="/user/scan" element={<ScanWaste />} />
-            <Route path="/user/schedule" element={<SchedulePickup />} />
-            <Route path="/user/track" element={<TrackDisposal />} />
-            <Route path="/user/marketplace" element={<Marketplace />} />
-            <Route path="/user/awareness" element={<AwarenessHub />} />
-            <Route path="/user/progress" element={<ProgressTracker />} />
-            
-            {/* Kabadiwala routes */}
-            <Route path="/kabadiwala" element={<KabadiwalasDashboard />} />
-            
-            {/* Recycler routes */}
-            <Route path="/recycler" element={<RecyclerDashboard />} />
-            
-            {/* Corporate routes */}
-            <Route path="/corporate" element={<CorporateDashboard />} />
-            <Route path="/corporate/campaigns" element={<CorporateCampaigns />} />
-            <Route path="/corporate/compliance" element={<CorporateCompliance />} />
-            <Route path="/corporate/bulk" element={<CorporateBulk />} />
-            
-            {/* Catch-all route */}
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-          <EcoBotWrapper />
-        </BrowserRouter>
-      </TooltipProvider>
+      <AuthProvider>
+        <TooltipProvider>
+          <Toaster />
+          <Sonner />
+          <BrowserRouter>
+            <Routes>
+              <Route path="/" element={<Landing />} />
+              <Route path="/auth" element={<Auth />} />
+              
+              {/* User routes */}
+              <Route path="/user" element={<ProtectedRoute><UserDashboard /></ProtectedRoute>} />
+              <Route path="/user/scan" element={<ProtectedRoute><ScanWaste /></ProtectedRoute>} />
+              <Route path="/user/schedule" element={<ProtectedRoute><SchedulePickup /></ProtectedRoute>} />
+              <Route path="/user/track" element={<ProtectedRoute><TrackDisposal /></ProtectedRoute>} />
+              <Route path="/user/marketplace" element={<ProtectedRoute><Marketplace /></ProtectedRoute>} />
+              <Route path="/user/awareness" element={<ProtectedRoute><AwarenessHub /></ProtectedRoute>} />
+              <Route path="/user/progress" element={<ProtectedRoute><ProgressTracker /></ProtectedRoute>} />
+              
+              {/* Kabadiwala routes */}
+              <Route path="/kabadiwala" element={<ProtectedRoute><KabadiwalasDashboard /></ProtectedRoute>} />
+              
+              {/* Recycler routes */}
+              <Route path="/recycler" element={<ProtectedRoute><RecyclerDashboard /></ProtectedRoute>} />
+              
+              {/* Corporate routes */}
+              <Route path="/corporate" element={<ProtectedRoute><CorporateDashboard /></ProtectedRoute>} />
+              <Route path="/corporate/campaigns" element={<ProtectedRoute><CorporateCampaigns /></ProtectedRoute>} />
+              <Route path="/corporate/compliance" element={<ProtectedRoute><CorporateCompliance /></ProtectedRoute>} />
+              <Route path="/corporate/bulk" element={<ProtectedRoute><CorporateBulk /></ProtectedRoute>} />
+              
+              {/* Catch-all route */}
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+            <EcoBotWrapper />
+          </BrowserRouter>
+        </TooltipProvider>
+      </AuthProvider>
     </LanguageProvider>
   </QueryClientProvider>
 );

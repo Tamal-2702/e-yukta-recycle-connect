@@ -1,12 +1,14 @@
 
 import React, { ReactNode } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import Logo from '@/components/Logo';
 import LanguageToggle from '@/components/LanguageToggle';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { useAuth } from '@/contexts/AuthContext';
 import { Home, Scan, Calendar, Map, ShoppingBag, BookOpen, Menu, X, LogOut } from 'lucide-react';
+import { useToast } from '@/hooks/use-toast';
 
 interface NavItemProps {
   icon: React.ReactNode;
@@ -36,8 +38,28 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children, role }) => 
   const [sidebarOpen, setSidebarOpen] = React.useState(false);
   const location = useLocation();
   const { t } = useLanguage();
+  const { logout } = useAuth();
+  const navigate = useNavigate();
+  const { toast } = useToast();
 
   const toggleSidebar = () => setSidebarOpen(!sidebarOpen);
+
+  const handleLogout = async () => {
+    try {
+      await logout();
+      navigate('/');
+      toast({
+        title: "Success",
+        description: "You have been logged out",
+      });
+    } catch (error: any) {
+      toast({
+        title: "Error logging out",
+        description: error.message,
+        variant: "destructive",
+      });
+    }
+  };
 
   const userNav = [
     { icon: <Home size={18} />, label: t('user.dashboard'), to: '/user' },
@@ -107,12 +129,10 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children, role }) => 
           <Separator className="my-4" />
           <div className="flex justify-between items-center">
             <LanguageToggle />
-            <Link to="/">
-              <Button variant="ghost" size="sm">
-                <LogOut size={16} className="mr-2" />
-                {t('common.logout')}
-              </Button>
-            </Link>
+            <Button variant="ghost" size="sm" onClick={handleLogout}>
+              <LogOut size={16} className="mr-2" />
+              {t('common.logout')}
+            </Button>
           </div>
         </aside>
 
@@ -143,12 +163,10 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children, role }) => 
               <Separator className="my-4" />
               <div className="flex justify-between items-center">
                 <LanguageToggle />
-                <Link to="/">
-                  <Button variant="ghost" size="sm">
-                    <LogOut size={16} className="mr-2" />
-                    {t('common.logout')}
-                  </Button>
-                </Link>
+                <Button variant="ghost" size="sm" onClick={handleLogout}>
+                  <LogOut size={16} className="mr-2" />
+                  {t('common.logout')}
+                </Button>
               </div>
             </div>
           </div>
