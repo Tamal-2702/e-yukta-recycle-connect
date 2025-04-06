@@ -34,8 +34,9 @@ const NavItem: React.FC<NavItemProps> = ({
   const renderIcon = () => {
     // Check if the icon exists in Lucide icons
     if (icon && icon in LucideIcons) {
-      const Icon = LucideIcons[icon as keyof typeof LucideIcons];
-      return <Icon size={18} />;
+      // Use type assertions to ensure TypeScript knows this is a valid component
+      const IconComponent = LucideIcons[icon as keyof typeof LucideIcons] as React.ElementType;
+      return <IconComponent size={18} />;
     }
     // Fallback to Circle icon
     return <LucideIcons.Circle size={18} />;
