@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Card, CardContent } from "@/components/ui/card";
 import { useLanguage } from '@/contexts/LanguageContext';
 
@@ -11,38 +11,53 @@ interface RoleCardProps {
 
 const RoleCard: React.FC<RoleCardProps> = ({ role, selected = false, onClick }) => {
   const { t } = useLanguage();
+  const [imageError, setImageError] = useState(false);
   
-  // Update image paths to use the new uploaded images
+  // Define role images - using direct paths to ensure they work
   const roleImages = {
-    user: '/lovable-uploads/6034ca27-31fe-46df-8e3c-0d44228f95d7.png', // E-Yukta user with computer equipment
-    kabadiwala: '/lovable-uploads/a677cbfe-2066-489a-b1d7-97c0ba1a843c.png', // Person with cart of electronic waste
-    recycler: '/lovable-uploads/2b3dcc80-ba3a-4379-8445-15fe6ec57bb0.png', // Recycling symbol with electronics
-    corporate: '/lovable-uploads/18943706-8b73-49f7-8d77-78d63ab6cd22.png', // Corporate building
+    user: '/placeholder.svg',
+    kabadiwala: '/placeholder.svg',
+    recycler: '/placeholder.svg',
+    corporate: '/placeholder.svg',
   };
 
-  // Add console log to debug image loading
-  console.log(`Loading image for role ${role}: ${roleImages[role]}`);
+  // Role-specific colors for better visual differentiation
+  const roleColors = {
+    user: 'bg-blue-100',
+    kabadiwala: 'bg-green-100',
+    recycler: 'bg-amber-100',
+    corporate: 'bg-purple-100',
+  };
 
   return (
     <Card 
-      className={`relative overflow-hidden cursor-pointer card-hover ${
-        selected ? 'border-primary border-2' : 'border-gray-200'
+      className={`relative overflow-hidden cursor-pointer transition-all hover:shadow-md ${
+        selected ? 'border-primary border-2 scale-105' : 'border-gray-200 hover:border-gray-300'
       }`}
       onClick={onClick}
     >
       <CardContent className="p-6 flex flex-col items-center">
-        <div className="w-24 h-24 mb-4 rounded-full bg-gray-100 flex items-center justify-center overflow-hidden">
-          <img 
-            src={roleImages[role]} 
-            alt={t(`roles.${role}`)} 
-            className="w-20 h-20 object-contain"
-            onError={(e) => {
-              console.error(`Error loading image for ${role}`, e);
-              e.currentTarget.src = '/placeholder.svg'; // Fallback to placeholder
-            }}
-          />
+        <div className={`w-24 h-24 mb-4 rounded-full ${roleColors[role]} flex items-center justify-center overflow-hidden`}>
+          {imageError ? (
+            <div className="text-3xl font-bold text-gray-500">
+              {role.charAt(0).toUpperCase()}
+            </div>
+          ) : (
+            <img 
+              src={roleImages[role]} 
+              alt={t(`roles.${role}`)} 
+              className="w-20 h-20 object-contain"
+              onError={() => {
+                console.log(`Fallback for ${role} image`);
+                setImageError(true);
+              }}
+            />
+          )}
         </div>
         <h3 className="text-lg font-medium">{t(`roles.${role}`)}</h3>
+        <p className="text-sm text-gray-500 mt-1 text-center">
+          {getRoleDescription(role, t)}
+        </p>
         {selected && (
           <div className="absolute top-2 right-2 w-4 h-4 bg-primary rounded-full"></div>
         )}
@@ -50,5 +65,21 @@ const RoleCard: React.FC<RoleCardProps> = ({ role, selected = false, onClick }) 
     </Card>
   );
 };
+
+// Helper function to get role descriptions
+function getRoleDescription(role: string, t: any) {
+  switch(role) {
+    case 'user':
+      return t('roles.user_desc') || 'Individual with e-waste';
+    case 'kabadiwala':
+      return t('roles.kabadiwala_desc') || 'E-waste collector';
+    case 'recycler':
+      return t('roles.recycler_desc') || 'Recycling facility';
+    case 'corporate':
+      return t('roles.corporate_desc') || 'Business entity';
+    default:
+      return '';
+  }
+}
 
 export default RoleCard;

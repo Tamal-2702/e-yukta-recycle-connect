@@ -81,12 +81,12 @@ const Landing: React.FC = () => {
       </header>
 
       <main className="flex-1 flex flex-col items-center justify-center p-4 md:p-8">
-        <div className="max-w-3xl w-full text-center mb-8 animate-fade-in">
+        <div className="max-w-3xl w-full text-center mb-8">
           <h1 className="text-3xl md:text-4xl font-bold mb-2">{t('landing.heading') || 'E-Waste Management Platform'}</h1>
           <p className="text-muted-foreground">{t('landing.subheading') || 'Select your role to get started'}</p>
         </div>
 
-        <div className="w-full max-w-3xl animate-slide-up" style={{ animationDelay: '0.2s' }}>
+        <div className="w-full max-w-3xl">
           <h2 className="text-xl font-medium mb-4 text-center">{t('landing.select_role') || 'Select Your Role'}</h2>
           
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
@@ -119,14 +119,14 @@ const Landing: React.FC = () => {
           )}
         </div>
 
-        <div className="mt-8 animate-slide-up" style={{ animationDelay: '0.4s' }}>
+        <div className="mt-8">
           <Button 
             onClick={handleGetStarted} 
             disabled={!selectedRole}
             size="lg"
             className="bg-[#76b947] hover:bg-[#65a736]"
           >
-            {t('landing.get_started')}
+            {t('landing.get_started') || 'Get Started'}
           </Button>
         </div>
       </main>
