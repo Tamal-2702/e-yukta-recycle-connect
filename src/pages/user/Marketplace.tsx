@@ -14,12 +14,17 @@ const Marketplace: React.FC = () => {
   
   // Debug products on component mount
   useEffect(() => {
-    console.log('Marketplace - Products available:', products.length);
-    if (products.length > 0) {
-      products.forEach(product => {
-        console.log(`Product ${product.id} - ${product.name} - Image: ${product.image}`);
-      });
-    }
+    console.log('Marketplace mounted - Available products:', products.length);
+    console.log('Product images:');
+    products.forEach(product => {
+      console.log(`- ${product.name}: ${product.image}`);
+      
+      // Pre-load images to check for errors
+      const img = new Image();
+      img.onload = () => console.log(`✅ Image loaded successfully: ${product.image}`);
+      img.onerror = () => console.log(`❌ Failed to load image: ${product.image}`);
+      img.src = product.image;
+    });
   }, []);
   
   const filteredProducts = products.filter(product => 

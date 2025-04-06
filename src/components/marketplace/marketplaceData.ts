@@ -24,7 +24,7 @@ export const products: Product[] = [
     condition: 'Excellent',
     warranty: '6 months',
     category: 'phones',
-    image: '/iphone.png',
+    image: '/lovable-uploads/06f3edc4-4f11-48ce-bc8c-00ca6214de52.png',
   },
   {
     id: 2,
@@ -36,7 +36,7 @@ export const products: Product[] = [
     condition: 'Like New',
     warranty: '1 year',
     category: 'laptops',
-    image: '/laptop.png',
+    image: '/lovable-uploads/231eef4b-a949-4db1-849d-b2221390e0dd.png',
   },
   {
     id: 3,
@@ -48,7 +48,7 @@ export const products: Product[] = [
     condition: 'Good',
     warranty: '6 months',
     category: 'tablets',
-    image: '/tablet.png',
+    image: '/lovable-uploads/27733395-edc3-4227-9c4f-64c67cc6ae4a.png',
   },
   {
     id: 4,
@@ -60,7 +60,7 @@ export const products: Product[] = [
     condition: 'Excellent',
     warranty: '1 year',
     category: 'audio',
-    image: '/headphones.png',
+    image: '/lovable-uploads/32c2b3a5-bb3d-4561-b297-f359fb664bf6.png',
   },
   {
     id: 5,
@@ -72,7 +72,7 @@ export const products: Product[] = [
     condition: 'Like New',
     warranty: '6 months',
     category: 'wearables',
-    image: '/smartwatch.png',
+    image: '/lovable-uploads/5cf4d238-8867-41cf-8b31-91d2cabfc66a.png',
   },
   {
     id: 6,
@@ -84,6 +84,6 @@ export const products: Product[] = [
     condition: 'Good',
     warranty: '1 year',
     category: 'monitors',
-    image: '/tv.png',
+    image: '/lovable-uploads/6c301a42-c407-456b-b013-05fa8c7bb54b.png',
   },
 ];

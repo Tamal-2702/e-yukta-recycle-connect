@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Card, CardContent, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -23,7 +23,14 @@ interface ProductCardProps {
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
-  // Map product categories to fallback images
+  const [imageError, setImageError] = useState(false);
+
+  // For debugging purposes
+  React.useEffect(() => {
+    console.log(`Rendering product: ${product.id} - ${product.name} with image: ${product.image}`);
+  }, [product]);
+
+  // Get fallback image based on category
   const getFallbackImage = (category: string) => {
     const fallbacks: Record<string, string> = {
       phones: 'https://placehold.co/300x300?text=Phone',
@@ -40,14 +47,12 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
     <Card className="overflow-hidden hover:shadow-md transition-shadow card-hover">
       <div className="aspect-square relative bg-gray-100 flex items-center justify-center p-4">
         <img 
-          src={product.image} 
+          src={imageError ? getFallbackImage(product.category) : product.image} 
           alt={product.name} 
           className="object-contain h-full max-h-40 w-auto"
           onError={(e) => {
-            const target = e.target as HTMLImageElement;
-            console.log(`Loading fallback for ${product.name}`);
-            target.src = getFallbackImage(product.category);
-            target.onerror = null; // Prevent infinite fallback loop
+            console.log(`Image error for ${product.name} with path: ${product.image}`);
+            setImageError(true);
           }}
         />
         {product.discount > 0 && (
