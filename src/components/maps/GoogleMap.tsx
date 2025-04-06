@@ -4,14 +4,17 @@ import { Loader } from '@googlemaps/js-api-loader';
 import { Button } from '@/components/ui/button';
 import { mapsConfig } from '@/lib/googleApiConfig';
 
+// Ensure we define the proper interface for marker positions with complex icon objects
+interface MarkerPosition {
+  position: { lat: number; lng: number };
+  title?: string;
+  icon?: string | google.maps.Icon | google.maps.Symbol;
+}
+
 interface GoogleMapProps {
   center?: { lat: number; lng: number };
   zoom?: number;
-  markerPositions?: Array<{
-    position: { lat: number; lng: number };
-    title?: string;
-    icon?: string;
-  }>;
+  markerPositions?: MarkerPosition[];
   height?: string;
   width?: string;
   onMapClick?: (e: google.maps.MapMouseEvent) => void;

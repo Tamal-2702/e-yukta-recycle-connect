@@ -8,6 +8,9 @@ import { useLanguage } from '@/contexts/LanguageContext';
 import { useNearbyPickups, PickupLocation } from '@/hooks/useNearbyPickups';
 import { Badge } from '@/components/ui/badge';
 
+// Add type definition file reference
+/// <reference types="google.maps" />
+
 const DEFAULT_LOCATION = { lat: 28.6139, lng: 77.2090 }; // New Delhi
 
 const KabadiwalaMap: React.FC = () => {
@@ -25,15 +28,18 @@ const KabadiwalaMap: React.FC = () => {
     title: pickup.address,
   }));
 
+  // Create a proper icon object for the current location marker
+  const currentLocationIcon = {
+    url: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNMTIgMjJDMTcuNTIyOCAyMiAyMiAxNy41MjI4IDIyIDEyQzIyIDYuNDc3MTUgMTcuNTIyOCAyIDEyIDJDNi40NzcxNSAyIDIgNi40NzcxNSAyIDEyQzIgMTcuNTIyOCA2LjQ3NzE1IDIyIDEyIDIyWiIgZmlsbD0iIzRlODFmZCIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLXdpZHRoPSIyIi8+PC9zdmc+',
+    scaledSize: new google.maps.Size(24, 24)
+  };
+
   // Add current location marker
   const allMarkers = [
     {
       position: currentLocation,
       title: 'Your location',
-      icon: {
-        url: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNMTIgMjJDMTcuNTIyOCAyMiAyMiAxNy41MjI4IDIyIDEyQzIyIDYuNDc3MTUgMTcuNTIyOCAyIDEyIDJDNi40NzcxNSAyIDIgNi40NzcxNSAyIDEyQzIgMTcuNTIyOCA2LjQ3NzE1IDIyIDEyIDIyWiIgZmlsbD0iIzRlODFmZCIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLXdpZHRoPSIyIi8+PC9zdmc+',
-        scaledSize: new google.maps.Size(24, 24)
-      },
+      icon: currentLocationIcon,
     },
     ...mapMarkers
   ];
