@@ -14,7 +14,7 @@ const RoleCard: React.FC<RoleCardProps> = ({ role, selected = false, onClick }) 
   
   // Update image paths to use direct static paths
   const roleImages = {
-    user: '/lovable-uploads/bec73772-86fd-45bb-a52e-283a8464cdfd.png', // Updated general user image
+    user: '/lovable-uploads/98a173d5-0708-4bb5-8393-db32627a5eb3.png', // Updated general user image
     kabadiwala: '/lovable-uploads/49b6515a-55e8-4568-83df-895601902f64.png',
     recycler: '/lovable-uploads/ef3a9e69-e5cd-4546-9e32-42ff3c5d93ec.png',
     corporate: '/lovable-uploads/1c68de70-c1e4-481e-8d6b-9afcc0a7f169.png',
