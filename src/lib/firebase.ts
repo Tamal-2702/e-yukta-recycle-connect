@@ -1,6 +1,8 @@
-
 import { initializeApp, getApps } from "firebase/app";
 import { getAuth, GoogleAuthProvider, browserLocalPersistence, setPersistence } from "firebase/auth";
+import { getFirestore } from "firebase/firestore";
+import { getStorage } from "firebase/storage";
+import { firestoreConfig, storageConfig } from "./googleApiConfig";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDRbGN5hPlzYMUhy3wgLsney7GjqP_nEvc",
@@ -15,6 +17,12 @@ const firebaseConfig = {
 // Initialize Firebase only if no apps exist
 const app = !getApps().length ? initializeApp(firebaseConfig) : getApps()[0];
 export const auth = getAuth(app);
+
+// Initialize Firestore
+export const db = getFirestore(app);
+
+// Initialize Cloud Storage
+export const storage = getStorage(app);
 
 // Set persistence to LOCAL to keep the user logged in
 setPersistence(auth, browserLocalPersistence)

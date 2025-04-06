@@ -1,15 +1,16 @@
 
 import { useState } from 'react';
+import { geminiApiConfig } from '@/lib/googleApiConfig';
 
 // Hook for handling Gemini API requests
 export const useEcoBotApi = () => {
-  // Use the provided API key directly
-  const apiKey = 'AIzaSyBPa34EMGN_4qHYleg_CDYjaVjYCjJh-nM';
+  // Use the API key from centralized config
+  const apiKey = geminiApiConfig.apiKey;
 
   const sendMessage = async (message: string): Promise<string> => {
     try {
-      // Updated API URL to use the Gemini 2.0 Flash model instead of Gemini Pro
-      const response = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent', {
+      // Using config values from centralized config
+      const response = await fetch(`${geminiApiConfig.baseUrl}${geminiApiConfig.endpoints.generateContent}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -30,10 +31,10 @@ export const useEcoBotApi = () => {
             },
           ],
           generationConfig: {
-            temperature: 0.7,
-            topK: 40,
-            topP: 0.95,
-            maxOutputTokens: 800,
+            temperature: geminiApiConfig.defaultParams.temperature,
+            topK: geminiApiConfig.defaultParams.topK,
+            topP: geminiApiConfig.defaultParams.topP,
+            maxOutputTokens: geminiApiConfig.defaultParams.maxOutputTokens,
           },
         }),
       });
@@ -52,12 +53,11 @@ export const useEcoBotApi = () => {
     }
   };
 
-  // Always return true since we have a hardcoded API key
+  // Always return true since we have a valid API key
   const hasApiKey = true;
 
   return {
     sendMessage,
     hasApiKey,
-    // We don't need the saveApiKey function anymore since we're using a hardcoded key
   };
 };

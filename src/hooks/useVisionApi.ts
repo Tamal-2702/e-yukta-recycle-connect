@@ -1,11 +1,12 @@
 import { useState } from 'react';
+import { visionApiConfig } from '@/lib/googleApiConfig';
 
 export const useVisionApi = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   
-  // Using the provided API key directly
-  const apiKey = 'AIzaSyBDDkFAAnnAnHZ16AHS6Z8DRBX5dNswBw0';
+  // Using the API key from centralized config
+  const apiKey = visionApiConfig.apiKey;
   
   const analyzeImage = async (imageData: string): Promise<any> => {
     setIsLoading(true);
@@ -13,7 +14,7 @@ export const useVisionApi = () => {
     
     try {
       // Check if we should use real API or mock
-      const useMockData = true; // Set to false to use the real API when billing is enabled
+      const useMockData = false; // Set to false to use the real API with our new key
       
       if (useMockData) {
         // Return mock data after a short delay to simulate API call
@@ -24,7 +25,7 @@ export const useVisionApi = () => {
       // Remove the data:image prefix for the API request
       const base64Image = imageData.replace(/^data:image\/(png|jpg|jpeg|webp);base64,/, '');
       
-      const response = await fetch(`https://vision.googleapis.com/v1/images:annotate?key=${apiKey}`, {
+      const response = await fetch(`${visionApiConfig.baseUrl}${visionApiConfig.endpoints.annotate}?key=${apiKey}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -38,7 +39,7 @@ export const useVisionApi = () => {
               features: [
                 {
                   type: 'LABEL_DETECTION',
-                  maxResults: 10,
+                  maxResults: visionApiConfig.maxResults,
                 },
                 {
                   type: 'OBJECT_LOCALIZATION',
@@ -71,7 +72,6 @@ export const useVisionApi = () => {
     }
   };
   
-  // Simulate a Vision API call with mock data
   const mockVisionApiCall = async (imageData: string): Promise<any> => {
     // Simulate API delay
     await new Promise(resolve => setTimeout(resolve, 1500));
