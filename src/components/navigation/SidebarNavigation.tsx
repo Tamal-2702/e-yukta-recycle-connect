@@ -1,7 +1,6 @@
 
 import React from 'react';
 import { useLocation } from 'react-router-dom';
-import NavItem from './NavItem';
 import { 
   Home, 
   Scan, 
@@ -10,6 +9,11 @@ import {
   ShoppingBag, 
   BookOpen, 
 } from 'lucide-react';
+import { 
+  SidebarMenu,
+  SidebarMenuItem
+} from '@/components/ui/sidebar';
+import NavItem from './NavItem';
 
 interface NavItem {
   icon: React.ReactNode;
@@ -64,17 +68,18 @@ const SidebarNavigation: React.FC<SidebarNavigationProps> = ({ role, translation
   };
 
   return (
-    <nav className="space-y-2 flex-1">
+    <SidebarMenu>
       {navItems[role].map((item) => (
-        <NavItem
-          key={item.to}
-          icon={item.icon}
-          label={item.label}
-          to={item.to}
-          active={location.pathname === item.to}
-        />
+        <SidebarMenuItem key={item.to}>
+          <NavItem
+            icon={item.icon}
+            label={item.label}
+            to={item.to}
+            active={location.pathname === item.to}
+          />
+        </SidebarMenuItem>
       ))}
-    </nav>
+    </SidebarMenu>
   );
 };
 

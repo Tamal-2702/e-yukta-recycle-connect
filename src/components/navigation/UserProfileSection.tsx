@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { User } from '@/contexts/AuthContext';
+import { User } from '@/contexts/types';
 
 interface UserProfileSectionProps {
   currentUser: User | null;
@@ -11,7 +11,7 @@ interface UserProfileSectionProps {
 
 const UserProfileSection: React.FC<UserProfileSectionProps> = ({ currentUser, role, translationFn }) => {
   return (
-    <div className="mb-6 flex flex-col items-center space-y-3 p-4 bg-muted rounded-lg">
+    <div className="mb-2 flex flex-col items-center space-y-3 p-4 bg-muted rounded-lg">
       <Avatar className="h-16 w-16">
         <AvatarImage src="/placeholder.svg" alt="Profile" />
         <AvatarFallback>

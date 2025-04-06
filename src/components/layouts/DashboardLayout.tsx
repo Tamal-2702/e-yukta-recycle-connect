@@ -1,12 +1,27 @@
 
 import React, { ReactNode } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useAuth } from '@/contexts/AuthContext';
 import { useToast } from '@/hooks/use-toast';
-import MobileHeader from '@/components/navigation/MobileHeader';
-import MobileSidebar from '@/components/navigation/MobileSidebar';
-import DesktopSidebar from '@/components/navigation/DesktopSidebar';
+import { User, LogOut } from 'lucide-react';
+import { 
+  SidebarProvider, 
+  Sidebar, 
+  SidebarContent, 
+  SidebarHeader,
+  SidebarFooter,
+  SidebarMenu,
+  SidebarMenuItem,
+  SidebarMenuButton,
+  SidebarInset,
+  SidebarTrigger,
+  SidebarSeparator
+} from '@/components/ui/sidebar';
+import Logo from '@/components/Logo';
+import LanguageToggle from '@/components/LanguageToggle';
+import SidebarNavigation from '@/components/navigation/SidebarNavigation';
+import UserProfileSection from '@/components/navigation/UserProfileSection';
 
 interface DashboardLayoutProps {
   children: ReactNode;
@@ -14,13 +29,10 @@ interface DashboardLayoutProps {
 }
 
 const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children, role }) => {
-  const [sidebarOpen, setSidebarOpen] = React.useState(false);
   const { t } = useLanguage();
   const { logout, currentUser } = useAuth();
   const navigate = useNavigate();
   const { toast } = useToast();
-
-  const toggleSidebar = () => setSidebarOpen(!sidebarOpen);
 
   const handleLogout = async () => {
     try {
@@ -44,36 +56,67 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children, role }) => 
   };
 
   return (
-    <div className="min-h-screen flex flex-col">
-      <MobileHeader 
-        toggleSidebar={toggleSidebar} 
-        handleNavigateToProfile={handleNavigateToProfile} 
-      />
+    <SidebarProvider>
+      <div className="min-h-screen flex w-full">
+        <Sidebar>
+          <SidebarHeader>
+            <div className="flex justify-between items-center p-2">
+              <Logo size="sm" />
+              <SidebarTrigger className="md:hidden" />
+            </div>
+            <UserProfileSection 
+              currentUser={currentUser} 
+              role={role}
+              translationFn={t}
+            />
+          </SidebarHeader>
 
-      <div className="flex flex-1">
-        <DesktopSidebar 
-          role={role}
-          currentUser={currentUser}
-          translationFn={t}
-          handleNavigateToProfile={handleNavigateToProfile}
-          handleLogout={handleLogout}
-        />
+          <SidebarContent>
+            <SidebarNavigation role={role} translationFn={t} />
+          </SidebarContent>
 
-        <MobileSidebar 
-          sidebarOpen={sidebarOpen}
-          toggleSidebar={toggleSidebar}
-          role={role}
-          currentUser={currentUser}
-          translationFn={t}
-          handleNavigateToProfile={handleNavigateToProfile}
-          handleLogout={handleLogout}
-        />
-
-        <main className="flex-1 p-4 md:p-6 overflow-auto">
+          <SidebarFooter>
+            <SidebarSeparator />
+            <div className="space-y-2 p-2">
+              <SidebarMenu>
+                <SidebarMenuItem>
+                  <SidebarMenuButton 
+                    onClick={handleNavigateToProfile}
+                    tooltip={t('common.profile')}
+                  >
+                    <User size={18} />
+                    <span>{t('common.profile')}</span>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+                <SidebarMenuItem>
+                  <SidebarMenuButton 
+                    onClick={handleLogout}
+                    tooltip={t('common.logout')}
+                    variant="destructive"
+                  >
+                    <LogOut size={18} />
+                    <span>{t('common.logout')}</span>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              </SidebarMenu>
+              <div className="flex justify-between items-center pt-2">
+                <LanguageToggle />
+              </div>
+            </div>
+          </SidebarFooter>
+        </Sidebar>
+        
+        <SidebarInset>
+          <div className="flex justify-between items-center p-4 md:hidden">
+            <Logo size="sm" />
+            <div className="flex items-center gap-2">
+              <SidebarTrigger />
+            </div>
+          </div>
           {children}
-        </main>
+        </SidebarInset>
       </div>
-    </div>
+    </SidebarProvider>
   );
 };
 

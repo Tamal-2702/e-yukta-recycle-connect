@@ -1,7 +1,9 @@
 
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Button } from '@/components/ui/button';
+import { 
+  SidebarMenuButton 
+} from '@/components/ui/sidebar';
 
 interface NavItemProps {
   icon: React.ReactNode;
@@ -12,13 +14,13 @@ interface NavItemProps {
 
 const NavItem: React.FC<NavItemProps> = ({ icon, label, to, active }) => (
   <Link to={to} className="w-full">
-    <Button
-      variant={active ? "default" : "ghost"}
-      className={`w-full justify-start gap-2 ${active ? 'bg-primary text-white' : ''}`}
+    <SidebarMenuButton
+      isActive={active}
+      className="w-full"
     >
       {icon}
       <span>{label}</span>
-    </Button>
+    </SidebarMenuButton>
   </Link>
 );
 
