@@ -13,12 +13,12 @@ const RoleCard: React.FC<RoleCardProps> = ({ role, selected = false, onClick }) 
   const { t } = useLanguage();
   const [imageError, setImageError] = useState(false);
   
-  // Define role images with appropriate paths
+  // Define role images with the newly uploaded images
   const roleImages = {
-    user: '/lovable-uploads/6c301a42-c407-456b-b013-05fa8c7bb54b.png',
-    kabadiwala: '/lovable-uploads/5cf4d238-8867-41cf-8b31-91d2cabfc66a.png',
-    recycler: '/lovable-uploads/d37ce6c5-60d7-468a-a8ba-32adb3f7de51.png',
-    corporate: '/lovable-uploads/27733395-edc3-4227-9c4f-64c67cc6ae4a.png',
+    user: '/lovable-uploads/ae4e5686-c7ad-48ff-97f1-8084e1d7ce69.png', // Recycling logo with electronics
+    kabadiwala: '/lovable-uploads/1299ce0f-3357-4452-9f94-1bb5aef23a99.png', // E-waste collector with cart
+    recycler: '/lovable-uploads/c60af980-2b0f-4449-b1a1-f514e18c355b.png', // Person collecting e-waste
+    corporate: '/lovable-uploads/81871075-be49-4b14-a55e-9a60c4a50482.png', // Corporate building
   };
 
   // Role-specific colors for better visual differentiation and fallback
@@ -46,7 +46,7 @@ const RoleCard: React.FC<RoleCardProps> = ({ role, selected = false, onClick }) 
             <img 
               src={roleImages[role]} 
               alt={t(`roles.${role}`)} 
-              className="w-20 h-20 object-contain"
+              className="w-full h-full object-cover"
               onError={() => {
                 console.log(`Fallback for ${role} image: ${roleImages[role]}`);
                 setImageError(true);
