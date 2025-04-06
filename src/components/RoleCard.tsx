@@ -12,9 +12,9 @@ interface RoleCardProps {
 const RoleCard: React.FC<RoleCardProps> = ({ role, selected = false, onClick }) => {
   const { t } = useLanguage();
   
-  // Update image paths to use direct static paths instead of dynamic uploads
+  // Update image paths to use direct static paths
   const roleImages = {
-    user: '/lovable-uploads/6bba08b6-7a2b-4eb7-b68f-2037af70c516.png',
+    user: '/lovable-uploads/bec73772-86fd-45bb-a52e-283a8464cdfd.png', // Updated general user image
     kabadiwala: '/lovable-uploads/49b6515a-55e8-4568-83df-895601902f64.png',
     recycler: '/lovable-uploads/ef3a9e69-e5cd-4546-9e32-42ff3c5d93ec.png',
     corporate: '/lovable-uploads/1c68de70-c1e4-481e-8d6b-9afcc0a7f169.png',
