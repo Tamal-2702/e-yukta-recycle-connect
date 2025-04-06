@@ -1,6 +1,6 @@
 
-import React, { useState } from 'react';
-import { Navigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Navigate, useLocation } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import SignInForm from '@/components/auth/SignInForm';
 import SignUpForm from '@/components/auth/SignUpForm';
@@ -9,12 +9,19 @@ import Logo from '@/components/Logo';
 import LanguageToggle from '@/components/LanguageToggle';
 
 const Auth: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<string>("signin");
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const initialTab = queryParams.get('tab') === 'signup' ? 'signup' : 'signin';
+  const userRole = queryParams.get('role') || '';
+  
+  const [activeTab, setActiveTab] = useState<string>(initialTab);
   const { currentUser } = useAuth();
 
   // Redirect if user is already authenticated
   if (currentUser) {
-    return <Navigate to="/user" />;
+    // Redirect to the appropriate dashboard based on user role
+    // For now, we'll just redirect to /user as we don't have role-based redirection logic yet
+    return <Navigate to={`/${userRole || 'user'}`} />;
   }
 
   return (
@@ -26,16 +33,16 @@ const Auth: React.FC = () => {
 
       <main className="flex-1 flex flex-col items-center justify-center p-4 md:p-8">
         <div className="w-full max-w-md bg-white p-6 rounded-lg shadow-lg">
-          <Tabs defaultValue="signin" value={activeTab} onValueChange={setActiveTab} className="w-full">
+          <Tabs defaultValue={activeTab} value={activeTab} onValueChange={setActiveTab} className="w-full">
             <TabsList className="grid w-full grid-cols-2 mb-6">
               <TabsTrigger value="signin">Sign In</TabsTrigger>
               <TabsTrigger value="signup">Sign Up</TabsTrigger>
             </TabsList>
             <TabsContent value="signin">
-              <SignInForm />
+              <SignInForm userRole={userRole} />
             </TabsContent>
             <TabsContent value="signup">
-              <SignUpForm />
+              <SignUpForm userRole={userRole} />
             </TabsContent>
           </Tabs>
         </div>

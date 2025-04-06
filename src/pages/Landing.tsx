@@ -26,7 +26,7 @@ const Landing: React.FC = () => {
       if (currentUser) {
         navigate(`/${selectedRole}`);
       } else {
-        navigate('/auth');
+        navigate(`/auth?role=${selectedRole}`);
       }
     }
   };
@@ -60,8 +60,7 @@ const Landing: React.FC = () => {
                 size="sm"
                 className="bg-[#76b947] hover:bg-[#65a736]"
                 onClick={() => {
-                  navigate('/auth');
-                  // We'll set the tab to signup in the Auth component
+                  navigate('/auth?tab=signup');
                 }}
               >
                 <UserPlus className="h-4 w-4 mr-1" />

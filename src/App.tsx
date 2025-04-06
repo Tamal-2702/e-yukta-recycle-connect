@@ -8,7 +8,8 @@ import { LanguageProvider } from "@/contexts/LanguageContext";
 import { AuthProvider } from "@/contexts/AuthContext";
 import EcoBotWrapper from "@/components/EcoBot";
 
-// Auth page
+// Welcome and Auth pages
+import Welcome from "./pages/Welcome";
 import Auth from "./pages/Auth";
 
 // Pages
@@ -65,7 +66,8 @@ const App = () => (
           <Sonner />
           <BrowserRouter>
             <Routes>
-              <Route path="/" element={<Landing />} />
+              <Route path="/" element={<Welcome />} />
+              <Route path="/landing" element={<Landing />} />
               <Route path="/auth" element={<Auth />} />
               
               {/* User routes */}
