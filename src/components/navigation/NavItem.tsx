@@ -1,56 +1,58 @@
 
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { useLocation, Link } from 'react-router-dom';
+import { cn } from '@/lib/utils';
+import * as LucideIcons from 'lucide-react';
 import { 
-  SidebarMenuButton 
+  SidebarMenuButton, 
+  SidebarMenuItem 
 } from '@/components/ui/sidebar';
-import { 
-  LayoutDashboard, Camera, Calendar, MapPin, ShoppingBag, 
-  Info, BarChart, Truck, Wallet, Map, Package, Settings, 
-  ShieldCheck, Megaphone 
-} from 'lucide-react';
 
 interface NavItemProps {
-  icon: string;
   label: string;
   to: string;
+  icon: string;
   active?: boolean;
-  variant?: "default" | "outline";
 }
 
-const NavItem: React.FC<NavItemProps> = ({ icon, label, to, active, variant = "default" }) => {
-  // Map string icon names to actual Lucide React components
-  const getIcon = () => {
-    switch (icon) {
-      case 'layout-dashboard': return <LayoutDashboard size={18} />;
-      case 'camera': return <Camera size={18} />;
-      case 'calendar': return <Calendar size={18} />;
-      case 'map-pin': return <MapPin size={18} />;
-      case 'shopping-bag': return <ShoppingBag size={18} />;
-      case 'info': return <Info size={18} />;
-      case 'bar-chart': return <BarChart size={18} />;
-      case 'truck': return <Truck size={18} />;
-      case 'wallet': return <Wallet size={18} />;
-      case 'map': return <Map size={18} />;
-      case 'package': return <Package size={18} />;
-      case 'settings': return <Settings size={18} />;
-      case 'shield-check': return <ShieldCheck size={18} />;
-      case 'megaphone': return <Megaphone size={18} />;
-      default: return <Info size={18} />;
-    }
-  };
+const NavItem: React.FC<NavItemProps> = ({ 
+  label, 
+  to, 
+  icon,
+  active: propActive
+}) => {
+  const location = useLocation();
+  const currentPath = location.pathname;
+  
+  // Check if current path matches the nav item's path
+  // or if the current path is a sub-path of the nav item
+  const isActive = propActive || 
+    currentPath === to || 
+    (to !== '/' && currentPath.startsWith(to));
+  
+  // Dynamically get the icon from lucide-react
+  const IconComponent = icon in LucideIcons 
+    ? LucideIcons[icon as keyof typeof LucideIcons] 
+    : LucideIcons.Circle;
 
   return (
-    <Link to={to} className="w-full">
+    <SidebarMenuItem>
       <SidebarMenuButton
-        isActive={active}
-        className="w-full"
-        variant={variant}
+        asChild
+        isActive={isActive}
+        tooltip={label}
       >
-        {getIcon()}
-        <span>{label}</span>
+        <Link
+          to={to}
+          className={cn(
+            "flex w-full items-center gap-2"
+          )}
+        >
+          <IconComponent size={18} />
+          <span>{label}</span>
+        </Link>
       </SidebarMenuButton>
-    </Link>
+    </SidebarMenuItem>
   );
 };
 

@@ -4,11 +4,11 @@ import DashboardLayout from '@/components/layouts/DashboardLayout';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { useLanguage } from '@/contexts/LanguageContext';
-import { 
-  Scan, Calendar, Map, ShoppingBag, BookOpen, ArrowRight, 
-  Award, BarChart
-} from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { 
+  Scan, Calendar, Map, ShoppingBag, BookOpen, 
+  Award, ArrowRight 
+} from 'lucide-react';
 
 const UserDashboard: React.FC = () => {
   const { t } = useLanguage();
@@ -22,42 +22,42 @@ const UserDashboard: React.FC = () => {
 
   const actions = [
     { 
-      icon: <Scan />, 
+      icon: <Scan className="h-5 w-5" />, 
       title: t('user.scan'), 
       description: 'Identify and categorize your e-waste', 
       to: '/user/scan',
       primary: true 
     },
     { 
-      icon: <Calendar />, 
+      icon: <Calendar className="h-5 w-5" />, 
       title: t('user.schedule'), 
       description: 'Book a pickup for your e-waste', 
       to: '/user/schedule',
       primary: false 
     },
     { 
-      icon: <Map />, 
+      icon: <Map className="h-5 w-5" />, 
       title: t('user.track'), 
       description: 'Track where your e-waste goes', 
       to: '/user/track',
       primary: false 
     },
     { 
-      icon: <ShoppingBag />, 
+      icon: <ShoppingBag className="h-5 w-5" />, 
       title: t('user.marketplace'), 
       description: 'Browse refurbished electronics', 
       to: '/user/marketplace',
       primary: false 
     },
     { 
-      icon: <BookOpen />, 
+      icon: <BookOpen className="h-5 w-5" />, 
       title: t('user.awareness'), 
       description: 'Learn about e-waste management', 
       to: '/user/awareness',
       primary: false 
     },
     { 
-      icon: <Award />, 
+      icon: <Award className="h-5 w-5" />, 
       title: 'Progress Tracker', 
       description: 'View your achievements and rewards', 
       to: '/user/progress',
@@ -107,7 +107,7 @@ const UserDashboard: React.FC = () => {
         <h2 className="text-xl font-semibold mt-6 mb-4">Quick Actions</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {actions.map((action, index) => (
-            <Card key={index} className={`card-hover ${action.primary ? 'border-[#76b947]/50' : ''}`}>
+            <Card key={index} className={`hover:shadow-md transition-shadow ${action.primary ? 'border-[#76b947]/50' : ''}`}>
               <CardHeader className="flex flex-row items-center gap-4">
                 <div className={`${action.primary ? 'bg-[#76b947] text-white' : 'bg-[#76b947]/10 text-[#76b947]'} p-2 rounded-full`}>
                   {action.icon}
@@ -120,7 +120,7 @@ const UserDashboard: React.FC = () => {
               <CardContent>
                 <Link to={action.to}>
                   <Button variant={action.primary ? "default" : "outline"} className="w-full flex items-center justify-between gap-2">
-                    Go to {action.title} <ArrowRight size={16} />
+                    Go to {action.title} <ArrowRight className="h-4 w-4" />
                   </Button>
                 </Link>
               </CardContent>

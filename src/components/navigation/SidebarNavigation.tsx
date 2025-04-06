@@ -20,34 +20,34 @@ const SidebarNavigation: React.FC<SidebarNavigationProps> = ({ role }) => {
     switch (role) {
       case 'user':
         return [
-          { label: t('user.dashboard'), to: '/user/dashboard', icon: 'layout-dashboard' },
-          { label: t('user.scan_waste'), to: '/user/scan', icon: 'camera' },
-          { label: t('user.schedule_pickup'), to: '/user/schedule', icon: 'calendar' },
-          { label: t('user.track_disposal'), to: '/user/track', icon: 'map-pin' },
-          { label: t('user.marketplace'), to: '/user/marketplace', icon: 'shopping-bag' },
-          { label: t('user.awareness_hub'), to: '/user/awareness', icon: 'info' },
-          { label: t('user.progress_tracker'), to: '/user/progress', icon: 'bar-chart' },
+          { label: t('user.dashboard'), to: '/user/dashboard', icon: 'LayoutDashboard' },
+          { label: t('user.scan_waste'), to: '/user/scan', icon: 'Camera' },
+          { label: t('user.schedule_pickup'), to: '/user/schedule', icon: 'Calendar' },
+          { label: t('user.track_disposal'), to: '/user/track', icon: 'MapPin' },
+          { label: t('user.marketplace'), to: '/user/marketplace', icon: 'ShoppingBag' },
+          { label: t('user.awareness_hub'), to: '/user/awareness', icon: 'Info' },
+          { label: t('user.progress_tracker'), to: '/user/progress', icon: 'BarChart' },
         ];
       case 'kabadiwala':
         return [
-          { label: t('kabadiwala.dashboard'), to: '/kabadiwala/dashboard', icon: 'layout-dashboard' },
-          { label: t('kabadiwala.pickups'), to: '/kabadiwala/pickups', icon: 'truck' },
-          { label: t('kabadiwala.earnings'), to: '/kabadiwala/earnings', icon: 'wallet' },
-          { label: t('kabadiwala.map'), to: '/kabadiwala/map', icon: 'map' },
+          { label: t('kabadiwala.dashboard'), to: '/kabadiwala/dashboard', icon: 'LayoutDashboard' },
+          { label: t('kabadiwala.pickups'), to: '/kabadiwala/pickups', icon: 'Truck' },
+          { label: t('kabadiwala.earnings'), to: '/kabadiwala/earnings', icon: 'Wallet' },
+          { label: t('kabadiwala.map'), to: '/kabadiwala/map', icon: 'Map' },
         ];
       case 'recycler':
         return [
-          { label: t('recycler.dashboard'), to: '/recycler/dashboard', icon: 'layout-dashboard' },
-          { label: t('recycler.inventory'), to: '/recycler/inventory', icon: 'package' },
-          { label: t('recycler.processing'), to: '/recycler/processing', icon: 'settings' },
-          { label: t('recycler.compliance'), to: '/recycler/compliance', icon: 'shield-check' },
+          { label: t('recycler.dashboard'), to: '/recycler/dashboard', icon: 'LayoutDashboard' },
+          { label: t('recycler.inventory'), to: '/recycler/inventory', icon: 'Package' },
+          { label: t('recycler.processing'), to: '/recycler/processing', icon: 'Settings' },
+          { label: t('recycler.compliance'), to: '/recycler/compliance', icon: 'ShieldCheck' },
         ];
       case 'corporate':
         return [
-          { label: t('corporate.dashboard'), to: '/corporate/dashboard', icon: 'layout-dashboard' },
-          { label: t('corporate.campaigns'), to: '/corporate/campaigns', icon: 'megaphone' },
-          { label: t('corporate.compliance'), to: '/corporate/compliance', icon: 'shield-check' },
-          { label: t('corporate.bulk_disposal'), to: '/corporate/bulk', icon: 'truck' },
+          { label: t('corporate.dashboard'), to: '/corporate/dashboard', icon: 'LayoutDashboard' },
+          { label: t('corporate.campaigns'), to: '/corporate/campaigns', icon: 'Megaphone' },
+          { label: t('corporate.compliance'), to: '/corporate/compliance', icon: 'ShieldCheck' },
+          { label: t('corporate.bulk_disposal'), to: '/corporate/bulk', icon: 'Truck' },
         ];
       default:
         return [];
@@ -82,7 +82,6 @@ const SidebarNavigation: React.FC<SidebarNavigationProps> = ({ role }) => {
             label={item.label}
             to={item.to}
             icon={item.icon}
-            active={window.location.pathname === item.to}
           />
         ))}
       </div>
