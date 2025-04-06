@@ -5,7 +5,7 @@ import { useLanguage } from '@/contexts/LanguageContext';
 import { useAuth } from '@/contexts/AuthContext';
 import { useToast } from '@/hooks/use-toast';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { User, Bell, Shield, Award } from 'lucide-react';
+import { User, Bell, Shield, Award, MapPin } from 'lucide-react';
 import { updateProfile } from 'firebase/auth';
 import { useForm } from 'react-hook-form';
 
@@ -16,8 +16,12 @@ import {
   ProfileActivityCard,
   ProfileBadgesCard,
   ProfileRewardsCard,
-  ProfilePlaceholderCard
+  ProfilePlaceholderCard,
+  ProfileAddressCard
 } from './components';
+
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { storage } from '@/lib/firebase';
 
 interface ProfilePageProps {
   role: 'user' | 'kabadiwala' | 'recycler' | 'corporate';
@@ -33,6 +37,14 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ role }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  
+  const [userAddress, setUserAddress] = useState({
+    street: '123 Green Street',
+    city: 'Eco City',
+    state: 'Green State',
+    zipCode: '12345',
+    country: 'India'
+  });
   
   const form = useForm({
     defaultValues: {
@@ -156,6 +168,23 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ role }) => {
     return currentUser?.photoURL || roleImages[role];
   };
 
+  const handleAddressUpdate = async (address: {
+    street: string;
+    city: string;
+    state: string;
+    zipCode: string;
+    country: string;
+  }) => {
+    try {
+      setUserAddress(address);
+      
+      return Promise.resolve();
+    } catch (error) {
+      console.error("Error updating address:", error);
+      return Promise.reject(error);
+    }
+  };
+
   return (
     <DashboardLayout role={role}>
       <div className="space-y-6 p-6">
@@ -169,6 +198,10 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ role }) => {
             <TabsTrigger value="profile">
               <User className="mr-2 h-4 w-4" />
               Profile
+            </TabsTrigger>
+            <TabsTrigger value="location">
+              <MapPin className="mr-2 h-4 w-4" />
+              Location
             </TabsTrigger>
             <TabsTrigger value="rewards">
               <Award className="mr-2 h-4 w-4" />
@@ -205,6 +238,13 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ role }) => {
             <ProfileActivityCard activities={recentActivity} />
           </TabsContent>
           
+          <TabsContent value="location" className="space-y-4">
+            <ProfileAddressCard 
+              address={userAddress}
+              onAddressUpdate={handleAddressUpdate}
+            />
+          </TabsContent>
+          
           <TabsContent value="rewards" className="space-y-4">
             <ProfileBadgesCard badges={userBadges} />
             <ProfileRewardsCard availablePoints={85} rewards={rewardItems} />
@@ -228,8 +268,5 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ role }) => {
     </DashboardLayout>
   );
 };
-
-import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
-import { storage } from '@/lib/firebase';
 
 export default ProfilePage;
