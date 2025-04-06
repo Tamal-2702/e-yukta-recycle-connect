@@ -5,6 +5,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { LanguageProvider } from "@/contexts/LanguageContext";
+import EcoBotWrapper from "@/components/EcoBot";
 
 // Pages
 import Landing from "./pages/Landing";
@@ -65,6 +66,7 @@ const App = () => (
             {/* Catch-all route */}
             <Route path="*" element={<NotFound />} />
           </Routes>
+          <EcoBotWrapper />
         </BrowserRouter>
       </TooltipProvider>
     </LanguageProvider>
