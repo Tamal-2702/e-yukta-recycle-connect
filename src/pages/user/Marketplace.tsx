@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import DashboardLayout from '@/components/layouts/DashboardLayout';
 import { useLanguage } from '@/contexts/LanguageContext';
 import FilterSection from '@/components/marketplace/FilterSection';
@@ -12,9 +12,15 @@ const Marketplace: React.FC = () => {
   const [priceRange, setPriceRange] = useState([0, 100000]);
   const [showFilters, setShowFilters] = useState(false);
   
-  // Ensure we have products to display
-  console.log('Products available:', products.length);
-  console.log('First product image:', products.length > 0 ? products[0].image : 'No products');
+  // Debug products on component mount
+  useEffect(() => {
+    console.log('Marketplace - Products available:', products.length);
+    if (products.length > 0) {
+      products.forEach(product => {
+        console.log(`Product ${product.id} - ${product.name} - Image: ${product.image}`);
+      });
+    }
+  }, []);
   
   const filteredProducts = products.filter(product => 
     product.name.toLowerCase().includes(searchQuery.toLowerCase()) &&
@@ -26,7 +32,7 @@ const Marketplace: React.FC = () => {
       <div className="space-y-6">
         <div>
           <h1 className="text-3xl font-bold">{t('user.marketplace')}</h1>
-          <p className="text-muted-foreground mt-1">Browse refurbished and renewed electronics</p>
+          <p className="text-muted-foreground mt-1">Browse refurbished and renewed electronics at ई-Yukta Kart</p>
         </div>
 
         <div className="flex flex-col md:flex-row gap-4">

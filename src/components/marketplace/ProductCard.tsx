@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -22,6 +23,11 @@ interface ProductCardProps {
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
+  // Debug product image path
+  React.useEffect(() => {
+    console.log(`Product ${product.id} - Image path: ${product.image}`);
+  }, [product]);
+
   return (
     <Card className="overflow-hidden hover:shadow-md transition-shadow card-hover">
       <div className="aspect-square relative bg-gray-100 flex items-center justify-center p-4">

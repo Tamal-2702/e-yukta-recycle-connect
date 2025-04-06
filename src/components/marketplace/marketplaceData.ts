@@ -24,7 +24,7 @@ export const products: Product[] = [
     condition: 'Excellent',
     warranty: '6 months',
     category: 'phones',
-    image: '/photo-1581090464777-f3220bbe1b8b.jpg',
+    image: '/lovable-uploads/ccb1b03b-541d-4755-8644-467aa109f858.png',
   },
   {
     id: 2,
@@ -36,7 +36,7 @@ export const products: Product[] = [
     condition: 'Like New',
     warranty: '1 year',
     category: 'laptops',
-    image: '/photo-1498050108023-c5249f4df085.jpg',
+    image: '/lovable-uploads/b0b0247e-5bee-4714-8530-9e1eec46881c.png',
   },
   {
     id: 3,
@@ -48,7 +48,7 @@ export const products: Product[] = [
     condition: 'Good',
     warranty: '6 months',
     category: 'tablets',
-    image: '/photo-1531297484001-80022131f5a1.jpg',
+    image: '/lovable-uploads/3cb89ce7-797c-434a-a895-f55aa2a100e5.png',
   },
   {
     id: 4,
@@ -60,7 +60,7 @@ export const products: Product[] = [
     condition: 'Excellent',
     warranty: '1 year',
     category: 'audio',
-    image: '/photo-1518770660439-4636190af475.jpg',
+    image: '/lovable-uploads/e585e885-4efe-4e44-a468-76a6fc8e7b55.png',
   },
   {
     id: 5,
@@ -72,7 +72,7 @@ export const products: Product[] = [
     condition: 'Like New',
     warranty: '6 months',
     category: 'wearables',
-    image: '/photo-1488590528505-98d2b5aba04b.jpg',
+    image: '/lovable-uploads/f79b9c9f-9efb-48c8-a2fe-7fbf93772b3c.png',
   },
   {
     id: 6,
@@ -84,6 +84,6 @@ export const products: Product[] = [
     condition: 'Good',
     warranty: '1 year',
     category: 'monitors',
-    image: '/photo-1581090464777-f3220bbe1b8b.jpg',
+    image: '/lovable-uploads/82cd352a-a3cf-461e-b99e-92a282509363.png',
   },
 ];
