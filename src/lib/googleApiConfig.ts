@@ -3,7 +3,7 @@
 // Centralized configuration for all Google APIs used in the application
 
 // API key for Google Cloud services
-const GOOGLE_API_KEY = 'AIzaSyDA3lryC3l0Lp9GqeJ0KHJX8E4FjgLM__s';
+const GOOGLE_API_KEY = 'Your Google API Key  (Prefer model: gemini-2.0-flash)';
 
 // Base configuration for Google Maps and related services
 export const mapsConfig = {
